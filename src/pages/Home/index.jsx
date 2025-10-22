@@ -1,9 +1,4 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 
 import styles from "./HomePage.module.scss";
 
@@ -11,17 +6,10 @@ function HomePage() {
   return (
     <div className={styles.wrapper}>
       Home Page
-      <Accordion
-        type="single"
-        collapsible
-      >
-        <AccordionItem value="item-1">
-          <AccordionTrigger>Is it accessible?</AccordionTrigger>
-          <AccordionContent>
-            Yes. It adheres to the WAI-ARIA design pattern.
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <div className="flex min-h-svh flex-col items-center justify-center">
+        <Button>Click me</Button>
+      </div>
     </div>
   );
 }
