@@ -1,17 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 
-import styles from "./HomePage.module.scss";
-
-function HomePage() {
-  return (
-    <div className={styles.wrapper}>
-      Home Page
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <div className="flex min-h-svh flex-col items-center justify-center">
-        <Button>Click me</Button>
-      </div>
-    </div>
-  );
+function Home() {
+    return (
+        <div>
+            <Link to="/counter">Counter</Link>
+        </div>
+    );
 }
 
-export default HomePage;
+export default Home;
