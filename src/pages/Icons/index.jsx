@@ -4,37 +4,33 @@
 
 import Button from "@/components/Button";
 import {
-    faLink,
-    faHeart,
-    faChevronRight,
-    faChevronLeft,
+  faLink,
+  // faHeart,
+  faChevronRight,
+  faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Icons() {
-    // Fake
-    let loading = false;
+  // Fake
+  let loading = false;
 
-    return (
-        <div>
-            <h1>Icons</h1>
+  return (
+    <div>
+      <h1>Icons</h1>
 
-            <Button
-                icon={faLink}
-                loading={loading}
-                onClick={() => alert("Clicked!")}
-            >
-                Button 1
-            </Button>
+      <Button icon={faLink} loading={loading} onClick={() => alert("Clicked!")}>
+        Button 1
+      </Button>
 
-            <Button icon={faLink}>Button 2</Button>
+      <Button icon={faLink}>Button 2</Button>
 
-            <Button rightIcon={faChevronRight}>Button 3</Button>
+      <Button rightIcon={faChevronRight}>Button 3</Button>
 
-            <Button leftIcon={faChevronLeft} rightIcon={faChevronRight}>
-                Button 4
-            </Button>
+      <Button leftIcon={faChevronLeft} rightIcon={faChevronRight}>
+        Button 4
+      </Button>
 
-            {/* <button
+      {/* <button
                 style={{
                     fontSize: 20,
                     color: "red",
@@ -50,11 +46,11 @@ function Icons() {
 
             <FontAwesomeIcon icon={faHeart} beat /> */}
 
-            <br />
-            <br />
-            <br />
-        </div>
-    );
+      <br />
+      <br />
+      <br />
+    </div>
+  );
 }
 
 export default Icons;

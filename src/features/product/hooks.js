@@ -5,7 +5,7 @@ import { getList as getProductsList } from "@/services/product";
 import { selectList as selectProductsList } from "./selectors";
 
 
-export const useFecthProductsList = ({limit, page} = {}) => {
+export const useFetchProductsList = ({limit, page} = {}) => {
     const dispatch = useDispatch();
 
     useEffect(() => {

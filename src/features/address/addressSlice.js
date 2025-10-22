@@ -15,4 +15,4 @@ export const addressApi  = createApi({
     refetchOnReconnect: true
 });
 
-export const { useGetProvicesQuery } = addressApi;
+export const { useGetProvincesQuery } = addressApi;

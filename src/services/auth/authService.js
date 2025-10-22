@@ -21,7 +21,7 @@ export const logout = async () => {
     const response = await http.post("/auth/logout");
     return response.data;
 };
-export const checkExistEmail = async (email) => {
+export const checkExistsEmail = async (email) => {
     const response = await http.post(`/auth/check-email?email=${email}`);
     return response.data.exists;
 };
