@@ -62,4 +62,6 @@ export const {
   incrementPage,
 } = feedSlice.actions;
 
+export const { reducerPath } = feedSlice.reducerPath;
+
 export default feedSlice.reducer;

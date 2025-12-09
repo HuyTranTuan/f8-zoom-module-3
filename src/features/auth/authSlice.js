@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
-import { authService } from "@/services";
+import { getCurrentUser, useFetchCurrentUser } from "@/services";
 
 //Init State
 const initialState = {
@@ -11,7 +11,6 @@ const initialState = {
   loading: false,
   error: null, // Error message
   showSignUpModal: false, //Modal Sign
-  isInitializing: true, // Đang kiểm tra token khi app khởi động
 
   //State Register
   registerLoading: false,
@@ -68,7 +67,6 @@ export const authSlice = createSlice({
       state.loginSuccess = true;
       state.user = action.payload.user;
       state.isAuthenticated = true;
-      state.isInitializing = false; // Đã xong khởi tạo
     },
     loginFailure: (state, action) => {
       state.loginLoading = false;
@@ -85,7 +83,6 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
-      state.isInitializing = false;
     },
 
     //Restore user từ localStorage khi app khởi động
@@ -93,12 +90,6 @@ export const authSlice = createSlice({
       state.user = action.payload;
       state.isAuthenticated = true;
       state.loading = false;
-      state.isInitializing = false; // Đã xong khởi tạo
-    },
-
-    //Hoàn tất khởi tạo (không có token hoặc token invalid)
-    finishInitializing: (state) => {
-      state.isInitializing = false;
     },
 
     //Action đóng/mở Modal
@@ -118,18 +109,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const useFetchCurrentUser = createAsyncThunk(
-  "auth/fetchCurrentUser",
-  async (_, thunkAPI) => {
-    try {
-      const response = await authService.getCurrentUser();
-      return response; // This becomes the `action.payload`
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  },
-);
-
 export const useCurrentUser = () => {
   const currentUser = useSelector((state) => state.auth.currentUser);
 
@@ -148,7 +127,6 @@ export const {
   resetLoginState,
   logout,
   restoreUser,
-  finishInitializing,
   toggleSignUpModal,
   closeSignUpModal,
 } = authSlice.actions;

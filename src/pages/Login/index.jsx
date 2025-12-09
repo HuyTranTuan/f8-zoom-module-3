@@ -3,12 +3,10 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router";
 
-import { useCurrentUser } from "@/features/auth/authSlice";
-import { authService } from "@/services/authServices";
+import { useCurrentUser } from "@/features/auth/hooks";
+import { getCurrentUser, login } from "@/services/authServices";
 import LoginForm from "@/features/auth/components/LoginForm";
 import { Separator } from "@/components/ui/separator";
-import Button from "@/components/Button";
-import { InstagramIcon } from "@/components/ui/icons/lucide-instagram";
 import { useTranslation } from "react-i18next";
 
 function Login() {
@@ -16,19 +14,7 @@ function Login() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { t } = useTranslation();
-
   const currentUser = useCurrentUser();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: "sondang1234@gmail.com",
-      password: "12341234",
-    },
-  });
 
   useEffect(() => {
     if (currentUser) {
@@ -38,10 +24,10 @@ function Login() {
   }, [currentUser, navigate, params]);
 
   const onSubmit = async (data) => {
-    const { access_token, refresh_token } = await authService.login(data);
+    const { access_token, refresh_token } = await login(data);
     localStorage.setItem("accessToken", access_token);
     localStorage.setItem("refreshToken", refresh_token);
-    dispatch(authService.getCurrentUser());
+    dispatch(getCurrentUser());
   };
 
   return (
@@ -57,7 +43,7 @@ function Login() {
 
         {/* Link Quên mật khẩu */}
         <div className="text-center">
-          <Link to="/forgot-password" className="text-sm text-foreground">
+          <Link to="/auth/forgot-password" className="text-sm text-foreground">
             {t("forgot_psw")}
           </Link>
         </div>

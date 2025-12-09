@@ -36,7 +36,6 @@ function NavbarMenu({ children }) {
             <DropdownMenuSubTrigger className="flex! justify-between px-1! py-3!">
               {t("appearance")}
             </DropdownMenuSubTrigger>
-            {/* <DropdownMenuPortal> */}
             <DropdownMenuSubContent className="px-1.5! py-3!">
               <DropdownMenuLabel className="text-center ">
                 {t("appearance")}
@@ -68,7 +67,6 @@ function NavbarMenu({ children }) {
                 </DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuSubContent>
-            {/* </DropdownMenuPortal> */}
           </DropdownMenuSub>
 
           <DropdownMenuItem className="flex! justify-between px-1! py-3!">

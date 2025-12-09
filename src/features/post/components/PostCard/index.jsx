@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from "react-redux";
-import ProtectedAction from "@/components/ProtectedAction";
 import {
   Heart,
   MessageCircle,
@@ -169,80 +168,69 @@ const PostCard = ({ post, isLast, isFirst }) => {
               {/* Interaction Bar */}
               <div className="flex items-center gap-0.5 -ml-2 mt-2">
                 {/* Like Button */}
-                <ProtectedAction onClick={handleToggleLike}>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className={cn(
-                      "h-9 gap-1.5 px-2.5 rounded-full transition-colors",
-                      isLiked
-                        ? "text-like hover:text-like/80"
-                        : "text-muted-foreground hover:text-foreground",
-                      "hover:bg-secondary",
-                    )}
-                  >
-                    <Heart
-                      className={cn("size-5", isLiked && "fill-current")}
-                    />
-                    {displayLikesCount > 0 && (
-                      <span className="text-sm font-normal">
-                        {displayLikesCount}
-                      </span>
-                    )}
-                  </Button>
-                </ProtectedAction>
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "h-9 gap-1.5 px-2.5 rounded-full transition-colors",
+                    isLiked
+                      ? "text-like hover:text-like/80"
+                      : "text-muted-foreground hover:text-foreground",
+                    "hover:bg-secondary",
+                  )}
+                >
+                  <Heart className={cn("size-5", isLiked && "fill-current")} />
+                  {displayLikesCount > 0 && (
+                    <span className="text-sm font-normal">
+                      {displayLikesCount}
+                    </span>
+                  )}
+                </Button>
 
                 {/* Comment Button */}
-                <ProtectedAction>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className={cn(
-                      "h-9 gap-1.5 px-2.5 rounded-full transition-colors",
-                      "text-muted-foreground hover:text-foreground hover:bg-secondary",
-                    )}
-                  >
-                    <MessageCircle className="size-5" />
-                    {replies_count > 0 && (
-                      <span className="text-sm font-normal">
-                        {replies_count}
-                      </span>
-                    )}
-                  </Button>
-                </ProtectedAction>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "h-9 gap-1.5 px-2.5 rounded-full transition-colors",
+                    "text-muted-foreground hover:text-foreground hover:bg-secondary",
+                  )}
+                >
+                  <MessageCircle className="size-5" />
+                  {replies_count > 0 && (
+                    <span className="text-sm font-normal">{replies_count}</span>
+                  )}
+                </Button>
 
                 {/* Repost Button */}
-                <ProtectedAction>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className={cn(
-                      "h-9 gap-1.5 px-2.5 rounded-full transition-colors",
-                      "text-muted-foreground hover:text-foreground hover:bg-secondary",
-                    )}
-                  >
-                    <Repeat2 className="size-5" />
-                    {reposts_and_quotes_count > 0 && (
-                      <span className="text-sm font-normal">
-                        {reposts_and_quotes_count}
-                      </span>
-                    )}
-                  </Button>
-                </ProtectedAction>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "h-9 gap-1.5 px-2.5 rounded-full transition-colors",
+                    "text-muted-foreground hover:text-foreground hover:bg-secondary",
+                  )}
+                >
+                  <Repeat2 className="size-5" />
+                  {reposts_and_quotes_count > 0 && (
+                    <span className="text-sm font-normal">
+                      {reposts_and_quotes_count}
+                    </span>
+                  )}
+                </Button>
 
                 {/* Share Button */}
-                <ProtectedAction>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className={cn(
-                      "h-9 gap-1.5 px-2.5 rounded-full transition-colors",
-                      "text-muted-foreground hover:text-foreground hover:bg-secondary",
-                    )}
-                  >
-                    <Send className="size-5" />
-                  </Button>
-                </ProtectedAction>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "h-9 gap-1.5 px-2.5 rounded-full transition-colors",
+                    "text-muted-foreground hover:text-foreground hover:bg-secondary",
+                  )}
+                >
+                  <Send className="size-5" />
+                </Button>
               </div>
             </div>
           </div>

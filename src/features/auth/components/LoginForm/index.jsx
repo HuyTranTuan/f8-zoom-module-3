@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@/utils/validators";
-import { authService } from "@/services/authServices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -16,6 +15,7 @@ import {
   loginFailure,
 } from "@/features/auth";
 import { useTranslation } from "react-i18next";
+import { login } from "@/services";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -30,14 +30,13 @@ function LoginForm() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(loginSchema),
-    mode: "onBlur", //Validate khi bluer ra ngoài
   });
 
   const onSubmit = async (data) => {
     dispatch(loginStart());
 
     try {
-      const response = await authService.login(data);
+      const response = await login(data);
 
       //Lưu token vào localStorage
       if (response.access_token) {

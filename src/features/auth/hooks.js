@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { authService } from "@/services/authServices";
+import { getCurrentUser } from "@/services";
 
 export const useFetchCurrentUser = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(authService.getCurrentUser());
+    dispatch(getCurrentUser());
   }, [dispatch]);
 };
 

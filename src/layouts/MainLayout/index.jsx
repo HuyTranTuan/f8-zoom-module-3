@@ -2,7 +2,7 @@ import MainSidebar from "./MainSidebar";
 import MainContain from "./MainContain";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import { closeSignUpModal, finishInitializing } from "@/features/auth";
+import { closeSignUpModal } from "@/features/auth";
 
 import { useEffect } from "react";
 import SignUpModal from "@/features/auth/components/SignUpModal";
@@ -16,16 +16,13 @@ function MainLayout() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const isInitializing = useSelector(selectIsInitializing);
-
   const showModal = useSelector(selectShowSignUpModal);
+
   const shouldShowAuthCard = !isAuthenticated && !isInitializing;
 
   useEffect(() => {
-    const initializeAuth = async () => {
-      if (isAuthenticated) {
-        dispatch(finishInitializing());
-        return;
-      }
+    (async () => {
+      if (isAuthenticated) return;
 
       const token = localStorage.getItem("access_token");
 
@@ -39,8 +36,6 @@ function MainLayout() {
             // Lưu user vào localStorage để restore khi gặp lỗi 500
             localStorage.setItem("user", JSON.stringify(response.data));
             dispatch(restoreUser(response.data));
-          } else {
-            dispatch(finishInitializing());
           }
         } catch (error) {
           // CHỈ xóa token nếu là lỗi 401 (Unauthorized) - token không hợp lệ
@@ -57,20 +52,12 @@ function MainLayout() {
               try {
                 const userData = JSON.parse(savedUser);
                 dispatch(restoreUser(userData));
-              } catch (parseError) {
-                dispatch(finishInitializing());
-              }
-            } else {
-              dispatch(finishInitializing());
+              } catch (parseError) {}
             }
           }
         }
-      } else {
-        dispatch(finishInitializing());
       }
-    };
-
-    initializeAuth();
+    })();
   }, []);
 
   return (

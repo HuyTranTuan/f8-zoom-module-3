@@ -1,5 +1,5 @@
 import { lazy, useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router";
 
 // Pages
 import Home from "@/pages/Home";
@@ -28,7 +28,6 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <AuthProvider />
-      {/* <Header /> */}
 
       <Routes>
         <Route path="/" element={<MainLayout />}>

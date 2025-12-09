@@ -171,4 +171,6 @@ export const {
   setError,
 } = postSlice.actions;
 
+export const { reducerPath } = postSlice.reducerPath;
+
 export default postSlice.reducer;

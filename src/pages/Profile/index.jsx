@@ -1,4 +1,4 @@
-import { useCurrentUser } from "@/features/auth/authSlice";
+import { useCurrentUser } from "@/features/auth/hooks";
 
 function Profile() {
   const currentUser = useCurrentUser();

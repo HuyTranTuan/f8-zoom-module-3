@@ -10,64 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Separator } from "@/components/ui/separator";
 
 function Register() {
-  const navigate = useNavigate();
   const { t } = useTranslation();
-  const {
-    register,
-    trigger,
-    setError,
-    watch,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      password_confirmation: "",
-    },
-    mode: "onChange",
-    resolver: yupResolver(registerSchema),
-  });
-
-  const onSubmit = async (data) => {
-    try {
-      await authService.register(data);
-      navigate("/login");
-    } catch (error) {
-      // Error handle...
-      console.log(error);
-    }
-  };
-
-  const email = watch("email");
-
-  useEffect(() => {
-    if (email && EMAIL_REGEX.test(email)) {
-      authService.checkExistsEmail(email).then((exists) => {
-        if (exists) {
-          setError("email", {
-            type: "check-email",
-            message: "Email đã tồn tại, chọn email khác",
-          });
-        }
-      });
-    }
-
-    if (email) trigger("email");
-  }, [email, errors, setError, trigger]);
-
-  const password = watch("password");
-
-  useEffect(() => {
-    const confirmation = watch("password_confirmation");
-    if (confirmation && password !== confirmation) {
-      trigger("password_confirmation");
-    } else {
-      setError("password_confirmation", null);
-    }
-  }, [password, watch, trigger, setError]);
 
   return (
     <div className="max-w-[370px] min-w-[300px] p-6! mx-auto! flex flex-col gap-2 absolute top-full left-[50%] -translate-x-[50%] translate-y-[50%]">

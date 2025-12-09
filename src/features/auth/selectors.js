@@ -8,3 +8,5 @@ export const selectLoginSuccess = (state) => state.auth.loginSuccess;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectUser = (state) => state.auth.user;
 export const selectIsInitializing = (state) => state.auth.isInitializing;
+export const selectFetching = (state) => state.auth.fetching;
+export const selectAuthState = (state) => state.auth;

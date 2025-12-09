@@ -53,7 +53,6 @@ const RegisterForm = () => {
     debounce(async (username) => {
       if (!username || username.length < 3) return;
 
-      setIsCheckingUsername(true);
       try {
         await authService.validateUsername(username);
         clearErrors("username");
@@ -62,8 +61,6 @@ const RegisterForm = () => {
           type: "manual",
           message: error.response?.data?.message || "Tên hiển thị đã tồn tại",
         });
-      } finally {
-        setIsCheckingUsername(false);
       }
     }, 700),
     [],
