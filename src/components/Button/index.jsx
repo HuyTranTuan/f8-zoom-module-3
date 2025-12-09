@@ -59,32 +59,22 @@ function Button({
           })}
         >
           {leftIcon && (
-            <FontAwesomeIcon
-              className={styles.icon}
-              icon={leftIcon}
-            />
+            <FontAwesomeIcon className={styles.icon} icon={leftIcon} />
           )}
           <span>{children}</span>
           {rightIcon && (
-            <FontAwesomeIcon
-              className={styles.icon}
-              icon={rightIcon}
-            />
+            <FontAwesomeIcon className={styles.icon} icon={rightIcon} />
           )}
         </div>
         {loading && (
-          <FontAwesomeIcon
-            className={styles.loading}
-            icon={faSpinner}
-            spin
-          />
+          <FontAwesomeIcon className={styles.loading} icon={faSpinner} spin />
         )}
       </Component>
     </>
   );
 }
 
-Button.prototype = {
+Button.propTypes = {
   children: PropTypes.node.isRequired,
   rounded: PropTypes.bool,
   bordered: PropTypes.bool,

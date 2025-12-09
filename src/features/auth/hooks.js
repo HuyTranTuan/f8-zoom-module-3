@@ -1,20 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getCurrentUser } from "@/services/auth";
-import { selectCurrentUser } from "./selectors";
-
+import { authService } from "@/services/authServices";
 
 export const useFetchCurrentUser = () => {
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getCurrentUser());
-    }, [dispatch]);
-}
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(authService.getCurrentUser());
+  }, [dispatch]);
+};
 
 export const useCurrentUser = () => {
-    const currentUser  = useSelector(selectCurrentUser);
-
-    return currentUser ;
-}
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  return currentUser;
+};

@@ -1,9 +1,9 @@
-import { useCurrentUser } from "@/features/auth";
+import { useCurrentUser } from "@/features/auth/authSlice";
 
 function Profile() {
-    const currentUser = useCurrentUser();
+  const currentUser = useCurrentUser();
 
-    return <div>{JSON.stringify(currentUser)}</div>;
+  return <div>{JSON.stringify(currentUser)}</div>;
 }
 
 export default Profile;

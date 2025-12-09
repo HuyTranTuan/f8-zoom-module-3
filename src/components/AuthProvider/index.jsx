@@ -1,9 +1,9 @@
-import { useFetchCurrentUser } from "@/features/auth";
+import { useFetchCurrentUser } from "@/features/auth/authSlice";
 
 function AuthProvider() {
-    useFetchCurrentUser();
+  useFetchCurrentUser();
 
-    return null;
+  return null;
 }
 
 export default AuthProvider;

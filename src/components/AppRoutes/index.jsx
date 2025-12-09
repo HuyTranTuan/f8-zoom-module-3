@@ -5,55 +5,46 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import Home from "@/pages/Home";
 import Profile from "@/pages/Profile";
 
-// import Counter from "@/pages/Counter";
-const Counter = lazy(() => import("@/pages/Counter"));
-const ProductsList = lazy(() => import("@/pages/ProductsList"));
-const ProvincesList = lazy(() => import("@/pages/Address/ProvincesList"));
-const ProvincesList2 = lazy(() => import("@/pages/Address/ProvincesList2"));
-const Assets = lazy(() => import("@/pages/Assets"));
-const Icons = lazy(() => import("@/pages/Icons"));
-const Register = lazy(() => import("@/pages/Auth/Register"));
-const Login = lazy(() => import("@/pages/Auth/Login"));
-const PortalDemo = lazy(() => import("@/pages/PortalDemo"));
+const Register = lazy(() => import("@/pages/Register"));
+const Login = lazy(() => import("@/pages/Login"));
 
 // Components
-import Header from "../Header";
+// import Header from "../Header";
 import AuthProvider from "../AuthProvider";
 import PrivateRoute from "../PrivateRoute";
 
 import { httpClient } from "@/utils/http";
-import UseReducer from "@/pages/UseReducer";
 import PostDetail from "@/pages/PostDetail";
+import MainLayout from "@/layouts/MainLayout";
+import Search from "@/pages/Search";
+import Acitvities from "@/pages/Acitvities";
+import AuthLayout from "@/layouts/AuthLayout";
 
 function AppRoutes() {
   useEffect(() => {
-    httpClient.get("/auth/devices");
+    httpClient.get("/auth/user");
   }, []);
 
   return (
     <BrowserRouter>
       <AuthProvider />
-      <Header />
+      {/* <Header /> */}
 
       <Routes>
-        <Route index element={<Home />} />
-        <Route path="/address/provinces" element={<ProvincesList />} />
-        <Route path="/portal-demo" element={<PortalDemo />} />
-        <Route path="/use-reducer" element={<UseReducer />} />
-        <Route path="/address/provinces2" element={<ProvincesList2 />} />
-        <Route path="/products" element={<ProductsList />} />
-        <Route path="/post-detail" element={<PostDetail />} />
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Home />} />
+          <Route path="search" element={<Search />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="activity" element={<Acitvities />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path=":user-name" element={<Search />} />
+          </Route>
+          <Route path="search" element={<Search />} />
+        </Route>
 
-        <Route path="/assets" element={<Assets />} />
-        <Route path="/icons" element={<Icons />} />
-
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-
-        {/* Private routes */}
-        <Route element={<PrivateRoute />}>
-          <Route path="/counter" element={<Counter />} />
-          <Route path="/profile" element={<Profile />} />
+        <Route path="/auth" element={<AuthLayout />}>
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </BrowserRouter>

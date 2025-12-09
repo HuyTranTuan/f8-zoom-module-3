@@ -1,7 +1,8 @@
 import { Outlet, Navigate, useLocation } from "react-router";
-
-import { useCurrentUser } from "@/features/auth";
 import { useSelector } from "react-redux";
+
+import { useCurrentUser } from "@/features/auth/authSlice";
+import Loading from "@/components/Loading";
 
 function PrivateRoute() {
   const { pathname } = useLocation();
@@ -9,11 +10,13 @@ function PrivateRoute() {
   const fetching = useSelector((state) => state.auth.fetching);
 
   if (fetching) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!currentUser) {
-    return <Navigate to={`/login?continue=${encodeURIComponent(pathname)}`} />;
+    return (
+      <Navigate to={`/auth/login?continue=${encodeURIComponent(pathname)}`} />
+    );
   }
 
   return <Outlet />;

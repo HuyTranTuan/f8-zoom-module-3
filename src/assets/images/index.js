@@ -1,7 +1,7 @@
-import avatar400 from "./avatar-400x400.jpg";
+import logo from "./logoLogin.png";
 
 const images = {
-  avatar400,
+  logo,
 };
 
 export default images;
