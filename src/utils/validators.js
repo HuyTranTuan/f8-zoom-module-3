@@ -1,10 +1,13 @@
 import * as yup from "yup";
 
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 export const forgotPasswordSchema = yup.object({
   email: yup
     .string()
     .required("Vui lòng nhập email")
-    .email("Email không hợp lệ"),
+    .email("Email không hợp lệ")
+    .matches(EMAIL_REGEX, "Email chưa đúng định dạng"),
 });
 
 export const loginSchema = yup.object({

@@ -4,11 +4,11 @@ import images from "@/assets/images";
 const AuthLayout = () => {
   return (
     <div className="relative">
-      <div className="">
+      <div className="absolute top-0 w-full">
         <img
           src={images.logo}
           alt="Threads decorative header"
-          className="w-full h-auto object-cover"
+          className="w-full h-auto object-fill object-center"
         />
       </div>
       <Outlet />

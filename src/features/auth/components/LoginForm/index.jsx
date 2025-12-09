@@ -1,16 +1,20 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "@/features/auth/helpers";
-import { authService } from "../../service";
+import { loginSchema } from "@/utils/validators";
+import { authService } from "@/services/authServices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { loginStart, loginSuccess, loginFailure } from "../../authSlice";
 import { PasswordInput } from "@/components/ui/password-input";
-import { selectLoginLoading } from "../../selectors";
+import {
+  selectLoginLoading,
+  loginStart,
+  loginSuccess,
+  loginFailure,
+} from "@/features/auth";
 import { useTranslation } from "react-i18next";
 
 function LoginForm() {

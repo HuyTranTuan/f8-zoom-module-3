@@ -1,14 +1,17 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import * as authService from "@/services/auth";
+import * as authService from "@/services/authServices";
 import { EMAIL_REGEX, registerSchema } from "@/utils/validators";
 import { useEffect } from "react";
 import RegisterForm from "@/features/auth/components/RegisterForm";
+import { useTranslation } from "react-i18next";
+import { Separator } from "@/components/ui/separator";
 
 function Register() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const {
     register,
     trigger,
@@ -67,11 +70,11 @@ function Register() {
   }, [password, watch, trigger, setError]);
 
   return (
-    <div className="max-w-[370px] p-6! -mt-8! !sm:-mt-12 mx-auto! flex flex-col gap-2">
+    <div className="max-w-[370px] min-w-[300px] p-6! mx-auto! flex flex-col gap-2 absolute top-full left-[50%] -translate-x-[50%] translate-y-[50%]">
       {/* Card */}
       <div className="flex flex-col gap-2">
         <h1 className="text-center text-base sm:text-lg sm:my-4 text-foreground font-bold! text-[16px]">
-          {t("login_with_ig")}
+          {t("signup_threads")}
         </h1>
 
         {/* Form đăng ký */}
@@ -90,18 +93,11 @@ function Register() {
             {t("or")}
           </span>
         </div>
-
-        <Button className="w-full h-12 rounded-xl text-sytemtext bordered ">
-          <div className="flex justify-center gap-5 items-center">
-            <InstagramIcon />
-            {t("continue_with_ig")}
-          </div>
-        </Button>
       </div>
 
       {/* Card đăng ký */}
       <div className="bg-card border border-border rounded-2xl p-4 sm:p-6 text-center">
-        <p className="text-sm text-foreground-secondar">
+        <p className="text-sm text-foreground">
           {t("havent_got_account")}
           <Link
             to="/auth/login"

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registerSchema } from "@/features/auth/helpers";
-import { authService } from "@/features/auth/service";
+import { registerSchema } from "@/utils/validators";
+import { authService } from "@/services/authServices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -12,7 +12,7 @@ import {
   isPasswordMatch,
   isValidEmailFormat,
   isValidPassword,
-} from "@/lib/utils";
+} from "@/features/auth/helpers";
 import { useDispatch, useSelector } from "react-redux";
 import {
   registerStart,
@@ -20,7 +20,7 @@ import {
   registerFailure,
   selectRegisterLoading,
   resetRegisterState,
-} from "../../authSlice";
+} from "@/features/auth";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -30,8 +30,6 @@ const RegisterForm = () => {
   const isLoading = useSelector(selectRegisterLoading);
 
   //Local state cho validation
-  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
-  const [isCheckingEmail, setIsCheckingEmail] = useState(false);
   const [emailFormatError, setEmailFormatError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -163,15 +161,13 @@ const RegisterForm = () => {
       toast.success("Đăng ký thành công !", {
         description:
           "Chúng tôi đã gửi một liên kết xác thực tới email của bạn. Vui lòng kiểm tra email để xác thực tài khoản.",
-        duration: 5000,
+        duration: 3000,
       });
 
-      //Chuyển hướng 2s
       setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+        navigate("/auth/login");
+      }, 500);
     } catch (error) {
-      //Dispatch action fail
       const errorData = error.response?.data || {
         message: error.message,
       };
@@ -205,127 +201,109 @@ const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
       {/* username - Tên hiển thị */}
-      <div>
-        <Input
-          type="text"
-          placeholder="Tên Hiển thị"
-          {...register("username")}
-          onChange={(e) => {
-            register("username").onChange(e);
-            checkUsername(e.target.value);
-          }}
-          className={`h-12 bg-threaditembg border-input-border rounded-xl text-normaltext placeholder:text-normaltext-tertiary ${
-            errors.username ? "border-destructive" : ""
-          }`}
-          disabled={isLoading}
-        />
-        {isCheckingUsername && (
-          <p className="text-muted-normaltext text-sm mt-1">Đang kiểm tra...</p>
-        )}
-        {errors.username && !isCheckingUsername && (
-          <p className="text-destructive text-sm mt-1">
-            {errors.username.message}
-          </p>
-        )}
-      </div>
+      <Input
+        type="text"
+        placeholder="Tên Hiển thị"
+        {...register("username")}
+        onChange={(e) => {
+          register("username").onChange(e);
+          checkUsername(e.target.value);
+        }}
+        className={`h-12 bg-threaditembg border-input-border rounded-xl text-normaltext placeholder:text-normaltext-tertiary ${
+          errors.username ? "border-destructive" : ""
+        }`}
+        disabled={isLoading}
+      />
+      {errors.username && (
+        <p className="text-destructive text-sm mt-1">
+          {errors.username.message}
+        </p>
+      )}
 
       {/* Email */}
-      <div>
-        <Input
-          type="email"
-          placeholder="Email"
-          {...register("email")}
-          onChange={(e) => {
-            register("email").onChange(e);
-            checkEmail(e.target.value);
-          }}
-          className={`h-12 bg-threaditembg border-input-border rounded-xl text-normaltext placeholder:text-normaltext-tertiary ${
-            errors.email || emailFormatError ? "border-destructive" : ""
-          }`}
-          disabled={isLoading}
-        />
-        {isCheckingEmail && (
-          <p className="text-muted-normaltext text-sm mt-1">Đang kiểm tra</p>
-        )}
-        {/* Hiển thị lỗi format (debounced) */}
-        {emailFormatError && !isCheckingEmail && (
-          <p className="text-destructive text-sm mt-1">{emailFormatError}</p>
-        )}
+      <Input
+        type="email"
+        placeholder="Email"
+        {...register("email")}
+        onChange={(e) => {
+          register("email").onChange(e);
+          checkEmail(e.target.value);
+        }}
+        className={`h-12 bg-threaditembg border-input-border rounded-xl text-normaltext placeholder:text-normaltext-tertiary ${
+          errors.email || emailFormatError ? "border-destructive" : ""
+        }`}
+        disabled={isLoading}
+      />
+      {/* Hiển thị lỗi format (debounced) */}
+      {emailFormatError && (
+        <p className="text-destructive text-sm mt-1">{emailFormatError}</p>
+      )}
 
-        {/* Hiển thị lỗi từ API */}
-        {errors.email && !isCheckingEmail && !emailFormatError && (
-          <p className="text-destructive text-sm mt-1">
-            {errors.email.message}
-          </p>
-        )}
-      </div>
+      {/* Hiển thị lỗi từ API */}
+      {errors.email && !emailFormatError && (
+        <p className="text-destructive text-sm mt-1">{errors.email.message}</p>
+      )}
 
       {/* Password */}
-      <div>
-        <Input
-          type="password"
-          placeholder="Mật Khẩu"
-          {...register("password")}
-          onChange={(e) => {
-            const value = e.target.value;
-            register("password").onChange(e);
-            setPasswordValue(value); //Lưu lại pass để so sánh
-            checkPassword(value);
-          }}
-          className={`h-12 bg-threaditembg border-input-border rounded-xl text-normaltext placeholder:text-normaltext-tertiary ${
-            errors.password || passwordError ? "border-destructive" : ""
-          }`}
-          disabled={isLoading}
-        />
-        {/* Lỗi debounce password ở đây */}
-        {passwordError && (
-          <p className="text-destructive text-sm mt-1">{passwordError}</p>
-        )}
+      <Input
+        type="password"
+        placeholder="Mật Khẩu"
+        {...register("password")}
+        onChange={(e) => {
+          const value = e.target.value;
+          register("password").onChange(e);
+          setPasswordValue(value); //Lưu lại pass để so sánh
+          checkPassword(value);
+        }}
+        className={`h-12 bg-threaditembg border-input-border rounded-xl text-normaltext placeholder:text-normaltext-tertiary ${
+          errors.password || passwordError ? "border-destructive" : ""
+        }`}
+        disabled={isLoading}
+      />
+      {/* Lỗi debounce password ở đây */}
+      {passwordError && (
+        <p className="text-destructive text-sm mt-1">{passwordError}</p>
+      )}
 
-        {/* Hiển thị lỗi từ API */}
-        {errors.password && (
-          <p className="text-destructive text-sm mt-1">
-            {errors.password.message}
-          </p>
-        )}
-      </div>
+      {/* Hiển thị lỗi từ API */}
+      {errors.password && (
+        <p className="text-destructive text-sm mt-1">
+          {errors.password.message}
+        </p>
+      )}
 
       {/* Confirm Password */}
-      <div>
-        <Input
-          type="password"
-          placeholder="Xác nhận mật khẩu"
-          {...register("password_confirmation")}
-          onChange={(e) => {
-            register("password_confirmation").onChange(e);
-            checkConfirmPassword(e.target.value);
-          }}
-          className={`h-12 bg-threaditembg border-input-border rounded-xl text-normaltext placeholder:text-normaltext-tertiary ${
-            errors.password_confirmation || confirmPasswordError
-              ? "border-destructive"
-              : ""
-          }`}
-          disabled={isLoading}
-        />
-        {/* Lỗi debounce hiển thị ở đây */}
-        {confirmPasswordError && (
-          <p className="text-destructive text-sm mt-1">
-            {confirmPasswordError}
-          </p>
-        )}
+      <Input
+        type="password"
+        placeholder="Xác nhận mật khẩu"
+        {...register("password_confirmation")}
+        onChange={(e) => {
+          register("password_confirmation").onChange(e);
+          checkConfirmPassword(e.target.value);
+        }}
+        className={`h-12 bg-threaditembg border-input-border rounded-xl text-normaltext placeholder:text-normaltext-tertiary ${
+          errors.password_confirmation || confirmPasswordError
+            ? "border-destructive"
+            : ""
+        }`}
+        disabled={isLoading}
+      />
+      {/* Lỗi debounce hiển thị ở đây */}
+      {confirmPasswordError && (
+        <p className="text-destructive text-sm mt-1">{confirmPasswordError}</p>
+      )}
 
-        {/* Hiển thị lỗi từ API */}
-        {errors.password_confirmation && (
-          <p className="text-destructive text-sm mt-1">
-            {errors.password_confirmation.message}
-          </p>
-        )}
-      </div>
+      {/* Hiển thị lỗi từ API */}
+      {errors.password_confirmation && (
+        <p className="text-destructive text-sm mt-1">
+          {errors.password_confirmation.message}
+        </p>
+      )}
 
       <Button
         type="submit"
-        className="w-full h-12 bg-normaltext text-background hover:bg-normaltext/90 rounded-xl font-semibold"
-        disabled={isLoading || isCheckingUsername || isCheckingEmail}
+        className="w-full h-12 bg-foreground text-background !hover:bg-systemtext cursor-pointer rounded-2xl"
+        disabled={isLoading}
       >
         {isLoading ? "Đang đăng ký..." : "Đăng ký"}
       </Button>
