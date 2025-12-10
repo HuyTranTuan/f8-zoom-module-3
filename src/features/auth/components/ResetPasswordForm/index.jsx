@@ -3,12 +3,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { resetPasswordSchema } from "../../schemas/resetPasswordSchema";
 import { authService } from "../../service";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { debounce, isPasswordMatch, isValidPassword } from "@/lib/utils";
 import { PasswordInput } from "@/components/ui/password-input";
+import { toast } from "sonner";
 
 const ResetPasswordForm = ({ token, email }) => {
   const navigate = useNavigate();

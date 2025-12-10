@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router";
 
 import { useCurrentUser } from "@/features/auth/hooks";
@@ -23,12 +22,12 @@ function Login() {
     }
   }, [currentUser, navigate, params]);
 
-  const onSubmit = async (data) => {
-    const { access_token, refresh_token } = await login(data);
-    localStorage.setItem("accessToken", access_token);
-    localStorage.setItem("refreshToken", refresh_token);
-    dispatch(getCurrentUser());
-  };
+  // const onSubmit = async (data) => {
+  //   const { access_token, refresh_token } = await login(data);
+  //   localStorage.setItem("accessToken", access_token);
+  //   localStorage.setItem("refreshToken", refresh_token);
+  //   dispatch(getCurrentUser());
+  // };
 
   return (
     <div className="max-w-[370px] min-w-[300px] p-6! mx-auto! flex flex-col gap-2 absolute top-full left-[50%] -translate-x-[50%] translate-y-[50%]">

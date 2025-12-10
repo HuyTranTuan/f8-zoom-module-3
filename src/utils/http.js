@@ -66,34 +66,49 @@ httpClient.interceptors.response.use(
     const originalRequest = error.config;
 
     const shouldRenewToken =
-      error.response.status === 401 && !originalRequest._retry;
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry;
 
     if (shouldRenewToken) {
       originalRequest._retry = true;
 
       try {
         await getNewToken();
-
+        originalRequest.headers.set(
+          "Authorization",
+          `Bearer ${localStorage.getItem("accessToken")}`,
+        );
         return httpClient(originalRequest);
-      } catch (error) {
-        return Promise.reject(error);
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
       }
     }
 
-    return Promise.reject(error);
+    const errorMessage =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      error.message ||
+      "An unknown error occurred";
+
+    return Promise.reject(errorMessage);
   },
 );
 
 const _send = async (method, path, data, config) => {
-  const response = await httpClient.request({
-    ...config,
-    method,
-    url: path,
-    data,
-  });
-
-  console.log("SEND", response);
-  return response.data;
+  try {
+    const response = await httpClient.request({
+      ...config,
+      method,
+      url: path,
+      data,
+    });
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.log(error.message);
+    throw error.message;
+  }
 };
 
 const get = async (path, config) => {

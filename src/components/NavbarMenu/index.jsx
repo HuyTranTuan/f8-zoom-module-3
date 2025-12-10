@@ -1,5 +1,5 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import { t } from "i18next";
 
 import {
@@ -15,15 +15,17 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SunIcon } from "../ui/icons/lucide-sun";
-import { MoonIcon } from "../ui/icons/lucide-moon";
-import { useDispatch } from "react-redux";
+import { SunIcon } from "@/components/ui/icons/lucide-sun";
+import { MoonIcon } from "@/components/ui/icons/lucide-moon";
 import { logout } from "@/features/auth";
 
 function NavbarMenu({ children }) {
-  const [theme, setTheme] = useState("light");
   const dispatch = useDispatch();
+
   const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("user");
     dispatch(logout());
   };
 
@@ -41,28 +43,13 @@ function NavbarMenu({ children }) {
                 {t("appearance")}
               </DropdownMenuLabel>
               <DropdownMenuGroup className="flex ">
-                <DropdownMenuItem
-                  className={`flex-1 justify-center ${
-                    theme === "light" ? "bg-amber-600" : ""
-                  }`}
-                  onClick={() => setTheme("light")}
-                >
+                <DropdownMenuItem className={`flex-1 justify-center `}>
                   <SunIcon className="w-5.5! h-full! " />
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  className={`flex-1 justify-center ${
-                    theme === "dark" ? "bg-threaditemhoverbg" : ""
-                  }`}
-                  onClick={() => setTheme("dark")}
-                >
+                <DropdownMenuItem className={`flex-1 justify-center `}>
                   <MoonIcon />
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  className={`flex-1 justify-center ${
-                    theme === "auto" ? "bg-threaditemhoverbg" : ""
-                  }`}
-                  onClick={() => setTheme("auto")}
-                >
+                <DropdownMenuItem className={`flex-1 justify-center `}>
                   <span>{t("auto")}</span>
                 </DropdownMenuItem>
               </DropdownMenuGroup>

@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { postService } from "@/services/postServices";
-import { toast } from "sonner";
 import { isPostLiked, selectLikesCount } from "./selectors";
 import {
   rollbackLike,
   syncLikeFromAPI,
   toggleLikeOptimistic,
 } from "./postSlice";
+import { toast } from "sonner";
 
 export const useToggleLike = (postId) => {
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ export const useToggleLike = (postId) => {
       const errorMessage =
         error.response?.data?.message ||
         "Không thể like bài viết. Vui lòng thử lại";
-      toast.error(errorMessage);
+      // toast.error(errorMessage);
     }
   };
 

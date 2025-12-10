@@ -1,8 +1,7 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { createSlice } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 
-import { getCurrentUser, useFetchCurrentUser } from "@/services";
+import { useFetchCurrentUser } from "@/services";
 
 //Init State
 const initialState = {
@@ -58,9 +57,9 @@ export const authSlice = createSlice({
 
     //Login actions
     loginStart: (state) => {
-      state.loginLoading = true;
-      state.loginError = null;
-      state.loginSuccess = false;
+      // state.loginLoading = true;
+      // state.loginError = null;
+      // state.loginSuccess = false;
     },
     loginSuccess: (state, action) => {
       state.loginLoading = false;

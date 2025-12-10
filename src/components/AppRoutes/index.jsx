@@ -3,22 +3,22 @@ import { BrowserRouter, HashRouter, Route, Routes } from "react-router";
 
 // Pages
 import Home from "@/pages/Home";
-import Profile from "@/pages/Profile";
 
+const Profile = lazy(() => import("@/pages/Profile"));
 const Register = lazy(() => import("@/pages/Register"));
 const Login = lazy(() => import("@/pages/Login"));
+const Search = lazy(() => import("@/pages/Search"));
+const Acitvities = lazy(() => import("@/pages/Acitvities"));
 
+import { httpClient } from "@/utils/http";
 // Components
-// import Header from "../Header";
 import AuthProvider from "../AuthProvider";
 import PrivateRoute from "../PrivateRoute";
 
-import { httpClient } from "@/utils/http";
-import PostDetail from "@/pages/PostDetail";
-import MainLayout from "@/layouts/MainLayout";
-import Search from "@/pages/Search";
-import Acitvities from "@/pages/Acitvities";
+// Layouts
+import DefaultLayout from "@/layouts/DefaultLayout";
 import AuthLayout from "@/layouts/AuthLayout";
+import { Toaster } from "sonner";
 
 function AppRoutes() {
   useEffect(() => {
@@ -28,9 +28,9 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <AuthProvider />
-
+      <Toaster />
       <Routes>
-        <Route path="/" element={<MainLayout />}>
+        <Route path="/" element={<DefaultLayout />}>
           <Route index element={<Home />} />
           <Route path="search" element={<Search />} />
           <Route element={<PrivateRoute />}>

@@ -4,7 +4,6 @@ import { registerSchema } from "@/utils/validators";
 import { authService } from "@/services/authServices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -21,6 +20,7 @@ import {
   selectRegisterLoading,
   resetRegisterState,
 } from "@/features/auth";
+import { toast } from "sonner";
 
 const RegisterForm = () => {
   const navigate = useNavigate();

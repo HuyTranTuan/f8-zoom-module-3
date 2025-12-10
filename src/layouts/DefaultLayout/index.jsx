@@ -12,14 +12,13 @@ import {
   selectShowSignUpModal,
 } from "@/features/auth/selectors";
 
-function MainLayout() {
+function DefaultLayout() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const isInitializing = useSelector(selectIsInitializing);
   const showModal = useSelector(selectShowSignUpModal);
 
   const shouldShowAuthCard = !isAuthenticated && !isInitializing;
-
   useEffect(() => {
     (async () => {
       if (isAuthenticated) return;
@@ -83,4 +82,4 @@ function MainLayout() {
   );
 }
 
-export default MainLayout;
+export default DefaultLayout;

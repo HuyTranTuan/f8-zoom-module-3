@@ -22,55 +22,45 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router";
-import { TranslationOutlinedIcon } from "@/components/ui/icons/ant-design-translation-outlined";
 import { LanguagesIcon } from "@/components/ui/icons/lucide-languages";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import MainSidebarLink from "./MainSidebarLink";
+import Button from "@/components/Button";
 
-// Menu items.
-const items = [
-  {
+function MainSidebar({ classNames, isAuthenticated }) {
+  const { t, i18n } = useTranslation();
+  console.log(isAuthenticated);
+
+  const home = {
     title: "Home",
     url: "/",
     icon: HouseIcon,
-  },
-  {
+    isProtected: false,
+  };
+  const search = {
     title: "Search",
     url: "/search",
     icon: SearchIcon,
-  },
-  {
-    title: "Add",
-    url: "/add",
-    icon: PlusIcon,
-  },
-  {
+    isProtected: false,
+  };
+  const activites = {
     title: "Activities",
     url: "/activities",
     icon: HeartIcon,
-  },
-  {
+    isProtected: true,
+  };
+
+  const account = {
     title: "Account",
     url: "/account",
     icon: UserIcon,
-  },
-];
-
-function MainSidebar({ classNames, isAuthenticated }) {
-  const [isToggle, setIsToggle] = useState(false);
-  const [isToggleAppearance, setIsToggleAppearance] = useState(false);
-  const [isToggleFeed, setIsToggleFeed] = useState(false);
-
-  const { t, i18n } = useTranslation();
+    isProtected: false,
+  };
 
   const handleLanguageChange = (lng) => {
     i18n.changeLanguage(lng);
@@ -83,33 +73,20 @@ function MainSidebar({ classNames, isAuthenticated }) {
           <SidebarGroupLabel className="w-full h-full">
             <Logo path={"/"} />
           </SidebarGroupLabel>
-        </SidebarGroup>
 
-        <SidebarGroup className="justify-center items-center p-1.5">
           <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6"
-                    >
-                      {({ isActive }) => (
-                        <>
-                          <item.icon
-                            className={`${
-                              isActive
-                                ? "text-(--normaltext)"
-                                : "text-(--systemtext)"
-                            }`}
-                          />
-                        </>
-                      )}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+            <SidebarMenu className="">
+              <MainSidebarLink navigate={home} />
+              <MainSidebarLink navigate={search} />
+              <Button className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6 rounded-xl bg-sidebar-accent group">
+                <PlusIcon
+                  className={
+                    "text-(--systemtext) group-hover:text-sidebar-accent-foreground"
+                  }
+                />
+              </Button>
+              <MainSidebarLink navigate={activites} />
+              <MainSidebarLink navigate={account} />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

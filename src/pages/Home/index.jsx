@@ -19,9 +19,9 @@ import {
   restoreLikedPostsFromFeed,
   restoreLikedPostsFromStorage,
 } from "@/features/post/postSlice";
-import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import Loading from "@/components/Loading";
+import { toast } from "sonner";
 
 const Home = () => {
   const dispatch = useDispatch();

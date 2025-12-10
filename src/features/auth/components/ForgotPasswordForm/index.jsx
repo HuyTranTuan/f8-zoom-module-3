@@ -4,8 +4,8 @@ import { forgotPasswordSchema } from "../../schemas/forgotPasswordSchema";
 import { authService } from "../../service";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const ForgotPasswordForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +41,7 @@ const ForgotPasswordForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
+    <form onSubmit={() => handleSubmit(onSubmit)} className="space-y-4 w-full">
       {/* Email */}
       <div>
         <Input

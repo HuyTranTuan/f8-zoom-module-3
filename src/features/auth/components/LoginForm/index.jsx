@@ -3,7 +3,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@/utils/validators";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,6 +15,7 @@ import {
 } from "@/features/auth";
 import { useTranslation } from "react-i18next";
 import { login } from "@/services";
+import { toast } from "sonner";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -49,6 +49,9 @@ function LoginForm() {
       //Lưu user vào localStorage để restore khi F5
       if (response.user) {
         localStorage.setItem("user", JSON.stringify(response.user));
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       }
 
       dispatch(loginSuccess(response));
@@ -57,20 +60,14 @@ function LoginForm() {
       toast.success("Đăng nhập thành công !", {
         description: `Chào mừng ${response.user.username}`,
       });
-
-      if (response.user) {
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
-      }
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message;
+      console.log(errorMessage);
       dispatch(loginFailure(errorMessage));
-
-      //Toast lỗi
-      toast.error("Đăng nhập thất bại", {
-        description: errorMessage,
-      });
+      // //Toast lỗi
+      // toast.error("Đăng nhập thất bại", {
+      //   description: errorMessage,
+      // });
     }
   };
 
