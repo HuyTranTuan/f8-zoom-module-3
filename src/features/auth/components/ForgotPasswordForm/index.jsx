@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { forgotPasswordSchema } from "@/utils/validators";
-import { authService } from "@/services/authServices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
+import { forgotPassword } from "@/services";
 
 const ForgotPasswordForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +23,7 @@ const ForgotPasswordForm = () => {
     setIsLoading(true);
 
     try {
-      const response = await authService.forgotPassword(data.email);
+      const response = await forgotPassword(data.email);
 
       //Toast
       toast.info("Liên kết đặt lại mật khẩu đã được gửi tới email của bạn", {

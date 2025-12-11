@@ -7,6 +7,7 @@ import {
 import { BookmarkIcon } from "@/components/ui/icons/lucide-bookmark";
 import { PenLineIcon } from "@/components/ui/icons/lucide-pen-line";
 import { Trash2Icon } from "@/components/ui/icons/lucide-trash-2";
+import { BookmarkCheckIcon } from "@/components/ui/icons/lucide-bookmark-check";
 
 function OwnPostMenuItems({
   isLoading,
@@ -28,7 +29,7 @@ function OwnPostMenuItems({
         disabled={isLoading}
       >
         <span>{isSaved ? t("menu.unsave") : t("menu.save")}</span>
-        {isSaved ? <BookmarkIcon /> : <BookmarkIcon />}
+        {isSaved ? <BookmarkIcon /> : <BookmarkCheckIcon />}
       </DropdownMenuItem>
 
       {/* Edit - Only show if editable (within 15 min) */}

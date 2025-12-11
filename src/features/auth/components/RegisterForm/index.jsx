@@ -20,7 +20,7 @@ import {
   resetRegisterState,
 } from "@/features/auth";
 import { registerSchema } from "@/utils/validators";
-import { validateUsername } from "@/services/authServices";
+import { validateUsername } from "@/services";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 

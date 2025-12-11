@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { postService } from "@/services/postServices";
+import { toast } from "sonner";
+
+import { likePost } from "@/services";
 import { isPostLiked, selectLikesCount } from "./selectors";
 import {
   rollbackLike,
   syncLikeFromAPI,
   toggleLikeOptimistic,
 } from "./postSlice";
-import { toast } from "sonner";
 
 export const useToggleLike = (postId) => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export const useToggleLike = (postId) => {
     try {
       //Update UI luôn ko cần qua API
       dispatch(toggleLikeOptimistic(postId));
-      const response = await postService.likePost(postId);
+      const response = await likePost(postId);
 
       //Nếu API thành công sẽ đồng bộ
       if (response.success && response.data) {
@@ -61,7 +62,7 @@ export const useToggleLike = (postId) => {
       const errorMessage =
         error.response?.data?.message ||
         "Không thể like bài viết. Vui lòng thử lại";
-      // toast.error(errorMessage);
+      toast.error(errorMessage);
     }
   };
 

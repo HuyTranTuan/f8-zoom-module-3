@@ -77,7 +77,7 @@ function AppRoutes() {
       </Routes>
 
       {/*NotFound*/}
-      <Route path="*" element={<NotFound />} />
+      <Routes path="*" element={<NotFound />} />
     </HashRouter>
   );
 }

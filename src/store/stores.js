@@ -4,9 +4,12 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 import storage from "redux-persist/lib/storage";
 
-import { authSlice } from "@/features/auth/authSlice";
-import { postSlice } from "@/features/post/postSlice";
-import { feedSlice } from "@/features/feed/feedSlice";
+import { authSlice } from "@/features/auth";
+import { postSlice } from "@/features/post";
+import { feedSlice } from "@/features/feed";
+import { postDetailSlice } from "@/features/postDetail";
+import { searchSlice } from "@/features/search";
+import { themeSlice } from "@/features/theme";
 
 const transforms = import.meta.env.DEV
   ? []
@@ -26,6 +29,9 @@ const persistConfig = {
     authSlice.reducerPath,
     postSlice.reducerPath,
     feedSlice.reducerPath,
+    postDetailSlice.reducerPath,
+    searchSlice.reducerPath,
+    themeSlice.reducerPath,
   ],
   transforms,
 };
@@ -41,6 +47,9 @@ const rootReducer = combineReducers({
   [authSlice.reducerPath]: persistReducer(authPersistConfig, authSlice.reducer),
   [feedSlice.reducerPath]: feedSlice.reducer,
   [postSlice.reducerPath]: postSlice.reducer,
+  [postDetailSlice.reducerPath]: postDetailSlice.reducer,
+  [searchSlice.reducerPath]: searchSlice.reducer,
+  [themeSlice.reducerPath]: themeSlice.reducer,
 });
 
 const store = configureStore({

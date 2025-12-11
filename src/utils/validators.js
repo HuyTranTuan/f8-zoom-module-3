@@ -44,3 +44,11 @@ export const resetPasswordSchema = yup.object({
     .required("Vui lòng xác nhận mật khẩu")
     .oneOf([yup.ref("password")], "Mật khẩu xác nhận không khớp"),
 });
+
+export const createReplySchema = (t) =>
+  object().shape({
+    content: string()
+      .required(t("PostCard:validation.contentRequired"))
+      .min(1, t("PostCard:validation.contentMin"))
+      .max(500, t("PostCard:validation.contentMax")),
+  });

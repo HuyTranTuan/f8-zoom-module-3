@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { postService } from "@/services/postServices";
 import { addPost } from "@/features/feed";
 import { toast } from "sonner";
+import { createPost } from "@/services";
 
 const CreatePost = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const CreatePost = () => {
 
     setIsPosting(true);
     try {
-      const response = await postService.createPost({
+      const response = await createPost({
         content,
         user: {
           username: user.username,

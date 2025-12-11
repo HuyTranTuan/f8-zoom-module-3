@@ -1,99 +1,96 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
-    faEyeSlash, 
-    faVolumeMute, 
-    faUserSlash, 
-    faBan, 
-    faFlag,
-    faBookmark as faBookmarkSolid
-} from "@fortawesome/free-solid-svg-icons";
-import { faBookmark as faBookmarkOutline } from "@fortawesome/free-regular-svg-icons";
 import { useTranslation } from "react-i18next";
+
 import {
-    DropdownMenuItem,
-    DropdownMenuSeparator
+  DropdownMenuItem,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu.jsx";
+import { EyeOffIcon } from "@/components/ui/icons/lucide-eye-off";
+import { UserRoundXIcon } from "@/components/ui/icons/lucide-user-round-x";
+import { VolumeOffIcon } from "@/components/ui/icons/lucide-volume-off";
+import { BanIcon } from "@/components/ui/icons/lucide-ban";
+import { FlagIcon } from "@/components/ui/icons/lucide-flag";
+import { BookmarkIcon } from "@/components/ui/icons/lucide-bookmark";
 
-function OthersPostMenuItems({ 
-    postUsername,
-    isLoading,
-    isSaved,
-    onSave,
-    onNotInterested,
-    onMute,
-    onRestrict,
-    onBlock,
-    onReport
+function OthersPostMenuItems({
+  postUsername,
+  isLoading,
+  isSaved,
+  onSave,
+  onNotInterested,
+  onMute,
+  onRestrict,
+  onBlock,
+  onReport,
 }) {
-    const { t } = useTranslation('PostCard');
+  const { t } = useTranslation("PostCard");
 
-    return (
-        <>
-            <DropdownMenuSeparator />
-            
-            {/* Save / Unsave */}
-            <DropdownMenuItem 
-                className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
-                onClick={onSave}
-                disabled={isLoading}
-            >
-                <span>{isSaved ? t('menu.unsave') : t('menu.save')}</span>
-                <FontAwesomeIcon icon={isSaved ? faBookmarkSolid : faBookmarkOutline} className="text-base"/>
-            </DropdownMenuItem>
+  return (
+    <>
+      <DropdownMenuSeparator />
 
-            {/* Not interested */}
-            <DropdownMenuItem 
-                className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
-                onClick={onNotInterested}
-                disabled={isLoading}
-            >
-                <span>{t('menu.notInterested')}</span>
-                <FontAwesomeIcon icon={faEyeSlash} className="text-base"/>
-            </DropdownMenuItem>
+      {/* Save / Unsave */}
+      <DropdownMenuItem
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
+        onClick={onSave}
+        disabled={isLoading}
+      >
+        <span>{isSaved ? t("menu.unsave") : t("menu.save")}</span>
+        {isSaved ? <BookmarkIcon /> : <BookmarkIcon />}
+      </DropdownMenuItem>
 
-            {/* Mute */}
-            <DropdownMenuItem 
-                className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
-                onClick={onMute}
-                disabled={isLoading}
-            >
-                <span>{t('menu.mute', { username: postUsername })}</span>
-                <FontAwesomeIcon icon={faVolumeMute} className="text-base"/>
-            </DropdownMenuItem>
+      {/* Not interested */}
+      <DropdownMenuItem
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
+        onClick={onNotInterested}
+        disabled={isLoading}
+      >
+        <span>{t("menu.notInterested")}</span>
+        <EyeOffIcon />
+      </DropdownMenuItem>
 
-            {/* Restrict */}
-            <DropdownMenuItem 
-                className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
-                onClick={onRestrict}
-                disabled={isLoading}
-            >
-                <span>{t('menu.restrict', { username: postUsername })}</span>
-                <FontAwesomeIcon icon={faUserSlash} className="text-base"/>
-            </DropdownMenuItem>
+      {/* Mute */}
+      <DropdownMenuItem
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
+        onClick={onMute}
+        disabled={isLoading}
+      >
+        <span>{t("menu.mute", { username: postUsername })}</span>
+        <VolumeOffIcon />
+      </DropdownMenuItem>
 
-            <DropdownMenuSeparator />
+      {/* Restrict */}
+      <DropdownMenuItem
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
+        onClick={onRestrict}
+        disabled={isLoading}
+      >
+        <span>{t("menu.restrict", { username: postUsername })}</span>
+        <UserRoundXIcon />
+      </DropdownMenuItem>
 
-            {/* Block - Destructive */}
-            <DropdownMenuItem 
-                className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5 text-destructive"
-                onClick={onBlock}
-                disabled={isLoading}
-            >
-                <span>{t('menu.block', { username: postUsername })}</span>
-                <FontAwesomeIcon icon={faBan} className="text-base"/>
-            </DropdownMenuItem>
+      <DropdownMenuSeparator />
 
-            {/* Report - Destructive */}
-            <DropdownMenuItem 
-                className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5 text-destructive"
-                onClick={onReport}
-                disabled={isLoading}
-            >
-                <span>{t('menu.report')}</span>
-                <FontAwesomeIcon icon={faFlag} className="text-base"/>
-            </DropdownMenuItem>
-        </>
-    );
+      {/* Block - Destructive */}
+      <DropdownMenuItem
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5 text-destructive"
+        onClick={onBlock}
+        disabled={isLoading}
+      >
+        <span>{t("menu.block", { username: postUsername })}</span>
+        <BanIcon />
+      </DropdownMenuItem>
+
+      {/* Report - Destructive */}
+      <DropdownMenuItem
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5 text-destructive"
+        onClick={onReport}
+        disabled={isLoading}
+      >
+        <span>{t("menu.report")}</span>
+        <FlagIcon />
+      </DropdownMenuItem>
+    </>
+  );
 }
 
 export default OthersPostMenuItems;

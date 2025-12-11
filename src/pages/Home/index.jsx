@@ -14,7 +14,7 @@ import {
   selectIsAuthenticated,
   selectIsInitializing,
 } from "@/features/auth/selectors";
-import { postService } from "@/services/postServices";
+import { getFeed } from "@/services";
 import {
   restoreLikedPostsFromFeed,
   restoreLikedPostsFromStorage,
@@ -49,7 +49,7 @@ const Home = () => {
       dispatch(setLoading(true));
 
       try {
-        const response = await postService.getFeed(currentFeedType, 1);
+        const response = await getFeed(currentFeedType, 1);
 
         // Lấy data từ response
         const feedPosts = response.data || [];
@@ -84,7 +84,7 @@ const Home = () => {
 
     try {
       const nextPage = currentPage + 1;
-      const response = await postService.getFeed(currentFeedType, nextPage);
+      const response = await getFeed(currentFeedType, nextPage);
 
       const newPosts = response.data || [];
       const pagination = response.pagination;
