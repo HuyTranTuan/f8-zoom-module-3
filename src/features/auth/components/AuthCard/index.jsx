@@ -7,7 +7,6 @@ import { useTranslation } from "react-i18next";
 
 const AuthCard = ({ showAuthCard }) => {
   const { t } = useTranslation();
-  console.log(showAuthCard);
 
   return (
     <div className={cn(showAuthCard ? "flex" : "hidden", "w-[380px]")}>

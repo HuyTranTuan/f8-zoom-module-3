@@ -1,15 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
 
-import { useFetchCurrentUser } from "@/services";
+import { getCurrentUser } from "@/services";
 
-//Init State
 const initialState = {
   user: null,
-  isAuthenticated: false, // Trạng thái đăng nhập
+  isAuthenticated: false,
   loading: false,
-  error: null, // Error message
-  showSignUpModal: false, //Modal Sign
+  error: null,
+  showSignUpModal: false,
 
   //State Register
   registerLoading: false,
@@ -57,9 +55,9 @@ export const authSlice = createSlice({
 
     //Login actions
     loginStart: (state) => {
-      // state.loginLoading = true;
-      // state.loginError = null;
-      // state.loginSuccess = false;
+      state.loginLoading = true;
+      state.loginError = null;
+      state.loginSuccess = false;
     },
     loginSuccess: (state, action) => {
       state.loginLoading = false;
@@ -101,18 +99,22 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(useFetchCurrentUser.fulfilled, (state, action) => {
-      state.currentUser = action.payload;
-      state.status = "succeeded";
-    });
+    builder
+      .addCase(getCurrentUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(getCurrentUser.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+      });
   },
 });
-
-export const useCurrentUser = () => {
-  const currentUser = useSelector((state) => state.auth.currentUser);
-
-  return currentUser;
-};
 
 export const {
   setLoading,

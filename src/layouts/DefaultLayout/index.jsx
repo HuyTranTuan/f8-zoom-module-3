@@ -1,10 +1,10 @@
-import MainSidebar from "./MainSidebar";
-import MainContain from "./MainContain";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { closeSignUpModal } from "@/features/auth";
-
 import { useEffect } from "react";
+
+import MainSidebar from "./MainSidebar";
+import MainContain from "./MainContain";
 import SignUpModal from "@/features/auth/components/SignUpModal";
 import {
   selectIsAuthenticated,
@@ -23,29 +23,23 @@ function DefaultLayout() {
     (async () => {
       if (isAuthenticated) return;
 
-      const token = localStorage.getItem("access_token");
+      const access_token = localStorage.getItem("access_token");
 
-      // Nếu có token trong localStorage, verify với backend
-      if (token) {
+      if (access_token) {
         try {
           const response = await authService.getCurrentUser();
 
-          // Token hợp lệ, restore user vào Redux state
           if (response.data) {
-            // Lưu user vào localStorage để restore khi gặp lỗi 500
             localStorage.setItem("user", JSON.stringify(response.data));
             dispatch(restoreUser(response.data));
           }
         } catch (error) {
-          // CHỈ xóa token nếu là lỗi 401 (Unauthorized) - token không hợp lệ
           if (error.response?.status === 401) {
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             localStorage.removeItem("user");
             dispatch(logout());
           } else {
-            // Lỗi 500 hoặc lỗi khác: Có thể là lỗi server tạm thời
-            // Restore user từ localStorage nếu có để app vẫn hoạt động
             const savedUser = localStorage.getItem("user");
             if (savedUser) {
               try {

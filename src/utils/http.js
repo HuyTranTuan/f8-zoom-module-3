@@ -4,10 +4,13 @@ const baseURL = import.meta.env.VITE_BASE_API;
 
 export const httpClient = axios.create({
   baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 httpClient.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("access_token");
   if (accessToken) {
     config.headers.set("Authorization", `Bearer ${accessToken}`);
   }
@@ -33,11 +36,11 @@ const processQueue = (error) => {
 const refreshToken = async () => {
   try {
     const result = await axios.post(`${baseURL}/auth/refresh`, {
-      refresh_token: localStorage.getItem("refreshToken"),
+      refresh_token: localStorage.getItem("refresh_token"),
     });
 
-    localStorage.setItem("accessToken", result.data.data.access_token);
-    localStorage.setItem("refreshToken", result.data.data.refresh_token);
+    localStorage.setItem("access_token", result.data.data.access_token);
+    localStorage.setItem("refresh_token", result.data.data.refresh_token);
 
     processQueue(null);
   } catch (error) {
@@ -65,10 +68,13 @@ httpClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    const isLoginRequest = originalRequest.url.includes("/auth/login");
+
     const shouldRenewToken =
       error.response &&
       error.response.status === 401 &&
-      !originalRequest._retry;
+      !originalRequest._retry &&
+      !isLoginRequest;
 
     if (shouldRenewToken) {
       originalRequest._retry = true;
@@ -77,7 +83,7 @@ httpClient.interceptors.response.use(
         await getNewToken();
         originalRequest.headers.set(
           "Authorization",
-          `Bearer ${localStorage.getItem("accessToken")}`,
+          `Bearer ${localStorage.getItem("access_token")}`,
         );
         return httpClient(originalRequest);
       } catch (refreshError) {
@@ -90,25 +96,19 @@ httpClient.interceptors.response.use(
       error.response?.data?.error ||
       error.message ||
       "An unknown error occurred";
-
     return Promise.reject(errorMessage);
   },
 );
 
 const _send = async (method, path, data, config) => {
-  try {
-    const response = await httpClient.request({
-      ...config,
-      method,
-      url: path,
-      data,
-    });
-    console.log(response);
-    return response.data;
-  } catch (error) {
-    console.log(error.message);
-    throw error.message;
-  }
+  const response = await httpClient.request({
+    ...config,
+    method,
+    url: path,
+    data,
+  });
+
+  return response.data;
 };
 
 const get = async (path, config) => {

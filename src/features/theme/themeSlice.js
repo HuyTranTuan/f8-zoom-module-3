@@ -1,0 +1,37 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const getInitialTheme = () => {
+  if (typeof window === "undefined") return false;
+
+  const savedTheme = localStorage.getItem("threads_theme");
+  if (savedTheme === "dark") return true;
+  if (savedTheme === "light") return false;
+
+  return (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  );
+};
+
+const initialState = {
+  isDarkMode: getInitialTheme(),
+};
+
+export const themeSlice = createSlice({
+  name: "theme",
+  initialState,
+  reducers: {
+    toggleTheme: (state) => {
+      state.isDarkMode = !state.isDarkMode;
+    },
+    setDarkMode: (state) => {
+      state.isDarkMode = true;
+    },
+    setLightMode: (state) => {
+      state.isDarkMode = false;
+    },
+  },
+});
+
+export const { toggleTheme, setDarkMode, setLightMode } = themeSlice.actions;
+export default themeSlice;

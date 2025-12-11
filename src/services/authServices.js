@@ -3,20 +3,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getCurrentUser = createAsyncThunk(
   "auth/getCurrentUser",
-  async () => {
-    const response = await http.get("/auth/user");
-    return response.data;
-  },
-);
-
-export const useFetchCurrentUser = createAsyncThunk(
-  "auth/fetchCurrentUser",
-  async (_, thunkAPI) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await getCurrentUser();
-      return response;
+      const response = await http.get("/auth/user");
+      return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data || error.message);
     }
   },
 );

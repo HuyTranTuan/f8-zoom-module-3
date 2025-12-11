@@ -1,7 +1,9 @@
 import { Link, Outlet } from "react-router-dom";
 import images from "@/assets/images";
+import { useTranslation } from "react-i18next";
 
 const AuthLayout = () => {
+  const { t } = useTranslation();
   return (
     <div className="relative">
       <div className="absolute top-0 w-full">
@@ -17,16 +19,16 @@ const AuthLayout = () => {
       <footer className="fixed bottom-1 w-full flex! flex-wrap justify-center! gap-3 sm:gap-4 text-xs sm:text-sm">
         <span className="text-systemtext">© 2025</span>
         <Link href="#" className="text-systemtext!">
-          Điều khoản của Threads
+          {t("terms")}
         </Link>
         <Link href="#" className="text-systemtext!">
-          Chính sách quyền riêng tư
+          {t("privacy_policy")}
         </Link>
         <Link href="#" className="text-systemtext!">
-          Chính sách cookie
+          {t("cookie_policy")}
         </Link>
         <Link href="#" className="text-systemtext!">
-          Báo cáo sự cố
+          {t("report_a_problem")}
         </Link>
       </footer>
     </div>

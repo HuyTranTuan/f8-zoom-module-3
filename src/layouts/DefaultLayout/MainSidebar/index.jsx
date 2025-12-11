@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { MenuIcon } from "@/components/ui/icons/lucide-menu";
@@ -10,7 +9,6 @@ import { HeartIcon } from "@/components/ui/icons/lucide-heart";
 import { UserIcon } from "@/components/ui/icons/lucide-user";
 import Logo from "@/components/Logo";
 import NavbarMenu from "@/components/NavbarMenu";
-
 import {
   Sidebar,
   SidebarContent,
@@ -18,10 +16,7 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { NavLink } from "react-router";
 import { LanguagesIcon } from "@/components/ui/icons/lucide-languages";
 import {
   DropdownMenu,
@@ -29,41 +24,36 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import MainSidebarLink from "./MainSidebarLink";
+import MainSidebarLink from "@/layouts/DefaultLayout/MainSidebar/MainSidebarLink";
 import Button from "@/components/Button";
 
-function MainSidebar({ classNames, isAuthenticated }) {
-  const { t, i18n } = useTranslation();
-  console.log(isAuthenticated);
+function MainSidebar({ classNames }) {
+  const { i18n } = useTranslation();
 
   const home = {
     title: "Home",
     url: "/",
     icon: HouseIcon,
-    isProtected: false,
   };
   const search = {
     title: "Search",
     url: "/search",
     icon: SearchIcon,
-    isProtected: false,
   };
   const activites = {
     title: "Activities",
     url: "/activities",
     icon: HeartIcon,
-    isProtected: true,
   };
 
   const account = {
     title: "Account",
     url: "/account",
     icon: UserIcon,
-    isProtected: false,
   };
 
-  const handleLanguageChange = (lng) => {
-    i18n.changeLanguage(lng);
+  const handleLanguageChange = (lang) => {
+    i18n.changeLanguage(lang);
   };
 
   return (

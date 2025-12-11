@@ -56,4 +56,6 @@ const persistor = persistStore(store);
 
 setupListeners(store.dispatch);
 
+window.store = store;
+
 export { store, persistor };

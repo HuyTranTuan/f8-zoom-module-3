@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+
 import { loginSchema } from "@/utils/validators";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-
 import { PasswordInput } from "@/components/ui/password-input";
 import {
   selectLoginLoading,
@@ -13,9 +15,7 @@ import {
   loginSuccess,
   loginFailure,
 } from "@/features/auth";
-import { useTranslation } from "react-i18next";
 import { login } from "@/services";
-import { toast } from "sonner";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -57,32 +57,31 @@ function LoginForm() {
       dispatch(loginSuccess(response));
 
       //Hiển thị toast
-      toast.success("Đăng nhập thành công !", {
-        description: `Chào mừng ${response.user.username}`,
-      });
+      toast.success(
+        `${t("login_success")}: ${t("greeting", { username: response.user.username })}`,
+      );
     } catch (error) {
-      const errorMessage = error.response?.data?.message || error.message;
-      console.log(errorMessage);
-      dispatch(loginFailure(errorMessage));
-      // //Toast lỗi
-      // toast.error("Đăng nhập thất bại", {
-      //   description: errorMessage,
-      // });
+      const messageToDisplay =
+        typeof error === "string"
+          ? error
+          : error.response?.data?.message || error.message || "Unknown Error";
+
+      dispatch(loginFailure(error));
+
+      toast.error(`${t("login_fail")}: ${messageToDisplay}`);
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full flex flex-col gap-3"
+      className="w-full flex flex-col gap-2"
     >
-      {/* Input: Tên người dùng hoặc Email */}
-      <div>
-        <Input
-          type="text"
-          placeholder="Tên người dùng hoặc email"
-          {...register("username")}
-          className={`
+      <Input
+        type="text"
+        placeholder={t("email")}
+        {...register("username")}
+        className={`
                         h-12
                         bg-background
                         border-input-border
@@ -91,21 +90,15 @@ function LoginForm() {
                         placeholder:text-normaltext-tertiary
                         ${errors.username ? "border-destructive" : ""}
                         `}
-          disabled={isLoading}
-        />
-        {errors.username && (
-          <p className="text-destructive text-sm mt-1">
-            {errors.username.message}
-          </p>
-        )}
-      </div>
-
-      {/* Input: Mật khẩu */}
-      <div>
-        <PasswordInput
-          placeholder="Mật khẩu"
-          {...register("password")}
-          className={`
+        disabled={isLoading}
+      />
+      {errors.username && (
+        <p className="text-destructive">{errors.username.message}</p>
+      )}
+      <PasswordInput
+        placeholder={t("password")}
+        {...register("password")}
+        className={`
                         h-12
                         bg-background
                         border-input-border
@@ -114,14 +107,11 @@ function LoginForm() {
                         placeholder:text-normaltext-tertiary
                         ${errors.password ? "border-destructive" : ""}
                         `}
-          disabled={isLoading}
-        />
-        {errors.password && (
-          <p className="text-destructive text-sm mt-1">
-            {errors.password.message}
-          </p>
-        )}
-      </div>
+        disabled={isLoading}
+      />
+      {errors.password && (
+        <p className="text-destructive">{errors.password.message}</p>
+      )}
 
       {/* Button đăng nhập */}
       <Button

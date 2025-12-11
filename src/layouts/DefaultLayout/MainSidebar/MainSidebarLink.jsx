@@ -1,22 +1,42 @@
-import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router";
 
+import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { selectIsAuthenticated, toggleSignUpModal } from "@/features/auth";
+import Button from "@/components/Button";
+
 function MainSidebarLink({ navigate }) {
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
+  const handleShowSignUpModal = () => {
+    dispatch(toggleSignUpModal());
+  };
+
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild>
-        <NavLink
-          to={navigate.url}
-          className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6"
-        >
-          {({ isActive }) => (
-            <navigate.icon
-              className={`${
-                isActive ? "text-(--normaltext)" : "text-(--systemtext)"
-              }`}
-            />
-          )}
-        </NavLink>
+        {isAuthenticated ? (
+          <NavLink
+            to={navigate.url}
+            className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6"
+          >
+            {({ isActive }) => (
+              <navigate.icon
+                className={`${
+                  isActive ? "text-(--normaltext)" : "text-(--systemtext)"
+                }`}
+              />
+            )}
+          </NavLink>
+        ) : (
+          <Button
+            className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6"
+            onClick={handleShowSignUpModal}
+          >
+            <navigate.icon className={"text-(--systemtext)"} />
+          </Button>
+        )}
       </SidebarMenuButton>
     </SidebarMenuItem>
   );

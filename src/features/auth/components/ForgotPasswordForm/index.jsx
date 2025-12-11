@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { forgotPasswordSchema } from "../../schemas/forgotPasswordSchema";
-import { authService } from "../../service";
+import { forgotPasswordSchema } from "@/utils/validators";
+import { authService } from "@/services/authServices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";

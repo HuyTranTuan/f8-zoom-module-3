@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { t } from "i18next";
 
 import {
@@ -17,90 +17,107 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SunIcon } from "@/components/ui/icons/lucide-sun";
 import { MoonIcon } from "@/components/ui/icons/lucide-moon";
-import { logout } from "@/features/auth";
+import { logout, selectIsAuthenticated } from "@/features/auth";
+import { Link, useNavigate } from "react-router";
 
 function NavbarMenu({ children }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("user");
     dispatch(logout());
+    navigate("/auth/login");
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu id="NavbarMenu">
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
-      <DropdownMenuContent className="h-fit!" align="start">
-        <DropdownMenuGroup>
+      <DropdownMenuContent className="h-fit! min-w-40" align="start">
+        <DropdownMenuGroup className="p-2!">
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger className="flex! justify-between px-1! py-3!">
+            <DropdownMenuSubTrigger className="flex! justify-between px-4! py-4.5!">
               {t("appearance")}
             </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent className="px-1.5! py-3!">
-              <DropdownMenuLabel className="text-center ">
+            <DropdownMenuSubContent className="px-3! py-4! min-w-[140px]!">
+              <DropdownMenuLabel className="text-center mb-2.5!">
                 {t("appearance")}
               </DropdownMenuLabel>
-              <DropdownMenuGroup className="flex ">
-                <DropdownMenuItem className={`flex-1 justify-center `}>
-                  <SunIcon className="w-5.5! h-full! " />
+              <DropdownMenuGroup className="flex h-8 items-center">
+                <DropdownMenuItem
+                  className={`flex-1 h-full justify-center [&>svg]:size-5`}
+                >
+                  <SunIcon className="w-full h-full" />
                 </DropdownMenuItem>
-                <DropdownMenuItem className={`flex-1 justify-center `}>
-                  <MoonIcon />
-                </DropdownMenuItem>
-                <DropdownMenuItem className={`flex-1 justify-center `}>
-                  <span>{t("auto")}</span>
+                <DropdownMenuItem
+                  className={`flex-1 h-full justify-center [&>svg]:size-5`}
+                >
+                  <MoonIcon className="w-full h-full" />
                 </DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuSubContent>
           </DropdownMenuSub>
 
-          <DropdownMenuItem className="flex! justify-between px-1! py-3!">
-            {t("insights")}
-          </DropdownMenuItem>
-          <DropdownMenuItem className="flex! justify-between px-1! py-3!">
-            {t("settings")}
-          </DropdownMenuItem>
+          {isAuthenticated && (
+            <>
+              <DropdownMenuItem className="flex! justify-between px-4! py-4.5!">
+                <Link to="/insights">{t("insights")}</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="flex! justify-between px-4! py-4.5!">
+                <Link to="/settings">{t("settings")}</Link>
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuGroup>
         <DropdownMenuSeparator className=" border-2 border-systemtext" />
-        <DropdownMenuGroup>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>{t("feeds")}</DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem className="flex! justify-between px-1! py-3!">
-                  {t("for_you")}
-                </DropdownMenuItem>
-                <DropdownMenuItem className="flex! justify-between px-1! py-3!">
-                  {t("following")}
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="flex! justify-between px-1! py-3!">
-                  {t("ghost_posts")}
-                </DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-          <DropdownMenuItem className="flex! justify-between px-1! py-3!">
-            {t("saved")}
-          </DropdownMenuItem>
-          <DropdownMenuItem className="flex! justify-between px-1! py-3!">
-            {t("liked")}
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+
+        {isAuthenticated && (
+          <DropdownMenuGroup className="p-2!">
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger className="flex! justify-between px-4! py-4.5!">
+                <Link to="/">{t("feeds")}</Link>
+              </DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent className="p-2!">
+                  <DropdownMenuItem className="flex! justify-between px-4! py-4.5!">
+                    <Link to="/for-you">{t("for_you")}</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="flex! justify-between px-4! py-4.5!">
+                    <Link to="/following">{t("following")}</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="flex! justify-between px-4! py-4.5!">
+                    <Link to="/ghost-posts">{t("ghost_posts")}</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+            <DropdownMenuItem className="flex! justify-between px-4! py-4.5!">
+              <Link to="/saved">{t("saved")}</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="flex! justify-between px-4! py-4.5!">
+              <Link to="/liked">{t("liked")}</Link>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        )}
+
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem className="flex! justify-between px-1! py-3!">
+        <DropdownMenuGroup className="p-2!">
+          <DropdownMenuItem className="flex! justify-between px-4! py-4.5!">
             {t("report_a_problem")}
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="flex justify-between! px-1! py-3! text-red-500"
-            onClick={handleLogout}
-          >
-            {t("logout")}
-          </DropdownMenuItem>
+          {isAuthenticated && <DropdownMenuSeparator />}
+          {isAuthenticated && (
+            <DropdownMenuItem
+              className="flex justify-between! px-4! py-4.5! text-red-500"
+              onClick={handleLogout}
+            >
+              {t("logout")}
+            </DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

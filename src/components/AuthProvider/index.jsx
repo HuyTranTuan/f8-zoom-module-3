@@ -1,4 +1,4 @@
-import { useFetchCurrentUser } from "@/features/auth";
+import { useCurrentUser, useFetchCurrentUser } from "@/features/auth";
 
 function AuthProvider() {
   useFetchCurrentUser();

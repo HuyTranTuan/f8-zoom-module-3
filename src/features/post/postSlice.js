@@ -37,7 +37,7 @@ export const postSlice = createSlice({
 
       // Lưu vào localStorage để persist khi F5 (optimistic update)
       try {
-        localStorage.setItem("likedPosts", JSON.stringify(state.likedPosts));
+        localStorage.setItem("liked_posts", JSON.stringify(state.likedPosts));
       } catch (error) {
         if (import.meta.env.DEV) {
           console.error("Error saving likedPosts to localStorage:", error);
@@ -68,7 +68,7 @@ export const postSlice = createSlice({
 
       // Lưu vào localStorage để persist khi F5
       try {
-        localStorage.setItem("likedPosts", JSON.stringify(state.likedPosts));
+        localStorage.setItem("liked_posts", JSON.stringify(state.likedPosts));
       } catch (error) {
         if (import.meta.env.DEV) {
           console.error("Error saving likedPosts to localStorage:", error);
@@ -121,7 +121,7 @@ export const postSlice = createSlice({
 
       // Lưu vào localStorage sau khi restore
       try {
-        localStorage.setItem("likedPosts", JSON.stringify(state.likedPosts));
+        localStorage.setItem("liked_posts", JSON.stringify(state.likedPosts));
       } catch (error) {
         if (import.meta.env.DEV) {
           console.error("Error saving likedPosts to localStorage:", error);
@@ -132,7 +132,7 @@ export const postSlice = createSlice({
     //Restore liked posts từ localStorage khi app khởi động
     restoreLikedPostsFromStorage: (state) => {
       try {
-        const savedLikedPosts = localStorage.getItem("likedPosts");
+        const savedLikedPosts = localStorage.getItem("liked_posts");
         if (savedLikedPosts) {
           const likedPostsArray = JSON.parse(savedLikedPosts);
           // Merge với likedPosts hiện tại (không duplicate)
