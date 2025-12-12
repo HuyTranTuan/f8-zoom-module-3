@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/Button";
 import { BadgeCheck } from "lucide-react";
 import { selectIsAuthenticated } from "@/features/auth";
 import { followUser, unfollowUser } from "@/features/search/searchSlice";
-import LoginDialog from "@/components/Common/LoginDialog";
+import LoginDialog from "@/components/LoginDialog";
 
 function UserResultCard({ user }) {
   const { t } = useTranslation("search");
@@ -39,7 +39,7 @@ function UserResultCard({ user }) {
     <>
       <div className="flex items-start gap-3 p-4 hover:bg-secondary/30 transition-colors cursor-pointer">
         {/* Avatar */}
-        <Avatar className="h-10 w-10 flex-shrink-0">
+        <Avatar className="h-10 w-10 shrink-0">
           <AvatarImage src={user.avatar_url} alt={user.username} />
           <AvatarFallback>{user.username?.[0]?.toUpperCase()}</AvatarFallback>
         </Avatar>
@@ -51,7 +51,7 @@ function UserResultCard({ user }) {
               {user.username}
             </span>
             {user.verified && (
-              <BadgeCheck className="h-4 w-4 text-blue-500 flex-shrink-0" />
+              <BadgeCheck className="h-4 w-4 text-blue-500 shrink-0" />
             )}
           </div>
           {user.name && (
@@ -75,7 +75,7 @@ function UserResultCard({ user }) {
           size="sm"
           onClick={handleFollowClick}
           disabled={isLoading}
-          className="flex-shrink-0 rounded-xl px-5"
+          className="shrink-0 rounded-xl px-5"
         >
           {user.is_following ? t("following") : t("follow")}
         </Button>

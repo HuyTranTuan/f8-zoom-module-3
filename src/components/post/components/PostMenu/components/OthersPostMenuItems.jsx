@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import {
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu.jsx";
+} from "@/components/ui/dropdown-menu";
 import { EyeOffIcon } from "@/components/ui/icons/lucide-eye-off";
 import { UserRoundXIcon } from "@/components/ui/icons/lucide-user-round-x";
 import { VolumeOffIcon } from "@/components/ui/icons/lucide-volume-off";

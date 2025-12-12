@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Send, Link, Code } from "lucide-react";
 
-import LoginDialog from "@/components/Common/LoginDialog";
+import LoginDialog from "@/components/LoginDialog";
 import { selectIsAuthenticated } from "@/features/auth";
-import AnimatedCounter from "@/components/Common/AnimatedCounter";
+import AnimatedCounter from "@/components/AnimatedCounter";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import EmbedModal from "@/components/post/EmbedModal.jsx";
+import EmbedModal from "@/components/post/EmbedModal";
 
 export default function Share({ post, count, isEmbedView = false }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

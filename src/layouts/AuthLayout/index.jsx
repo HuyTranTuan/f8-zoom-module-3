@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router";
 import images from "@/assets/images";
 import { useTranslation } from "react-i18next";
 

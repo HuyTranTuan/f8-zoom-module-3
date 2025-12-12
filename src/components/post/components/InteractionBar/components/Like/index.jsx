@@ -2,13 +2,13 @@ import { Heart } from "lucide-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { cn } from "@/lib/utils.js";
-import LoginDialog from "@/components/Common/LoginDialog";
+import { cn } from "@/lib/utils";
+import LoginDialog from "@/components/LoginDialog";
 import { selectIsAuthenticated } from "@/features/auth";
 import { interactionsService } from "@/services";
 import { updatePostLike } from "@/features/feed";
 import { updatePostDetailLike, updateReplyLike } from "@/features/postDetail";
-import AnimatedCounter from "@/components/Common/AnimatedCounter";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 export default function Like({ count, post, isEmbedView = false }) {
   const [isOpen, setIsOpen] = useState(false);

@@ -2,7 +2,7 @@ import { Repeat } from "lucide-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import LoginDialog from "@/components/Common/LoginDialog";
+import LoginDialog from "@/components/LoginDialog";
 import { selectIsAuthenticated } from "@/features/auth";
 import { RepostDropdown } from "@/components/post/components/InteractionBar/components/Repost/components/RepostDropdown";
 import { interactionsService } from "@/services";
@@ -11,7 +11,7 @@ import {
   updatePostDetailRepost,
   updateReplyRepost,
 } from "@/features/postDetail";
-import CreatePostDialog from "@/components/Common/CreatePostDialog";
+import CreatePostDialog from "@/components/CreatePostDialog";
 
 export default function Repost({ count, post, isEmbedView = false }) {
   const dispatch = useDispatch();

@@ -3,12 +3,12 @@ import { createRoot } from "react-dom/client";
 import { Provider as ReduxProvider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
-import App from "@/App.jsx";
-import ErrorBoundary from "./components/ErrorBoundary.jsx";
-import { store, persistor } from "./store/stores.js";
+import App from "@/App";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { store, persistor } from "./store/stores";
 import "@/index.css";
-import i18n from "@/i18n/i18n.js";
-import { ThemeProvider } from "./components/ThemeProvider/ThemeProvider.jsx";
+import i18n from "@/i18n/i18n";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 createRoot(document.getElementById("root")).render(
   // <StrictMode>

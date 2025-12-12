@@ -3,9 +3,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { ExternalLink } from "lucide-react";
 
-import { Dialog, DialogContent } from "@/components/ui/dialog.jsx";
-import { Button } from "@/components/ui/button.jsx";
-import PostCard from "@/components/post/PostCard.jsx";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import Button from "@/components/Button";
+import PostCard from "@/components/post/PostCard";
 
 const EmbedModal = ({ open, onOpenChange, post }) => {
   const { t } = useTranslation("PostCard");

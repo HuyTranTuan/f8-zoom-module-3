@@ -1,24 +1,20 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowUp, Maximize2 } from "lucide-react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "sonner";
 
-import { Textarea } from "@/components/ui/textarea.jsx";
-import { Button } from "@/components/ui/button.jsx";
-import { Spinner } from "@/components/ui/spinner.jsx";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar.jsx";
+import Button from "@/components/Button";
+import { Textarea } from "@/components/ui/textarea";
+import { Spinner } from "@/components/ui/spinner";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getReplies, interactionsService } from "@/services";
 import { selectUser } from "@/features/auth";
 import { updatePostReplies } from "@/features/feed";
 import { createReplySchema } from "@/utils/validators";
-import CreatePostDialog from "@/components/Common/CreatePostDialog";
+import CreatePostDialog from "@/components/CreatePostDialog";
 
 function ReplyForm({ post, onClose, onReplySuccess }) {
   const { t } = useTranslation("PostCard");

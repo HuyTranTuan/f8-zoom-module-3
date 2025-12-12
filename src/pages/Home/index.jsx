@@ -1,5 +1,8 @@
-import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+
 import FeedHeader from "@/features/feed/components/FeedHeader";
 import FeedList from "@/features/feed/components/FeedList";
 import {
@@ -19,9 +22,7 @@ import {
   restoreLikedPostsFromFeed,
   restoreLikedPostsFromStorage,
 } from "@/features/post/postSlice";
-import { useTranslation } from "react-i18next";
 import Loading from "@/components/Loading";
-import { toast } from "sonner";
 
 const Home = () => {
   const dispatch = useDispatch();

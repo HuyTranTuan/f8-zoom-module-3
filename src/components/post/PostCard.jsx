@@ -1,51 +1,57 @@
-import InteractionBar from '@/components/post/components/InteractionBar';
-import { Card, CardContent } from "@/components/ui/card.jsx";
-import PostImage from "@/components/post/components/PostImage/index.jsx";
-import PostMenuComponent from "@/components/post/components/PostMenu/index.jsx";
-import AvatarComponent from "@/components/post/components/Avatar/index.jsx";
-import QuoteCard from "@/components/Post/components/QuoteCard/index.jsx";
-import {formatTimeAgo} from "@/utils/timeFormat.js";
-import {useState} from "react";
-import ReplyForm from "@/pages/Home/components/ReplyForm/index.jsx";
-import { useNavigate } from "react-router-dom";
-import { BadgeCheck } from 'lucide-react'
+import { useState } from "react";
+import { BadgeCheck } from "lucide-react";
+import { useNavigate } from "react-router";
 
-const PostCard = ({ post, isDetailView = false, onReplySuccess, isEmbedView = false }) => {
+import InteractionBar from "@/components/post/components/InteractionBar";
+import { Card, CardContent } from "@/components/ui/card";
+import PostImage from "@/components/post/components/PostImage";
+import PostMenuComponent from "@/components/post/components/PostMenu";
+import AvatarComponent from "@/components/post/components/Avatar";
+import QuoteCard from "@/components/post/components/QuoteCard";
+import ReplyForm from "@/pages/Home/components/ReplyForm";
+import { formatTimeAgo } from "@/utils/timeFormat";
+
+const PostCard = ({
+  post,
+  isDetailView = false,
+  onReplySuccess,
+  isEmbedView = false,
+}) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const navigate = useNavigate();
 
   const handleToggleReplyForm = () => {
     setShowReplyForm(!showReplyForm);
-  }
+  };
 
   const handleClick = (e) => {
     // Don't navigate if in detail view or clicking interactive elements
     if (isDetailView) return;
-    
+
     // Check for interactive elements: buttons, links, textareas, and dropdown menu items
     const interactiveSelectors = [
-      'button',
-      'a',
-      'textarea',
+      "button",
+      "a",
+      "textarea",
       '[role="menuitem"]',
       '[role="menu"]',
-      '[data-radix-collection-item]',
-      '[data-radix-dialog-overlay]',
+      "[data-radix-collection-item]",
+      "[data-radix-dialog-overlay]",
       '[role="dialog"]',
-      '[data-radix-dialog-content]'
+      "[data-radix-dialog-content]",
     ];
-    
-    if (interactiveSelectors.some(selector => e.target.closest(selector))) {
+
+    if (interactiveSelectors.some((selector) => e.target.closest(selector))) {
       return;
     }
-    
+
     navigate(`/post/${post.id}`);
   };
-      
+
   return (
-    <Card 
+    <Card
       id={`post-${post.id}`}
-      className={`bg-content-background !border-card-border py-2 transition-colors shadow-none rounded-none cursor-pointer border-0 border-b ${!isDetailView ? 'hover:none' : ''}`}
+      className={`bg-content-background border-card-border! py-2 transition-colors shadow-none rounded-none cursor-pointer border-0 border-b ${!isDetailView ? "hover:none" : ""}`}
       onClick={handleClick}
     >
       <CardContent className="p-2">
@@ -65,23 +71,21 @@ const PostCard = ({ post, isDetailView = false, onReplySuccess, isEmbedView = fa
             {/* Header */}
             <div className="flex items-start justify-between mb-1">
               <div className="flex items-center gap-2">
-                  <span className="font-semibold text-[15px] text-foreground">
-                    {post?.user?.username || 'username'}
-                  </span>
-                  {post?.user?.verified && (
-                    <BadgeCheck className="h-4 w-4 text-blue-500 flex-shrink-0" />
-                  )}
-                  <span className="text-muted-foreground text-[15px]">
-                    {formatTimeAgo(post?.created_at)}
-                  </span>
+                <span className="font-semibold text-[15px] text-foreground">
+                  {post?.user?.username || "username"}
+                </span>
+                {post?.user?.verified && (
+                  <BadgeCheck className="h-4 w-4 text-blue-500 shrink-0" />
+                )}
+                <span className="text-muted-foreground text-[15px]">
+                  {formatTimeAgo(post?.created_at)}
+                </span>
               </div>
               {isEmbedView ? null : <PostMenuComponent post={post} />}
             </div>
 
             {/* Post Text */}
-            <p className="text-[15px] text-foreground mb-2">
-              {post?.content}
-            </p>
+            <p className="text-[15px] text-foreground mb-2">{post?.content}</p>
 
             <PostImage post={post} />
 
@@ -92,23 +96,26 @@ const PostCard = ({ post, isDetailView = false, onReplySuccess, isEmbedView = fa
 
             {/* Interaction Bar */}
             <InteractionBar
-                  likes={post?.likes_count || 0}
-                  comments={post?.replies_count || 0}
-                  repost={post?.reposts_and_quotes_count || 0}
-                  shares={0}
-                  post={post}
-                  onToggleReply={handleToggleReplyForm}
-                  isEmbedView={isEmbedView}
-              />
+              likes={post?.likes_count || 0}
+              comments={post?.replies_count || 0}
+              repost={post?.reposts_and_quotes_count || 0}
+              shares={0}
+              post={post}
+              onToggleReply={handleToggleReplyForm}
+              isEmbedView={isEmbedView}
+            />
           </div>
         </div>
-          {showReplyForm && (
-              <ReplyForm post={post} onClose={handleToggleReplyForm} onReplySuccess={onReplySuccess}/>
-          )}
+        {showReplyForm && (
+          <ReplyForm
+            post={post}
+            onClose={handleToggleReplyForm}
+            onReplySuccess={onReplySuccess}
+          />
+        )}
       </CardContent>
     </Card>
   );
 };
 
 export default PostCard;
-

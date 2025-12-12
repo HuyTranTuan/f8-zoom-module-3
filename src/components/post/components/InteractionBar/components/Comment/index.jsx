@@ -2,8 +2,8 @@ import { MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-import LoginDialog from "@/components/Common/LoginDialog";
-import AnimatedCounter from "@/components/Common/AnimatedCounter";
+import LoginDialog from "@/components/LoginDialog";
+import AnimatedCounter from "@/components/AnimatedCounter";
 import { selectIsAuthenticated } from "@/features/auth";
 
 export default function Comment({ count, onToggleReply, isEmbedView = false }) {

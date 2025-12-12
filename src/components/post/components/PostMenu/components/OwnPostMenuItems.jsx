@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import {
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu.jsx";
+} from "@/components/ui/dropdown-menu";
 import { BookmarkIcon } from "@/components/ui/icons/lucide-bookmark";
 import { PenLineIcon } from "@/components/ui/icons/lucide-pen-line";
 import { Trash2Icon } from "@/components/ui/icons/lucide-trash-2";

@@ -76,3 +76,11 @@ export const resetPassword = async (data) => {
 
   return response.data;
 };
+
+export const verifyEmail = async (token) => {
+  return await http.post(`/auth/verify-email`, { token });
+};
+
+export const resendVerificationEmail = async () => {
+  return await http.post(`/auth/resend-verification-email`);
+};

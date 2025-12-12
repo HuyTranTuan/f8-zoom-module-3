@@ -1,7 +1,8 @@
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import ContentContainer from "@/components/Common/ContentContainer/index.jsx";
+
+import ContentContainer from "@/components/ContentContainer";
 import SearchInput from "./components/SearchInput";
 import SearchTabs from "./components/SearchTabs";
 import UserResultCard from "./components/UserResultCard";
