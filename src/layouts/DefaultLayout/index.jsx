@@ -11,6 +11,13 @@ import {
   selectIsInitializing,
   selectShowSignUpModal,
 } from "@/features/auth/selectors";
+import { HouseIcon } from "@/components/ui/icons/lucide-house";
+import { SearchIcon } from "@/components/ui/icons/lucide-search";
+import { HeartIcon } from "@/components/ui/icons/lucide-heart";
+import { UserIcon } from "@/components/ui/icons/lucide-user";
+import { PlusIcon } from "@/components/ui/icons/lucide-plus";
+import Button from "@/components/Button";
+import MainBottomLink from "./MainSidebar/MainBottomLink";
 
 function DefaultLayout() {
   const dispatch = useDispatch();
@@ -18,7 +25,30 @@ function DefaultLayout() {
   const isInitializing = useSelector(selectIsInitializing);
   const showModal = useSelector(selectShowSignUpModal);
 
+  const home = {
+    title: "Home",
+    url: "/",
+    icon: HouseIcon,
+  };
+  const search = {
+    title: "Search",
+    url: "/search",
+    icon: SearchIcon,
+  };
+  const activites = {
+    title: "Activities",
+    url: "/activities",
+    icon: HeartIcon,
+  };
+
+  const account = {
+    title: "Account",
+    url: "/account",
+    icon: UserIcon,
+  };
+
   const shouldShowAuthCard = !isAuthenticated && !isInitializing;
+
   useEffect(() => {
     (async () => {
       if (isAuthenticated) return;
@@ -54,16 +84,30 @@ function DefaultLayout() {
   }, []);
 
   return (
-    <div className="relative w-full h-[100%-10px]! bg-threadbg box-border!">
+    <div className="relative w-full! bg-background!" id="DefaultLayout">
       <SidebarProvider>
         <MainSidebar
-          classNames={"bg-threadbg! backdrop-blur-sm"}
           isAuthenticated={isAuthenticated}
+          home={home}
+          activites={activites}
+          account={account}
+          search={search}
         />
-        <main className="ml-0 tablet:ml-[70px]! w-full !tablet:w-[calc(100dvw-70px)] h-[calc(100%-90px)]! tablet:h-full!">
-          {/* <SidebarTrigger /> */}
-          <MainContain shouldShowAuthCard={shouldShowAuthCard} />
-        </main>
+        <MainContain shouldShowAuthCard={shouldShowAuthCard} />
+        <div className="fixed bottom-0 left-0 right-0 z-50 flex md:hidden h-16 w-full items-center justify-around border-t bg-background px-4">
+          <MainBottomLink navigate={home} />
+          <MainBottomLink navigate={search} />
+          <Button className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6 rounded-xl bg-sidebar-accent group">
+            <PlusIcon
+              className={
+                "text-(--systemtext) group-hover:text-sidebar-accent-foreground"
+              }
+            />
+          </Button>
+          <MainBottomLink navigate={activites} />
+          <MainBottomLink navigate={account} />
+        </div>
+
         <SignUpModal
           open={showModal}
           onOpenChange={(open) => {

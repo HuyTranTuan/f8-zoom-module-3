@@ -1,12 +1,9 @@
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 
 import { MenuIcon } from "@/components/ui/icons/lucide-menu";
-import { HouseIcon } from "@/components/ui/icons/lucide-house";
-import { SearchIcon } from "@/components/ui/icons/lucide-search";
 import { PlusIcon } from "@/components/ui/icons/lucide-plus";
-import { HeartIcon } from "@/components/ui/icons/lucide-heart";
-import { UserIcon } from "@/components/ui/icons/lucide-user";
 import Logo from "@/components/Logo";
 import NavbarMenu from "@/components/NavbarMenu";
 import {
@@ -26,38 +23,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import MainSidebarLink from "@/layouts/DefaultLayout/MainSidebar/MainSidebarLink";
 import Button from "@/components/Button";
+import MainBottomLink from "./MainBottomLink";
 
-function MainSidebar({ classNames }) {
+function MainSidebar({ home, search, activites, account }) {
   const { i18n } = useTranslation();
-
-  const home = {
-    title: "Home",
-    url: "/",
-    icon: HouseIcon,
-  };
-  const search = {
-    title: "Search",
-    url: "/search",
-    icon: SearchIcon,
-  };
-  const activites = {
-    title: "Activities",
-    url: "/activities",
-    icon: HeartIcon,
-  };
-
-  const account = {
-    title: "Account",
-    url: "/account",
-    icon: UserIcon,
-  };
+  const [screenWidth, setCreenWidth] = useState(window.screen.width);
 
   const handleLanguageChange = (lang) => {
     i18n.changeLanguage(lang);
   };
 
+  useEffect(() => {
+    setCreenWidth(window.screen.width);
+  }, [screenWidth]);
+
   return (
-    <Sidebar className={classNames}>
+    <Sidebar
+      className="bg-threadbg! backdrop-blur-sm flex"
+      side={`${screenWidth > 700 ? "left" : "bottom"}`}
+    >
       <SidebarContent className="justify-between! p-2.5!">
         <SidebarGroup className="w-full aspect-3/4! flex justify-center items-center">
           <SidebarGroupLabel className="w-full h-full">

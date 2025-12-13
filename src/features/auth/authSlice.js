@@ -82,6 +82,10 @@ export const authSlice = createSlice({
       state.isAuthenticated = false;
     },
 
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
+
     //Restore user từ localStorage khi app khởi động
     restoreUser: (state, action) => {
       state.user = action.payload;
@@ -127,6 +131,7 @@ export const {
   loginFailure,
   resetLoginState,
   logout,
+  setUser,
   restoreUser,
   toggleSignUpModal,
   closeSignUpModal,

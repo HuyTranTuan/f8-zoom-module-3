@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router-";
+import { useNavigate, useSearchParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { setUser } from "@/features/auth";
 import { Spinner } from "@/components/ui/spinner";
 import Button from "@/components/Button";
-import { resendVerificationEmail, verifyEmail } from "@/services";
+import { authServices } from "@/services";
 
 const VerifyEmail = () => {
   const { t } = useTranslation("VerifyEmail");
@@ -30,7 +30,7 @@ const VerifyEmail = () => {
 
     (async () => {
       try {
-        const response = await verifyEmail(token);
+        const response = await authServices.verifyEmail(token);
         const { user } = response || {};
 
         if (user) {
@@ -72,7 +72,7 @@ const VerifyEmail = () => {
   const handleResendEmail = async () => {
     setIsResending(true);
     try {
-      await resendVerificationEmail();
+      await authServices.resendVerificationEmail();
       toast.success(t("notVerified.emailSent"));
       setMessage(t("notVerified.checkInbox"));
     } catch (error) {

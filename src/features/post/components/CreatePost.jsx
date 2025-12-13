@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
-import Button from "@/components/Button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { postServices } from "@/services";
 import { addPostToFeed } from "@/features/feed";
-import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 
 const CreatePost = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const CreatePost = () => {
   const [isPosting, setIsPosting] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user")) || {
-    username: "guest",
+    username: "Guest",
     avatar: "",
   };
 
@@ -45,13 +45,13 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="p-4 border-b border-border">
-      <div className="flex gap-4">
+    <div className="p-2.5! rounded-xl! border-2! border-border! mb-2.5!">
+      <div className="flex gap-3">
         <Avatar className="w-10 h-10">
           <AvatarImage src={user.avatar || "https://github.com/shadcn.png"} />
           <AvatarFallback>{user.username[0]?.toUpperCase()}</AvatarFallback>
         </Avatar>
-        <div className="flex-1 space-y-2">
+        <div className="flex-1 space-y-2!">
           <div className="flex justify-between items-center">
             <span className="font-semibold text-sm">{user.username}</span>
           </div>
@@ -65,9 +65,8 @@ const CreatePost = () => {
           <div className="flex justify-end">
             <Button
               onClick={handlePost}
-              disabled={!content.trim() || isPosting}
               size="sm"
-              className="rounded-full px-4"
+              className="rounded-md p-3 text-background bg-foreground"
             >
               {isPosting ? t("posting") : t("post")}
             </Button>

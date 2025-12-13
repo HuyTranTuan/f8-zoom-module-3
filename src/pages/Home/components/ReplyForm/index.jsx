@@ -6,7 +6,6 @@ import { ArrowUp, Maximize2 } from "lucide-react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 
-import Button from "@/components/Button";
 import { Textarea } from "@/components/ui/textarea";
 import { Spinner } from "@/components/ui/spinner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,6 +14,7 @@ import { selectUser } from "@/features/auth";
 import { updatePost } from "@/features/feed";
 import { createReplySchema } from "@/utils/validators";
 import CreatePostDialog from "@/components/CreatePostDialog";
+import { Button } from "@/components/ui/button";
 
 function ReplyForm({ post, onClose, onReplySuccess }) {
   const { t } = useTranslation("PostCard");
@@ -95,7 +95,7 @@ function ReplyForm({ post, onClose, onReplySuccess }) {
             <div className="flex gap-2 items-end">
               <Textarea
                 placeholder={t("reply.placeholder", { name: post?.user?.name })}
-                className="min-h-[15px] h-10 resize-none bg-transparent !border-none w-full flex-1 focus:!ring-0 focus:!ring-offset-0"
+                className="min-h-[15px] h-10 resize-none bg-transparent border-none! w-full flex-1 focus:ring-0! focus:ring-offset-0!"
                 {...register("content")}
               />
 

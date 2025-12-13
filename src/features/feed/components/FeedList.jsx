@@ -1,12 +1,12 @@
 import { useRef, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import PostCard from "@/features/post/components/PostCard";
+// import PostCard from "@/features/post/components/PostCard";
 import CreatePost from "@/features/post/components/CreatePost";
-import { cn } from "@/lib/utils";
 import { setInitialLikesCount } from "@/features/post/postSlice";
-import { useTranslation } from "react-i18next";
+import PostCard from "@/components/post/PostCard";
 
 const FeedList = ({ posts, fetchMorePosts, hasMore, loading }) => {
   const dispatch = useDispatch();
@@ -43,17 +43,12 @@ const FeedList = ({ posts, fetchMorePosts, hasMore, loading }) => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative">
-      <div
-        className={cn(
-          "mt-[92px]",
-          "mb-[50px]",
-          "bg-card shadow-sm",
-          "rounded-t-2xl",
-          "min-h-screen",
-          "border-l border-r border-t border-border",
-        )}
-      >
+    <div
+      ref={containerRef}
+      className="relative border-2! border-(--systemtext)! p-1.5! rounded-t-2xl! "
+    >
+      <div className="bg-card rounded-t-2xl border-r border-t border-border">
+        <CreatePost />
         <InfiniteScroll
           dataLength={posts.length}
           next={fetchMorePosts}
@@ -74,17 +69,15 @@ const FeedList = ({ posts, fetchMorePosts, hasMore, loading }) => {
             )
           }
         >
-          {/* Create Post Input */}
-          <CreatePost />
-
           {posts && posts.length > 0 ? (
             posts.map((post, index) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                isFirst={index === 0}
-                isLast={index === posts.length - 1}
-              />
+              // <PostCard
+              //   key={post.id}
+              //   post={post}
+              //   isFirst={index === 0}
+              //   isLast={index === posts.length - 1}
+              // />
+              <PostCard key={post.id} post={post} />
             ))
           ) : (
             <div className="text-center py-10 text-muted-foreground">
@@ -93,55 +86,6 @@ const FeedList = ({ posts, fetchMorePosts, hasMore, loading }) => {
           )}
         </InfiniteScroll>
       </div>
-
-      {/* === BORDER DECORATION (Threads Style) === */}
-
-      {/* Corner decoration wrapper - chỉ border top, left, right */}
-      <div
-        className="fixed z-55 pointer-events-none overflow-hidden"
-        style={{
-          left: `${offsetLeft}px`,
-          top: `${90 - 24}px`, // Điều chỉnh để match với FeedHeader height (90px)
-          width: `${containerWidth}px`,
-          height: "24px",
-          borderTopLeftRadius: "16px",
-          borderTopRightRadius: "16px",
-          borderTop: "1px solid hsl(var(--border))",
-          borderLeft: "1px solid hsl(var(--border))",
-          borderRight: "1px solid hsl(var(--border))",
-        }}
-      />
-
-      {/* === CHE GÓC BO TRÒN === */}
-      {/* Các phần tử này sẽ bị che bởi FeedHeader khi cuộn (z-index 70) */}
-
-      {/* Che góc trái - che phần border bo tròn bằng hình vuông với góc được cắt theo đường tròn 16px */}
-      <div
-        className="fixed z-55 pointer-events-none"
-        style={{
-          left: `${offsetLeft - 1}px`,
-          top: `${90 - 24}px`, // Điều chỉnh để match với FeedHeader height (90px)
-          width: "18px",
-          height: "18px",
-          background: "hsl(var(--background))",
-          clipPath:
-            "polygon(0 0, 18px 0, 0 18px, 0 16px, 2px 16px, 2px 2px, 16px 2px, 16px 0, 0 0)",
-        }}
-      />
-
-      {/* Che góc phải - che phần border bo tròn bằng hình vuông với góc được cắt theo đường tròn 16px */}
-      <div
-        className="fixed z-55 pointer-events-none"
-        style={{
-          left: `${offsetLeft + containerWidth - 17}px`,
-          top: `${90 - 24}px`, // Điều chỉnh để match với FeedHeader height (90px)
-          width: "18px",
-          height: "18px",
-          background: "hsl(var(--background))",
-          clipPath:
-            "polygon(18px 0, 18px 18px, 0 0, 2px 0, 2px 16px, 16px 16px, 16px 2px, 18px 2px, 18px 0)",
-        }}
-      />
     </div>
   );
 };

@@ -1,51 +1,36 @@
 import { Link } from "react-router";
-import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 import { Card } from "@/components/ui/card";
-import Button from "@/components/Button";
-import { InstagramIcon } from "@/components/ui/icons/lucide-instagram";
+import { Button } from "@/components/ui/button";
 
 const AuthCard = ({ showAuthCard }) => {
   const { t } = useTranslation();
 
   return (
-    <div className={`w-[380px] h-fit ${showAuthCard ? "flex" : "hidden"}`}>
+    <div
+      className={`min-w-[300px] relative hidden ${showAuthCard ? "md:block" : "md:hidden"}`}
+    >
       <Card
-        className={cn(
-          "rounded-2xl border-2! border-accent-foreground!",
-          "bg-card shadow-sm overflow-hidden",
-        )}
+        className={
+          "absolute top-15 rounded-2xl border-2 border-(--systemtext)! bg-secondary! shadow-sm overflow-hidden p-6!"
+        }
       >
         {/* Nội dung giữ nguyên */}
-        <div className="px-6 py-6 text-center">
-          <h2 className="text-base font-semibold text-normaltext mb-2">
+        <div className="text-center">
+          <h2 className="font-bold! text-xl! mb-2!">
             {t("login_or_register")}
           </h2>
-          <p className="text-sm text-muted-normaltext leading-5">
+          <p className="text-sm! text-(--systemtext)">
             {t("see_what_people_talk")}
           </p>
         </div>
 
-        <Button className="w-full mt-6 mb-4">
-          <div className="flex justify-center items-center gap-3">
-            <InstagramIcon />
-            {t("continue_with_ig")}
-          </div>
+        <Button className="w-full mt-2.5">
+          <Link to="auth/login" className="text-base! flex justify-center">
+            {t("login_with_username")}
+          </Link>
         </Button>
-
-        <div className="px-6 flex items-center gap-3">
-          <div className="flex-1 h-px bg-border" />
-          <span>{t("or")}</span>
-          <div className="flex-1 h-px bg-border" />
-        </div>
-
-        <Link
-          to="auth/login"
-          className="text-sm text-center flex justify-center text-normaltext hover:text-normaltext transition-colors mb-3"
-        >
-          {t("login_with_username")}
-        </Link>
       </Card>
     </div>
   );

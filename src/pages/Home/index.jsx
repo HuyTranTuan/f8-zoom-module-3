@@ -14,21 +14,17 @@ import {
   incrementPage,
 } from "@/features/feed/feedSlice";
 import {
-  selectIsAuthenticated,
-  selectIsInitializing,
-} from "@/features/auth/selectors";
-import {
   restoreLikedPostsFromFeed,
   restoreLikedPostsFromStorage,
 } from "@/features/post/postSlice";
-import Loading from "@/components/Loading";
 import {
   selectFeedLoading,
   selectHasMore,
   selectPage,
   selectPosts,
 } from "@/features/feed";
-import { getFeed, postServices } from "@/services";
+import { postServices } from "@/services";
+import Loading from "@/components/Loading";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -38,10 +34,6 @@ const Home = () => {
   const loading = useSelector(selectFeedLoading);
   const hasMore = useSelector(selectHasMore);
   const currentPage = useSelector(selectPage);
-
-  // Kiểm tra user đã đăng nhập chưa
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  const isInitializing = useSelector(selectIsInitializing);
 
   const [currentFeedType, setCurrentFeedType] = useState("for_you");
 
@@ -91,8 +83,7 @@ const Home = () => {
 
     try {
       const nextPage = currentPage + 1;
-      const response = await getFeed(currentFeedType, nextPage);
-      console.log(response);
+      const response = await postServices.getFeed(currentFeedType, nextPage);
 
       const newPosts = response.data || [];
       const pagination = response.pagination;
@@ -122,10 +113,9 @@ const Home = () => {
   return (
     <div
       id="Home"
-      className="w-full tablet:w-[100%-80px] h-dvh! overflow-hidden flex justify-center"
+      className="w-full! md:w-[calc(100%-80px)]! overflow-y-hidden flex justify-center px-6! md:px-0!"
     >
-      {/* Feed Column - Left */}
-      <div className="w-full tablet:max-w-[370px]">
+      <div className="w-full! md:min-w-[380px] md:max-w-[700px]! h-[calc(100%-60px)]">
         <FeedHeader
           currentFeedType={currentFeedType}
           onFeedTypeChange={setCurrentFeedType}

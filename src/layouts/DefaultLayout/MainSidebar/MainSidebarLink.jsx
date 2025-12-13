@@ -12,11 +12,34 @@ function MainSidebarLink({ navigate }) {
   const handleShowSignUpModal = () => {
     dispatch(toggleSignUpModal());
   };
+  const privateRoute = navigate.url !== "/" && navigate.url !== "/search";
 
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild>
-        {isAuthenticated ? (
+        {privateRoute ? (
+          isAuthenticated ? (
+            <NavLink
+              to={navigate.url}
+              className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6"
+            >
+              {({ isActive }) => (
+                <navigate.icon
+                  className={`${
+                    isActive ? "text-(--normaltext)" : "text-(--systemtext)"
+                  }`}
+                />
+              )}
+            </NavLink>
+          ) : (
+            <Button
+              className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6"
+              onClick={handleShowSignUpModal}
+            >
+              <navigate.icon className={"text-(--systemtext)"} />
+            </Button>
+          )
+        ) : (
           <NavLink
             to={navigate.url}
             className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6"
@@ -29,13 +52,6 @@ function MainSidebarLink({ navigate }) {
               />
             )}
           </NavLink>
-        ) : (
-          <Button
-            className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6"
-            onClick={handleShowSignUpModal}
-          >
-            <navigate.icon className={"text-(--systemtext)"} />
-          </Button>
         )}
       </SidebarMenuButton>
     </SidebarMenuItem>

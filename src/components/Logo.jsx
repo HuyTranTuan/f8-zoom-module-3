@@ -5,7 +5,7 @@ import { ThreadsFillIcon } from "./ui/icons/akar-icons-threads-fill";
 export default function Logo({ path }) {
   return (
     <Link
-      className="w-full! h-full! tablet:flex justify-center items-center"
+      className="w-full! h-full! flex justify-center items-center"
       to={path}
     >
       <ThreadsFillIcon className="w-full h-full scale-95 stroke-0 fill-(--normaltext)! transform mx-auto my-auto" />

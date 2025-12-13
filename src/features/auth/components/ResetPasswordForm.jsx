@@ -5,9 +5,9 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import Button from "@/components/Button ";
+import Button from "@/components/Button";
 import { PasswordInput } from "@/components/ui/password-input";
-import { resetPassword } from "@/services";
+import { authServices } from "@/services";
 import { resetPasswordSchema } from "@/utils/validators";
 import { debounce, isPasswordMatch } from "@/features/auth";
 
@@ -68,7 +68,7 @@ const ResetPasswordForm = ({ token, email }) => {
     setIsLoading(true);
 
     try {
-      const response = await resetPassword({
+      const response = await authServices.resetPassword({
         token,
         email,
         password: data.password,

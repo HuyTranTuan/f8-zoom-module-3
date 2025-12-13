@@ -1,5 +1,5 @@
 import { lazy, useEffect } from "react";
-import { HashRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router";
 import { Toaster } from "sonner";
 
 // Pages
@@ -32,6 +32,7 @@ import PrivateRoute from "@/components/PrivateRoute";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import AuthLayout from "@/layouts/AuthLayout";
 import EmbedLayout from "@/layouts/EmbedLayout";
+import PostDetail from "@/pages/PostDetail";
 
 function AppRoutes() {
   useEffect(() => {
@@ -39,7 +40,7 @@ function AppRoutes() {
   }, []);
 
   return (
-    <HashRouter>
+    <BrowserRouter basename="/threads-clone">
       <AuthProvider />
       <Toaster />
       <Routes>
@@ -47,6 +48,7 @@ function AppRoutes() {
         <Route path="/" element={<DefaultLayout />}>
           <Route index element={<Home />} />
           <Route path="search" element={<Search />} />
+          <Route path="post/:id" element={<PostDetail />} />
           <Route element={<PrivateRoute />}>
             <Route path="activities" element={<Acitvities />} />
             <Route path="account" element={<Account />} />
@@ -78,7 +80,7 @@ function AppRoutes() {
         {/*NotFound*/}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
