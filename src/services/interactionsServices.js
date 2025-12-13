@@ -1,6 +1,6 @@
 import http from "@/utils/http";
 
-export const interactionsService = {
+export const interactionsServices = {
   like: async (id) => {
     const response = await http.post(`posts/${id}/like`);
     return response.data;
@@ -25,12 +25,12 @@ export const interactionsService = {
     return formData;
   },
   quote: async (id, data) => {
-    const formData = interactionsService._buildFormData(data);
+    const formData = interactionsServices._buildFormData(data);
     const response = await http.post(`posts/${id}/quote`, formData);
     return response.data;
   },
   reply: async (id, data) => {
-    const formData = interactionsService._buildFormData(data);
+    const formData = interactionsServices._buildFormData(data);
     const response = await http.post(`posts/${id}/reply`, formData);
     return response.data;
   },

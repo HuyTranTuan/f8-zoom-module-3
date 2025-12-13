@@ -20,14 +20,14 @@ import {
   resetRegisterState,
 } from "@/features/auth";
 import { registerSchema } from "@/utils/validators";
-import { validateUsername } from "@/services";
-import Button from "@/components/Button";
+import { authServices } from "@/services";
 import { Input } from "@/components/ui/input";
+import Button from "@/components/Button";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
 
   //Redux state
@@ -58,7 +58,7 @@ const RegisterForm = () => {
       if (!username || username.length < 3) return;
 
       try {
-        await validateUsername(username);
+        await authServices.validateUsername(username);
         clearErrors("username");
       } catch (error) {
         setError("username", {
@@ -83,18 +83,15 @@ const RegisterForm = () => {
         return;
       }
       setEmailFormatError("");
-      setIsCheckingEmail(true);
 
       try {
-        await validateEmailvalidateUsername(email);
+        await authServices.validateEmail(email);
         clearErrors("email");
       } catch (error) {
         setError("email", {
           type: "manual",
           message: error.response?.data?.message || t("email_existed"),
         });
-      } finally {
-        setIsCheckingEmail(false);
       }
     }, 1200),
     [],
@@ -139,13 +136,16 @@ const RegisterForm = () => {
     dispatch(registerStart());
 
     try {
-      const response = await registervalidateUsername(data);
+      const response = await authServices.register(data);
 
       if (response.access_token) {
         localStorage.setItem("access_token", response.access_token);
       }
       if (response.refresh_token) {
         localStorage.setItem("refresh_token", response.refresh_token);
+      }
+      if (response.user) {
+        localStorage.setItem("user", response.user);
       }
 
       dispatch(registerSuccess(response));
@@ -230,8 +230,7 @@ const RegisterForm = () => {
         <p className="text-destructive">{errors.email.message}</p>
       )}
 
-      <Input
-        type="password"
+      <PasswordInput
         placeholder={t("password")}
         {...register("password")}
         onChange={(e) => {
@@ -251,7 +250,7 @@ const RegisterForm = () => {
         <p className="text-destructive">{errors.password.message}</p>
       )}
 
-      <Input
+      <PasswordInput
         type="password"
         placeholder={t("confirm_password")}
         {...register("password_confirmation")}

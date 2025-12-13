@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { selectIsAuthenticated, selectUser } from "@/features/auth";
 import { removePostFromFeed, removePostsByUserId } from "@/features/feed";
-import { deletePost, hide, mute, report, restrict, savePost } from "@/services";
+import { postServices, userServices } from "@/services";
 
 // Check if post is editable (within 15 minutes of creation)
 const isPostEditable = (post) => {
@@ -16,8 +16,8 @@ const isPostEditable = (post) => {
 };
 
 export function usePostMenuActions(post) {
-  const { t } = useTranslation("PostCard");
   const dispatch = useDispatch();
+  const { t } = useTranslation("");
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const currentUser = useSelector(selectUser);
 
@@ -61,7 +61,7 @@ export function usePostMenuActions(post) {
     }
     try {
       setIsLoading(true);
-      await savePost(post.id);
+      await postServices.savePost(post.id);
       const newSavedState = !isSaved;
       setIsSaved(newSavedState);
       toast.success(newSavedState ? t("menu.saved") : t("menu.unsave"));
@@ -82,7 +82,7 @@ export function usePostMenuActions(post) {
     }
     try {
       setIsLoading(true);
-      await hide(post.id);
+      await postServices.hide(post.id);
       dispatch(removePostFromFeed(post.id));
       toast.success(t("menu.hidden"));
     } catch (error) {
@@ -101,7 +101,7 @@ export function usePostMenuActions(post) {
     }
     try {
       setIsLoading(true);
-      await mute(post.user.id);
+      await userServices.mute(post.user.id);
       toast.success(t("menu.muted", { username: postUsername }));
     } catch (error) {
       toast.error(error.response?.data?.message || t("menu.error"));
@@ -119,7 +119,7 @@ export function usePostMenuActions(post) {
     }
     try {
       setIsLoading(true);
-      await restrict(post.user.id);
+      await userServices.restrict(post.user.id);
       toast.success(t("menu.restricted", { username: postUsername }));
     } catch (error) {
       toast.error(error.response?.data?.message || t("menu.error"));
@@ -142,7 +142,7 @@ export function usePostMenuActions(post) {
   const handleBlockConfirm = async () => {
     try {
       setIsLoading(true);
-      await userService.block(post.user.id);
+      await userServices.block(post.user.id);
       dispatch(removePostsByUserId(post.user.id));
       toast.success(t("menu.blocked", { username: postUsername }));
       setBlockDialogOpen(false);
@@ -166,7 +166,7 @@ export function usePostMenuActions(post) {
   const handleReportSubmit = async (reason, description) => {
     try {
       setIsLoading(true);
-      await report({ id: post.id, reason, description });
+      await postServices.report({ id: post.id, reason, description });
       toast.success(t("menu.reported"));
       setReportDialogOpen(false);
     } catch (error) {
@@ -185,7 +185,7 @@ export function usePostMenuActions(post) {
   const handleDeleteConfirm = async () => {
     try {
       setIsLoading(true);
-      await deletePost(post.id);
+      await postServices.deletePost(post.id);
       dispatch(removePostFromFeed(post.id));
       toast.success(t("menu.deleted"));
       setDeleteDialogOpen(false);

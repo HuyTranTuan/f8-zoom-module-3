@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
+
 import {
   Dialog,
   DialogContent,
@@ -10,18 +11,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { selectUser } from "@/features/auth";
-import {
-  addPostToFeed,
-  updatePostQuotes,
-  updatePostReplies,
-  updatePostContent,
-  updatePost,
-} from "@/features/feed";
+import { addPostToFeed, updatePost } from "@/features/feed";
 import PostForm from "./components/PostForm";
 import ThreadHint from "./components/ThreadHint";
 import DialogFooter from "./components/DialogFooter";
-import { interactionsService } from "@/services";
 import CreatePost from "@/features/post/components/CreatePost";
+import { interactionsServices, postServices } from "@/services";
 
 const FORM_ID = "create-post-form";
 
@@ -126,8 +121,8 @@ const CreatePostDialog = ({
 
       // Handle EDIT mode
       if (mode === "edit" && editPost) {
-        const response = await updatePost(editPost.id, postData);
-        dispatch(updatePostContent(response));
+        const response = await postServices.updatePost(editPost.id, postData);
+        dispatch(updatePost(response));
         toast.success(t("createPost.editSuccess"));
         handleClose();
         if (onEditSuccess && response) {
@@ -137,24 +132,24 @@ const CreatePostDialog = ({
       }
 
       if (mode === "quote") {
-        const response = await interactionsService.quote(
+        const response = await interactionsServices.quote(
           quotedPost.id,
           postData,
         );
         dispatch(addPostToFeed(response));
-        dispatch(updatePostQuotes({ original_post_id: quotedPost.id }));
+        dispatch(updatePost({ original_post_id: quotedPost.id }));
         toast.success(t("createPost.success"));
         handleClose();
         return;
       }
 
       if (mode === "reply") {
-        const response = await interactionsService.reply(
+        const response = await interactionsServices.reply(
           quotedPost.id,
           postData,
         );
         dispatch(
-          updatePostReplies({
+          updatePost({
             postId: quotedPost.id,
             replies_count: (quotedPost.replies_count || 0) + 1,
           }),
@@ -193,9 +188,9 @@ const CreatePostDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[620px] p-0 bg-content-background text-foreground !border-card-border overflow-hidden">
+      <DialogContent className="sm:max-w-[620px] p-0 bg-content-background text-foreground border-card-border! overflow-hidden">
         {/* Header */}
-        <DialogHeader className="border-b !border-card-border p-4">
+        <DialogHeader className="border-b border-card-border! p-4">
           <DialogTitle className="text-center font-bold text-[15px]">
             {getDialogTitle()}
           </DialogTitle>

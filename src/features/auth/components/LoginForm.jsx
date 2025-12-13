@@ -15,7 +15,7 @@ import {
   loginSuccess,
   loginFailure,
 } from "@/features/auth";
-import { login } from "@/services";
+import { authServices } from "@/services";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ function LoginForm() {
     dispatch(loginStart());
 
     try {
-      const response = await login(data);
+      const response = await authServices.login(data);
 
       //Lưu token vào localStorage
       if (response.access_token) {
@@ -98,25 +98,19 @@ function LoginForm() {
       <PasswordInput
         placeholder={t("password")}
         {...register("password")}
-        className={`
-                        h-12
-                        bg-background
-                        border-input-border
-                        rounded-xl
-                        text-normaltext
-                        placeholder:text-normaltext-tertiary
-                        ${errors.password ? "border-destructive" : ""}
-                        `}
+        className={`h-12 bg-background border-input-border rounded-xl
+                    text-normaltext placeholder:text-normaltext-tertiary
+                    ${errors.password ? "border-destructive" : ""}
+                  `}
         disabled={isLoading}
       />
       {errors.password && (
         <p className="text-destructive">{errors.password.message}</p>
       )}
 
-      {/* Button đăng nhập */}
       <Button
         type="submit"
-        className="w-full h-12 rounded-xl font-semibold text-background !hover:text-threaditembg bg-foreground !hover:bg-normaltext"
+        className="w-full h-12 bg-foreground text-background !hover:bg-systemtext cursor-pointer rounded-2xl"
         disabled={isLoading}
       >
         {isLoading ? t("loging_in") : t("login")}

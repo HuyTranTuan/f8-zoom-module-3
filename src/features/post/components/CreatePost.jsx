@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
+
 import Button from "@/components/Button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { addPost } from "@/features/feed";
-import { toast } from "sonner";
-import { createPost } from "@/services";
+import { postServices } from "@/services";
+import { addPostToFeed } from "@/features/feed";
+import { useTranslation } from "react-i18next";
 
 const CreatePost = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const [content, setContent] = useState("");
   const [isPosting, setIsPosting] = useState(false);
 
-  // Lấy user từ localStorage (nếu có)
   const user = JSON.parse(localStorage.getItem("user")) || {
     username: "guest",
     avatar: "",
@@ -22,7 +24,7 @@ const CreatePost = () => {
 
     setIsPosting(true);
     try {
-      const response = await createPost({
+      const response = await postServices.createPost({
         content,
         user: {
           username: user.username,
@@ -31,12 +33,12 @@ const CreatePost = () => {
       });
 
       if (response.success) {
-        dispatch(addPost(response.data));
+        dispatch(addPostToFeed(response.data));
         setContent("");
-        toast.success("Đã đăng bài viết mới");
+        toast.success(t("post_successed"));
       }
     } catch (error) {
-      toast.error("Đăng bài thất bại");
+      toast.error(t("post_failed"));
     } finally {
       setIsPosting(false);
     }
@@ -56,7 +58,7 @@ const CreatePost = () => {
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Bắt đầu chuỗi mới..."
+            placeholder={t("write_sth")}
             className="w-full bg-transparent border-none resize-none focus:ring-0 p-0 text-foreground placeholder:text-foreground-tertiary min-h-[50px]"
             disabled={isPosting}
           />
@@ -67,7 +69,7 @@ const CreatePost = () => {
               size="sm"
               className="rounded-full px-4"
             >
-              {isPosting ? "Đang đăng..." : "Đăng"}
+              {isPosting ? t("posting") : t("post")}
             </Button>
           </div>
         </div>

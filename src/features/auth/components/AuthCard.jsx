@@ -10,10 +10,10 @@ const AuthCard = ({ showAuthCard }) => {
   const { t } = useTranslation();
 
   return (
-    <div className={cn(showAuthCard ? "flex" : "hidden", "w-[380px]")}>
+    <div className={`w-[380px] h-fit ${showAuthCard ? "flex" : "hidden"}`}>
       <Card
         className={cn(
-          "rounded-2xl border border-border",
+          "rounded-2xl border-2! border-accent-foreground!",
           "bg-card shadow-sm overflow-hidden",
         )}
       >
@@ -41,7 +41,7 @@ const AuthCard = ({ showAuthCard }) => {
         </div>
 
         <Link
-          to="/login"
+          to="auth/login"
           className="text-sm text-center flex justify-center text-normaltext hover:text-normaltext transition-colors mb-3"
         >
           {t("login_with_username")}

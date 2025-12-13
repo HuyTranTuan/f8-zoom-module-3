@@ -69,15 +69,15 @@ function AppRoutes() {
           <Route path="verify-email" element={<VerifyEmail />} />
           <Route path="reset-password" element={<ResetPassword />} />
         </Route>
-      </Routes>
 
-      {/* Embed Route - for iframe embedding */}
-      <Routes path="/:username/post/:postId/embed" element={<EmbedLayout />}>
-        <Route index element={<Embed />} />
-      </Routes>
+        {/* Embed Route - for iframe embedding */}
+        <Route path="/:username/post/:postId/embed" element={<EmbedLayout />}>
+          <Route index element={<Embed />} />
+        </Route>
 
-      {/*NotFound*/}
-      <Routes path="*" element={<NotFound />} />
+        {/*NotFound*/}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </HashRouter>
   );
 }

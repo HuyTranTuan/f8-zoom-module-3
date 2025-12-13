@@ -10,9 +10,9 @@ import Button from "@/components/Button";
 import { Textarea } from "@/components/ui/textarea";
 import { Spinner } from "@/components/ui/spinner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getReplies, interactionsService } from "@/services";
+import { postServices, interactionsServices } from "@/services";
 import { selectUser } from "@/features/auth";
-import { updatePostReplies } from "@/features/feed";
+import { updatePost } from "@/features/feed";
 import { createReplySchema } from "@/utils/validators";
 import CreatePostDialog from "@/components/CreatePostDialog";
 
@@ -44,11 +44,11 @@ function ReplyForm({ post, onClose, onReplySuccess }) {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const replyResponse = await interactionsService.reply(post.id, data);
-      const response = await getReplies(post.id);
+      const replyResponse = await interactionsServices.reply(post.id, data);
+      const response = await postServices.getReplies(post.id);
       const updateRepliesCount = response.data.length;
       dispatch(
-        updatePostReplies({
+        updatePost({
           postId: post.id,
           replies_count: updateRepliesCount,
         }),

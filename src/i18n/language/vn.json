@@ -37,6 +37,7 @@
   "cannot_load_post_retry": "Không thể tải bài viết. Vui lòng thử lại!",
   "fetch_feed_error": "Lỗi tải feed",
   "cannot_load_more": "Không thể tải thêm bài viết!",
+  "no_post_yet": "Chưa có bài viết nào!",
   "username_existed": "Tên hiển thị đã tồn tại!",
   "email_invalid": "Email không đúng định dạng!",
   "email_existed": "Email đã tồn tại!",
@@ -58,5 +59,14 @@
   "create_new_password_failed": "Tạo mật khẩu mới thất bại!",
   "cannot_new_password": "Không thể đặt lại mật khẩu!",
   "say_more_with_threads": "Nói nhiều hơn với Threads",
-  "join_threads_to_share_thoughts": "Hãy tham gia Threads để chia sẻ suy nghĩ, tìm hiểu những gì đang diễn ra, theo dõi những người cùng chí hướng và hơn thế nữa."
+  "join_threads_to_share_thoughts": "Hãy tham gia Threads để chia sẻ suy nghĩ, tìm hiểu những gì đang diễn ra, theo dõi những người cùng chí hướng và hơn thế nữa.",
+  "not_found_page": "404 Không tìm thấy trang",
+  "not_found_page_des": "Trang này không có trong hệ thống",
+  "back_to_main": "Về trang chủ!",
+  "post_successed": "Đã đăng bài viết mới!",
+  "post_failed": "Đăng bài thất bại!",
+  "write_sth": "Viết gì đó...",
+  "posting": "Đang đăng...",
+  "post": "Đăng",
+  "forgot_psw_title": "Quên mật khẩu"
 }

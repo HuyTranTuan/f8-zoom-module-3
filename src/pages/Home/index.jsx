@@ -17,21 +17,27 @@ import {
   selectIsAuthenticated,
   selectIsInitializing,
 } from "@/features/auth/selectors";
-import { getFeed } from "@/services";
 import {
   restoreLikedPostsFromFeed,
   restoreLikedPostsFromStorage,
 } from "@/features/post/postSlice";
 import Loading from "@/components/Loading";
+import {
+  selectFeedLoading,
+  selectHasMore,
+  selectPage,
+  selectPosts,
+} from "@/features/feed";
+import { getFeed, postServices } from "@/services";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const posts = useSelector((state) => state.feed.posts);
-  const loading = useSelector((state) => state.feed.loading);
-  const hasMore = useSelector((state) => state.feed.hasMore);
-  const currentPage = useSelector((state) => state.feed.page);
+  const posts = useSelector(selectPosts);
+  const loading = useSelector(selectFeedLoading);
+  const hasMore = useSelector(selectHasMore);
+  const currentPage = useSelector(selectPage);
 
   // Kiểm tra user đã đăng nhập chưa
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -50,7 +56,7 @@ const Home = () => {
       dispatch(setLoading(true));
 
       try {
-        const response = await getFeed(currentFeedType, 1);
+        const response = await postServices.getFeed(currentFeedType, 1);
 
         // Lấy data từ response
         const feedPosts = response.data || [];
@@ -86,6 +92,7 @@ const Home = () => {
     try {
       const nextPage = currentPage + 1;
       const response = await getFeed(currentFeedType, nextPage);
+      console.log(response);
 
       const newPosts = response.data || [];
       const pagination = response.pagination;

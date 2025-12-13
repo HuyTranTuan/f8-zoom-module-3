@@ -5,28 +5,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { cn } from "@/lib/utils";
 import LoginDialog from "@/components/LoginDialog";
 import { selectIsAuthenticated } from "@/features/auth";
-import { interactionsService } from "@/services";
-import { updatePostLike } from "@/features/feed";
+import { interactionsServices } from "@/services";
 import { updatePostDetailLike, updateReplyLike } from "@/features/postDetail";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import { updatePost } from "@/features/feed";
 
 export default function Like({ count, post, isEmbedView = false }) {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const dispatch = useDispatch();
 
   const handleClick = async () => {
     if (isEmbedView) return;
 
     if (isAuthenticated) {
-      const response = await interactionsService.like(post.id);
+      const response = await interactionsServices.like(post.id);
       const payload = {
         postId: post.id,
         is_liked_by_auth: response.is_liked,
         likes_count: response.likes_count,
       };
       // Update both postsSlice (for Home page) and postDetailSlice (for PostDetail page)
-      dispatch(updatePostLike(payload));
+      dispatch(updatePost(payload));
       dispatch(updatePostDetailLike(payload));
       dispatch(updateReplyLike(payload));
     } else {

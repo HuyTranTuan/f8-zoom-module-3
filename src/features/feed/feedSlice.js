@@ -1,7 +1,5 @@
+import { getFeed } from "@/services";
 import { createSlice } from "@reduxjs/toolkit";
-
-import { getFeed, login } from "@/services";
-import { logout } from "@/features/auth";
 
 const initialState = {
   posts: [],
@@ -25,9 +23,11 @@ export const feedSlice = createSlice({
       state.loading = false;
       state.page = 1; // Reset page về 1
     },
-    addPost: (state, action) => {
-      state.posts.unshift(action.payload);
+    resetFeed: (state) => {
+      state.posts = [];
+      state.pagination = initialState.pagination;
     },
+
     //Tạo infinite scroll
     appendPosts: (state, action) => {
       state.posts = [...state.posts, ...action.payload];
@@ -37,8 +37,10 @@ export const feedSlice = createSlice({
       state.loading = action.payload;
     },
     setError: (state, action) => {
-      ((state.error = action.payload), (state.loading = false));
+      state.error = action.payload;
+      state.loading = false;
     },
+
     //Update khi có thay đổi (like, cmt)
     updatePost: (state, action) => {
       const index = state.posts.findIndex(
@@ -47,76 +49,6 @@ export const feedSlice = createSlice({
       if (index !== -1) {
         state.posts[index] = action.payload;
       }
-    },
-    setHasMore: (state, action) => {
-      state.hasMore = action.payload;
-    },
-    //Đếm số page
-    incrementPage: (state) => {
-      state.page += 1;
-    },
-    resetFeed: (state) => {
-      state.posts = [];
-      state.pagination = initialState.pagination;
-    },
-    addPostToFeed: (state, action) => {
-      state.posts.unshift(action.payload);
-    },
-    removePostFromFeed: (state, action) => {
-      const postId = action.payload;
-      state.posts = state.posts.filter((post) => post.id !== postId);
-    },
-    removePostsByUserId: (state, action) => {
-      const userId = action.payload;
-      state.posts = state.posts.filter((post) => post.user?.id !== userId);
-    },
-    updatePostContent: (state, action) => {
-      const updatedPost = action.payload;
-      state.posts = state.posts.map((post) => {
-        if (post.id === updatedPost.id) {
-          return { ...post, ...updatedPost };
-        }
-        return post;
-      });
-    },
-    updatePostLike: (state, action) => {
-      const { postId, is_liked_by_auth, likes_count } = action.payload;
-      state.posts = state.posts.map((post) => {
-        if (post.id === postId) {
-          return {
-            ...post,
-            is_liked_by_auth,
-            likes_count,
-          };
-        }
-        return post;
-      });
-    },
-    updatePostReplies: (state, action) => {
-      const { postId, replies_count } = action.payload;
-      state.posts = state.posts.map((post) => {
-        if (post.id === postId) {
-          return {
-            ...post,
-            replies_count,
-          };
-        }
-        return post;
-      });
-    },
-    updatePostReposts: (state, action) => {
-      const { postId, reposts_and_quotes_count, is_reposted_by_auth } =
-        action.payload;
-      state.posts = state.posts.map((post) => {
-        if (post.id === postId) {
-          return {
-            ...post,
-            is_reposted_by_auth,
-            reposts_and_quotes_count,
-          };
-        }
-        return post;
-      });
     },
     updatePostQuotes: (state, action) => {
       const { original_post_id } = action.payload;
@@ -140,6 +72,25 @@ export const feedSlice = createSlice({
         }
         return post;
       });
+    },
+    setHasMore: (state, action) => {
+      state.hasMore = action.payload;
+    },
+    //Đếm số page
+    incrementPage: (state) => {
+      state.page += 1;
+    },
+
+    addPostToFeed: (state, action) => {
+      state.posts.unshift(action.payload);
+    },
+    removePostFromFeed: (state, action) => {
+      const postId = action.payload;
+      state.posts = state.posts.filter((post) => post.id !== postId);
+    },
+    removePostsByUserId: (state, action) => {
+      const userId = action.payload;
+      state.posts = state.posts.filter((post) => post.user?.id !== userId);
     },
   },
   extraReducers: (builder) => {
@@ -175,22 +126,20 @@ export const feedSlice = createSlice({
 
 export const {
   setPosts,
-  addPost,
+  resetFeed,
+
   appendPosts,
   setLoading,
   setError,
+
   updatePost,
+  updatePostQuotes,
   setHasMore,
   incrementPage,
-  resetFeed,
+
   addPostToFeed,
   removePostFromFeed,
   removePostsByUserId,
-  updatePostContent,
-  updatePostLike,
-  updatePostReplies,
-  updatePostReposts,
-  updatePostQuotes,
 } = feedSlice.actions;
 
 export const { reducerPath } = feedSlice.reducerPath;

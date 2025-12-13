@@ -37,6 +37,7 @@
   "cannot_load_post_retry": "Cannot load posts. Please retry!",
   "fetch_feed_error": "Error fetching feed!",
   "cannot_load_more": "Cannot load more!",
+  "no_post_yet": "No post yet!",
   "username_existed": "Username is already existed!",
   "email_invalid": "Invalid Email!",
   "email_existed": "Email is already existed!",
@@ -58,5 +59,14 @@
   "create_new_password_failed": "Failed to create new password!",
   "cannot_new_password": "Cannot create new password!",
   "say_more_with_threads": "Say more with Threads",
-  "join_threads_to_share_thoughts": "Join Threads to share thoughts, find out what's going on, follow your people and more."
+  "join_threads_to_share_thoughts": "Join Threads to share thoughts, find out what's going on, follow your people and more.",
+  "not_found_page": "404 Page not found",
+  "not_found_page_des": "This page has not been found",
+  "back_to_main": "Back to login!",
+  "post_successed": "Post successed!",
+  "post_failed": "Post failed!",
+  "write_sth": "Write something...",
+  "posting": "Posting...",
+  "post": "Post",
+  "forgot_psw_title": "Quên mật khẩu"
 }

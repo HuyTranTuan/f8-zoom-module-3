@@ -6,10 +6,12 @@ import PostCard from "@/features/post/components/PostCard";
 import CreatePost from "@/features/post/components/CreatePost";
 import { cn } from "@/lib/utils";
 import { setInitialLikesCount } from "@/features/post/postSlice";
+import { useTranslation } from "react-i18next";
 
 const FeedList = ({ posts, fetchMorePosts, hasMore, loading }) => {
   const dispatch = useDispatch();
   const containerRef = useRef(null);
+  const { t } = useTranslation();
   const [offsetLeft, setOffsetLeft] = useState(0);
   const [containerWidth, setContainerWidth] = useState(720);
 
@@ -60,14 +62,14 @@ const FeedList = ({ posts, fetchMorePosts, hasMore, loading }) => {
             <div className="text-center py-6">
               <div className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
               <p className="mt-2 text-sm text-muted-foreground">
-                Đang tải thêm...
+                {t("loading")}
               </p>
             </div>
           }
           endMessage={
             posts.length > 0 && (
               <div className="text-center py-6 text-sm text-muted-foreground">
-                Bạn đã xem hết tất cả bài viết
+                {t("cannot_load_more")}
               </div>
             )
           }
@@ -86,7 +88,7 @@ const FeedList = ({ posts, fetchMorePosts, hasMore, loading }) => {
             ))
           ) : (
             <div className="text-center py-10 text-muted-foreground">
-              Chưa có bài viết nào
+              {t("no_post_yet")}
             </div>
           )}
         </InfiniteScroll>

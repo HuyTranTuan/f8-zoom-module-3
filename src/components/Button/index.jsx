@@ -42,7 +42,7 @@ function Button({
       return;
     }
 
-    onClick(e);
+    if (onClick) onClick(e);
   };
 
   return (

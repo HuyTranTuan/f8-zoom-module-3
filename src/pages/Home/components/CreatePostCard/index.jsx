@@ -6,19 +6,19 @@ import CreatePostDialog from "@/components/CreatePostDialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Button from "@/components/Button";
-import { selectCurrentUser } from "@/features/auth";
+import { selectUser } from "@/features/auth";
 
 function CreatePostCard() {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation("Common");
-  const currentUser = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectUser);
   const handleOpenDialog = () => {
     setIsOpen(true);
   };
 
   return (
     <>
-      <Card className="bg-content-background !border-card-border py-4 transition-colors shadow-none rounded-none cursor-pointer border-0 border-b">
+      <Card className="bg-content-background border-card-border! py-4 transition-colors shadow-none rounded-none cursor-pointer border-0 border-b">
         <CardContent className="flex items-center p-2 gap-3">
           {/* Avatar */}
           <Avatar className="h-10 w-10">
