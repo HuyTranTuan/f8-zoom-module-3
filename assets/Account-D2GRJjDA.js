@@ -1,0 +1,1 @@
+import{$ as e,U as t}from"./index-D_Dprlbm.js";var n=e(t());function r(){return(0,n.jsx)(`div`,{children:`This is Account`})}var i=r;export{i as default};

@@ -1,1 +1,0 @@
-import{$ as e,U as t}from"./index-CMrTxhGt.js";var n=e(t());function r(){return(0,n.jsx)(`div`,{children:`This is ForYou`})}var i=r;export{i as default};
