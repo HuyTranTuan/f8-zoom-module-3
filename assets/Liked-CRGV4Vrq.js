@@ -1,1 +1,0 @@
-import{$ as e,U as t}from"./index-BwD6-ry2.js";var n=e(t());function r(){return(0,n.jsx)(`div`,{children:`This is Liked`})}var i=r;export{i as default};

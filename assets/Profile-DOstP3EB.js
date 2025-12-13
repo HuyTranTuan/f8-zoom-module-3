@@ -1,1 +1,0 @@
-import{$ as e,U as t,v as n}from"./index-BwD6-ry2.js";var r=e(t());function i(){let e=n();return(0,r.jsx)(`div`,{children:JSON.stringify(e)})}var a=i;export{a as default};
