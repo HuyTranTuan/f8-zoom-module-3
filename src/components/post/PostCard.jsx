@@ -2,20 +2,23 @@ import { useState } from "react";
 import { BadgeCheck } from "lucide-react";
 import { useNavigate } from "react-router";
 
-import InteractionBar from "@/components/post/components/InteractionBar";
+import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
+import { formatTimeAgo } from "@/utils/timeFormat";
+import ReplyForm from "@/pages/Home/components/ReplyForm";
+import QuoteCard from "@/components/post/components/QuoteCard";
 import PostImage from "@/components/post/components/PostImage";
 import PostMenuComponent from "@/components/post/components/PostMenu";
-import AvatarComponent from "@/components/post/components/Avatar";
-import QuoteCard from "@/components/post/components/QuoteCard";
-import ReplyForm from "@/pages/Home/components/ReplyForm";
-import { formatTimeAgo } from "@/utils/timeFormat";
+import InteractionBar from "@/components/post/components/InteractionBar";
+import AvatarComponent from "@/components/post/components/AvatarRounded";
 
 const PostCard = ({
   post,
   isDetailView = false,
   onReplySuccess,
   isEmbedView = false,
+  isFirst,
+  isLast,
 }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const navigate = useNavigate();
@@ -51,7 +54,12 @@ const PostCard = ({
   return (
     <Card
       id={`post-${post.id}`}
-      className={`bg-content-background border-card-border! py-2 transition-colors shadow-none rounded-none cursor-pointer border-0 border-b ${!isDetailView ? "hover:none" : ""}`}
+      className={cn(
+        "rounded-none! border-0! shadow-none! py-3! px-4!",
+        !isLast && "border-b! border-border!",
+        !isFirst && "border-t! border-border!",
+        !isDetailView ? "hover:none" : "",
+      )}
       onClick={handleClick}
     >
       <CardContent className="p-2">
@@ -85,7 +93,9 @@ const PostCard = ({
             </div>
 
             {/* Post Text */}
-            <p className="text-[15px] text-foreground mb-2">{post?.content}</p>
+            <p className="text-[15px] text-foreground mb-2.5!">
+              {post?.content}
+            </p>
 
             <PostImage post={post} />
 

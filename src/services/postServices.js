@@ -71,7 +71,12 @@ export const postServices = {
         formData.append("media[]", file);
       });
     }
-    const response = await http.post("posts", formData);
+
+    const response = await http.post("/posts", formData, {
+      headers: {
+        "Content-Type": undefined,
+      },
+    });
     return response.data;
   },
   _buildFormData: (data) => {
@@ -90,23 +95,24 @@ export const postServices = {
     return formData;
   },
   updatePost: async (id, data) => {
-    const formData = _buildFormData(data);
-    const response = await http.put(`posts/${id}`, formData);
+    const formData = postServices._buildFormData(data);
+
+    const response = await http.post(`/posts/${id}`, formData);
     return response.data;
   },
   hide: async (id) => {
-    const response = await http.post(`posts/${id}/hide`);
+    const response = await http.post(`/posts/${id}/hide`);
     return response.data;
   },
   report: async ({ reason, description, id }) => {
-    const response = await http.post(`posts/${id}/report`, {
+    const response = await http.post(`/posts/${id}/report`, {
       reason,
       description,
     });
     return response.data;
   },
   deletePost: async (id) => {
-    const response = await http.post(`posts/${id}`, { _method: "DELETE" });
+    const response = await http.post(`/posts/${id}`, { _method: "DELETE" });
     return response.data;
   },
 };

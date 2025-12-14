@@ -17,40 +17,40 @@ function OwnPostMenuItems({
   onDelete,
   onSave,
 }) {
-  const { t } = useTranslation("PostCard");
+  const { t } = useTranslation();
 
   return (
     <>
       <DropdownMenuSeparator />
 
       <DropdownMenuItem
-        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3! py-2.5!"
         onClick={onSave}
         disabled={isLoading}
       >
-        <span>{isSaved ? t("menu.unsave") : t("menu.save")}</span>
+        <span>{isSaved ? t("unsave") : t("save")}</span>
         {isSaved ? <BookmarkIcon /> : <BookmarkCheckIcon />}
       </DropdownMenuItem>
 
       {/* Edit - Only show if editable (within 15 min) */}
       {isEditable && (
         <DropdownMenuItem
-          className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
+          className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3! py-2.5!"
           onClick={onEdit}
           disabled={isLoading}
         >
-          <span>{t("menu.edit")}</span>
+          <span>{t("edit")}</span>
           <PenLineIcon />
         </DropdownMenuItem>
       )}
 
       {/* Delete - Destructive */}
       <DropdownMenuItem
-        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5 text-destructive"
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3! py-2.5! text-destructive"
         onClick={onDelete}
         disabled={isLoading}
       >
-        <span>{t("menu.delete")}</span>
+        <span>{t("delete")}</span>
         <Trash2Icon />
       </DropdownMenuItem>
     </>

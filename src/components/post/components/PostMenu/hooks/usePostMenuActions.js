@@ -17,7 +17,7 @@ const isPostEditable = (post) => {
 
 export function usePostMenuActions(post) {
   const dispatch = useDispatch();
-  const { t } = useTranslation("");
+  const { t } = useTranslation();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const currentUser = useSelector(selectUser);
 
@@ -44,7 +44,7 @@ export function usePostMenuActions(post) {
     const baseUrl = window.location.origin + window.location.pathname;
     const postUrl = `${baseUrl}#/post/${post.id}`;
     navigator.clipboard.writeText(postUrl);
-    toast.success(t("menu.linkCopied"));
+    toast.success(t("copied_link"));
     closeDropdown();
   };
 
@@ -64,10 +64,9 @@ export function usePostMenuActions(post) {
       await postServices.savePost(post.id);
       const newSavedState = !isSaved;
       setIsSaved(newSavedState);
-      toast.success(newSavedState ? t("menu.saved") : t("menu.unsave"));
+      toast.success(newSavedState ? t("saved") : t("unsave"));
     } catch (error) {
-      console.error("Save error:", error);
-      toast.error(error.response?.data?.message || t("menu.error"));
+      toast.error(error.response?.data?.message || t("error_occur"));
     } finally {
       setIsLoading(false);
       closeDropdown();
@@ -84,9 +83,9 @@ export function usePostMenuActions(post) {
       setIsLoading(true);
       await postServices.hide(post.id);
       dispatch(removePostFromFeed(post.id));
-      toast.success(t("menu.hidden"));
+      toast.success(t("hidden"));
     } catch (error) {
-      toast.error(error.response?.data?.message || t("menu.error"));
+      toast.error(error.response?.data?.message || t("error_occur"));
     } finally {
       setIsLoading(false);
       closeDropdown();
@@ -102,9 +101,9 @@ export function usePostMenuActions(post) {
     try {
       setIsLoading(true);
       await userServices.mute(post.user.id);
-      toast.success(t("menu.muted", { username: postUsername }));
+      toast.success(t("muted", { username: postUsername }));
     } catch (error) {
-      toast.error(error.response?.data?.message || t("menu.error"));
+      toast.error(error.response?.data?.message || t("error_occur"));
     } finally {
       setIsLoading(false);
       closeDropdown();
@@ -120,9 +119,9 @@ export function usePostMenuActions(post) {
     try {
       setIsLoading(true);
       await userServices.restrict(post.user.id);
-      toast.success(t("menu.restricted", { username: postUsername }));
+      toast.success(t("restricted", { username: postUsername }));
     } catch (error) {
-      toast.error(error.response?.data?.message || t("menu.error"));
+      toast.error(error.response?.data?.message || t("error_occur"));
     } finally {
       setIsLoading(false);
       closeDropdown();
@@ -144,10 +143,10 @@ export function usePostMenuActions(post) {
       setIsLoading(true);
       await userServices.block(post.user.id);
       dispatch(removePostsByUserId(post.user.id));
-      toast.success(t("menu.blocked", { username: postUsername }));
+      toast.success(t("blocked", { username: postUsername }));
       setBlockDialogOpen(false);
     } catch (error) {
-      toast.error(error.response?.data?.message || t("menu.error"));
+      toast.error(error.response?.data?.message || t("error_occur"));
     } finally {
       setIsLoading(false);
     }
@@ -167,10 +166,10 @@ export function usePostMenuActions(post) {
     try {
       setIsLoading(true);
       await postServices.report({ id: post.id, reason, description });
-      toast.success(t("menu.reported"));
+      toast.success(t("reported"));
       setReportDialogOpen(false);
     } catch (error) {
-      toast.error(error.response?.data?.message || t("menu.error"));
+      toast.error(error.response?.data?.message || t("error_occur"));
     } finally {
       setIsLoading(false);
     }
@@ -187,10 +186,10 @@ export function usePostMenuActions(post) {
       setIsLoading(true);
       await postServices.deletePost(post.id);
       dispatch(removePostFromFeed(post.id));
-      toast.success(t("menu.deleted"));
+      toast.success(t("deleted"));
       setDeleteDialogOpen(false);
     } catch (error) {
-      toast.error(error.response?.data?.message || t("menu.error"));
+      toast.error(error.response?.data?.message || t("error_occur"));
     } finally {
       setIsLoading(false);
     }
@@ -199,7 +198,7 @@ export function usePostMenuActions(post) {
   // Edit handler
   const handleEditClick = () => {
     if (!isEditable) {
-      toast.error(t("menu.editExpired"));
+      toast.error(t("edit_expired"));
       return;
     }
     closeDropdown();

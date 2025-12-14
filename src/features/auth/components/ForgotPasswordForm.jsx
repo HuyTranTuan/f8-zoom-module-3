@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { forgotPasswordSchema } from "@/utils/validators";
-import Button from "@/components/Button";
 import { Input } from "@/components/ui/input";
 import { authServices } from "@/services";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 const ForgotPasswordForm = () => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -27,13 +29,13 @@ const ForgotPasswordForm = () => {
       const response = await authServices.forgotPassword(data.email);
 
       //Toast
-      toast.info("Liên kết đặt lại mật khẩu đã được gửi tới email của bạn", {
-        description: response.message || "Vui lòng kiểm tra hộp thư của bạn.",
+      toast.info(t(""), {
+        description: response.message,
       });
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message;
 
-      toast.error("Gửi yêu cầu thất bại", {
+      toast.error(t("request_failed"), {
         description: errorMessage,
       });
     } finally {
@@ -42,31 +44,30 @@ const ForgotPasswordForm = () => {
   };
 
   return (
-    <form onSubmit={() => handleSubmit(onSubmit)} className="space-y-4 w-full">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full flex flex-col gap-2"
+    >
       {/* Email */}
-      <div>
-        <Input
-          type="email"
-          placeholder="Email"
-          {...register("email")}
-          className={`h-12 bg-background border-input-border rounded-xl text-normaltext placeholder:text-normaltext-tertiary ${
-            errors.email ? "border-destructive" : ""
-          }`}
-          disabled={isLoading}
-        />
-        {errors.email && (
-          <p className="text-destructive text-sm mt-1">
-            {errors.email.message}
-          </p>
-        )}
-      </div>
+      <Input
+        type="email"
+        placeholder={t("email")}
+        {...register("email")}
+        className={`h-12 bg-background border-input-border rounded-xl text-normaltext placeholder:text-normaltext-tertiary ${
+          errors.email ? "border-destructive" : ""
+        }`}
+        disabled={isLoading}
+      />
+      {errors.email && (
+        <p className="text-destructive text-sm mt-1">{errors.email.message}</p>
+      )}
 
       <Button
         type="submit"
-        className="w-full h-12 bg-normaltext text-background hover:bg-normaltext/90 rounded-xl font-semibold"
+        className="w-full h-12 bg-foreground! text-background! !hover:bg-systemtext cursor-pointer rounded-2xl"
         disabled={isLoading}
       >
-        {isLoading ? "Đang gửi..." : "Gửi link đặt lại mật khẩu"}
+        {isLoading ? t("sending") : t("resend_link_new_psw")}
       </Button>
     </form>
   );

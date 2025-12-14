@@ -49,17 +49,20 @@ function LoginForm() {
       //Lưu user vào localStorage để restore khi F5
       if (response.user) {
         localStorage.setItem("user", JSON.stringify(response.user));
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
       }
-
-      dispatch(loginSuccess(response));
-
-      //Hiển thị toast
-      toast.success(
-        `${t("login_success")}: ${t("greeting", { username: response.user.username })}`,
-      );
+      if (response.user.verified) {
+        const continuePath = params.get("continue") || "/";
+        navigate(continuePath);
+        dispatch(loginSuccess(response));
+        //Hiển thị toast
+        toast.success(
+          `${t("login_success")}: ${t("greeting", { username: response.user.username })}`,
+        );
+      } else {
+        dispatch(loginFailure(response));
+        navigate(`/auth/verify-email?token=${response.access_token}`);
+        toast.info(`${t("login_success")}`);
+      }
     } catch (error) {
       const messageToDisplay =
         typeof error === "string"

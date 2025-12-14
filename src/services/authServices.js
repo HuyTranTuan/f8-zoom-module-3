@@ -55,8 +55,7 @@ export const authServices = {
     const response = await http.post("/auth/forgot-password", {
       email: email,
     });
-
-    return response.data;
+    return response;
   },
 
   validateResetToken: async (token, email) => {

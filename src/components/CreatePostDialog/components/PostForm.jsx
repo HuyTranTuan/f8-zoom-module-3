@@ -1,27 +1,28 @@
 import { useRef, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Image, Smile } from "lucide-react";
+import { Image, Smile, Paperclip } from "lucide-react";
 import EmojiPicker from "emoji-picker-react";
 import { useTranslation } from "react-i18next";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
-// import MediaPreview from "@/components/post/components/MediaPreview";
+import { Button } from "@/components/ui/button";
 import QuoteCard from "@/components/post/components/QuoteCard";
+import MediaPreview from "@/components/CreatePostDialog/components/MediaPreview";
+import AvatarRounded from "@/components/post/components/AvatarRounded";
 
 function PostForm({
   currentUser,
   register,
   content,
   setValue,
-  //   mediaPreviews,
+  mediaPreviews,
   onMediaSelect,
-  //   onRemoveMedia,
+  onRemoveMedia,
   formId,
   quotedPost,
   mode,
 }) {
-  const { t } = useTranslation("Common");
+  const { t } = useTranslation();
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
   const emojiButtonRef = useRef(null);
@@ -90,25 +91,13 @@ function PostForm({
   return (
     <div className="flex gap-3">
       {/* Avatar Column */}
-      <div className="flex flex-col items-center">
-        <Avatar className="h-10 w-10">
-          <AvatarImage
-            src={currentUser?.avatar_url}
-            alt={currentUser?.username || "User"}
-          />
-          <AvatarFallback className="bg-gray-200 text-muted-foreground font-semibold">
-            {currentUser?.username?.[0]?.toUpperCase() || "U"}
-          </AvatarFallback>
-        </Avatar>
-        {/* Thread line */}
-        <div className="w-0.5 flex-1 bg-reply-line mt-2 min-h-5"></div>
-      </div>
+      <AvatarRounded currentUser={currentUser} />
 
       {/* Form Content */}
       <div className="flex-1 min-w-0">
         {/* Username */}
-        <div className="flex items-center gap-2 mb-1">
-          <span className="font-semibold text-[15px] text-foreground">
+        <div className="flex items-center gap-2 mb-2!">
+          <span className="font-bold! text-[17px]! text-foreground">
             {currentUser?.username || "username"}
           </span>
         </div>
@@ -120,8 +109,8 @@ function PostForm({
             register("content").ref(e);
             textareaRef.current = e;
           }}
-          placeholder={t("createPost.placeholder")}
-          className="min-h-[60px] resize-none bg-transparent border-none! p-0 text-[15px] !focus:ring-0 !focus:ring-offset-0 placeholder:text-muted-foreground"
+          placeholder={t("write_sth")}
+          className="min-h-[60px] resize-none bg-transparent border-none! p-2! text-[15px] !focus:ring-0 !focus:ring-offset-0 placeholder:text-muted-foreground mb-2.5! w-[calc(100%-10px)]"
           rows={1}
           form={formId}
         />
@@ -132,7 +121,7 @@ function PostForm({
         )}
 
         {/* Media Previews */}
-        {/* <MediaPreview mediaPreviews={mediaPreviews} onRemove={onRemoveMedia} /> */}
+        <MediaPreview mediaPreviews={mediaPreviews} onRemove={onRemoveMedia} />
 
         {/* Action Buttons */}
         <div className="mt-3 flex items-center gap-1">
@@ -144,26 +133,27 @@ function PostForm({
             accept="image/*,video/*"
             multiple
             className="hidden"
+            id="post-form-file"
           />
 
           {/* Media Button */}
-          <button
+          <Button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="p-2 -ml-2 rounded-full hover:bg-background-active transition-colors text-muted-foreground"
+            className="p-3! rounded-xl transition-colors bg-transparent! text-muted-foreground hover:text-foreground"
           >
             <Image className="h-5 w-5" />
-          </button>
+          </Button>
 
           {/* Emoji Button */}
-          <button
+          <Button
             ref={emojiButtonRef}
             type="button"
             onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-            className="p-2 rounded-full hover:bg-background-active transition-colors text-muted-foreground"
+            className="p-3! rounded-xl transition-colors bg-transparent! text-muted-foreground hover:text-foreground"
           >
             <Smile className="h-5 w-5" />
-          </button>
+          </Button>
 
           {/* Emoji Picker - Rendered via Portal to body */}
           {showEmojiPicker &&
@@ -185,7 +175,7 @@ function PostForm({
                   onEmojiClick={handleEmojiClick}
                   width={300}
                   height={300}
-                  searchPlaceholder={t("createPost.searchEmoji")}
+                  searchPlaceholder={t("search_emoji")}
                   previewConfig={{ showPreview: false }}
                   skinTonesDisabled
                   lazyLoadEmojis

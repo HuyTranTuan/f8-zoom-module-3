@@ -1,15 +1,15 @@
 import { useTranslation } from "react-i18next";
 
-import Button from "@/components/Button";
 import { Spinner } from "@/components/ui/spinner";
+import { Button } from "@/components/ui/button";
 
 function DialogFooter({ isFormValid, loading, formId }) {
-  const { t } = useTranslation("Common");
+  const { t } = useTranslation();
 
   return (
-    <div className="border-t border-card-border! p-4 flex items-center justify-between">
+    <div className="border-t! border-(--systemtext)! p-4! flex items-center justify-between">
       <span className="text-muted-foreground text-[13px]">
-        {t("createPost.anyoneCanReply")}
+        {t("anyone_can_reply")}
       </span>
       <Button
         type="submit"
@@ -20,10 +20,10 @@ function DialogFooter({ isFormValid, loading, formId }) {
         {loading ? (
           <>
             <Spinner className="mr-2 h-4 w-4" />
-            {t("createPost.posting")}
+            {t("posting")}
           </>
         ) : (
-          t("createPost.post")
+          t("post")
         )}
       </Button>
     </div>

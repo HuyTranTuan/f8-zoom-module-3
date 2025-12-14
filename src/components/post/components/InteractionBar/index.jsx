@@ -13,7 +13,7 @@ export default function InteractionBar({
   ...prop
 }) {
   return (
-    <div className="flex gap-1 items-center mt-3">
+    <div className="flex items-center gap-0.5 -ml-2 mt-2">
       <Like count={likes} isEmbedView={isEmbedView} {...prop} />
       <Comment
         count={comments}

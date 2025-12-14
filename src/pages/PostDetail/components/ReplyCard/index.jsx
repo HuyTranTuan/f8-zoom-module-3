@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Card, CardContent } from "@/components/ui/card";
-import AvatarComponent from "@/components/post/components/Avatar";
+import AvatarComponent from "@/components/post/components/AvatarRounded";
 import MoreDropdownMenuComponent from "@/components/post/components/PostMenu";
 import PostImage from "@/components/post/components/PostImage";
 import InteractionBar from "@/components/post/components/InteractionBar";

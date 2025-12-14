@@ -2,9 +2,9 @@ import { MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-import LoginDialog from "@/components/LoginDialog";
-import AnimatedCounter from "@/components/AnimatedCounter";
 import { selectIsAuthenticated } from "@/features/auth";
+import AnimatedCounter from "@/components/AnimatedCounter";
+import SignUpModal from "@/features/auth/components/SignUpModal";
 
 export default function Comment({ count, onToggleReply, isEmbedView = false }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,13 +35,7 @@ export default function Comment({ count, onToggleReply, isEmbedView = false }) {
         <AnimatedCounter value={count} className="text-sm" />
       </button>
 
-      <LoginDialog
-        open={isOpen}
-        onOpenChange={setIsOpen}
-        icon={MessageCircle}
-        title="DialogMessage:dialogMessages.Comment.title"
-        description="DialogMessage:dialogMessages.Comment.description"
-      />
+      <SignUpModal open={isOpen} onOpenChange={setIsOpen} />
     </>
   );
 }

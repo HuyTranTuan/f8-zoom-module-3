@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatTimeAgo } from "@/utils/timeFormat";
+import AvatarRounded from "./AvatarRounded";
 
 function QuoteCard({ originalPost }) {
   if (!originalPost) return null;
@@ -8,15 +8,7 @@ function QuoteCard({ originalPost }) {
     <div className="mt-2 mb-2 border border-card-border! rounded-xl p-3 bg-content-background transition-colors">
       {/* Header - Avatar + Username + Time */}
       <div className="flex items-center gap-2 mb-2">
-        <Avatar className="w-5 h-5">
-          <AvatarImage
-            src={originalPost?.user?.avatar_url}
-            alt={`${originalPost?.user?.username}'s avatar`}
-          />
-          <AvatarFallback className="bg-gray-200 text-muted-foreground text-xs font-semibold">
-            {originalPost?.user?.username?.[0]?.toUpperCase() || "U"}
-          </AvatarFallback>
-        </Avatar>
+        <AvatarRounded post={originalPost} />
 
         <span className="font-semibold text-sm text-foreground">
           {originalPost?.user?.username || "username"}

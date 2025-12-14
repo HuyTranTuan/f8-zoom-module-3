@@ -3,10 +3,9 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-// import PostCard from "@/features/post/components/PostCard";
-import CreatePost from "@/features/post/components/CreatePost";
 import { setInitialLikesCount } from "@/features/post/postSlice";
 import PostCard from "@/components/post/PostCard";
+import CreatePostCard from "@/pages/Home/components/CreatePostCard";
 
 const FeedList = ({ posts, fetchMorePosts, hasMore, loading }) => {
   const dispatch = useDispatch();
@@ -48,7 +47,7 @@ const FeedList = ({ posts, fetchMorePosts, hasMore, loading }) => {
       className="relative border-2! border-(--systemtext)! p-1.5! rounded-t-2xl! "
     >
       <div className="bg-card rounded-t-2xl border-r border-t border-border">
-        <CreatePost />
+        <CreatePostCard />
         <InfiniteScroll
           dataLength={posts.length}
           next={fetchMorePosts}
@@ -71,13 +70,12 @@ const FeedList = ({ posts, fetchMorePosts, hasMore, loading }) => {
         >
           {posts && posts.length > 0 ? (
             posts.map((post, index) => (
-              // <PostCard
-              //   key={post.id}
-              //   post={post}
-              //   isFirst={index === 0}
-              //   isLast={index === posts.length - 1}
-              // />
-              <PostCard key={post.id} post={post} />
+              <PostCard
+                key={post.id}
+                post={post}
+                isFirst={index === 0}
+                isLast={index === posts.length - 1}
+              />
             ))
           ) : (
             <div className="text-center py-10 text-muted-foreground">

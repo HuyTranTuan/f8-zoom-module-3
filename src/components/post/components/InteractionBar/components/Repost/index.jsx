@@ -1,8 +1,6 @@
-import { Repeat } from "lucide-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import LoginDialog from "@/components/LoginDialog";
 import { selectIsAuthenticated } from "@/features/auth";
 import { RepostDropdown } from "@/components/post/components/InteractionBar/components/Repost/components/RepostDropdown";
 import { interactionsServices } from "@/services";
@@ -12,6 +10,7 @@ import {
   updateReplyRepost,
 } from "@/features/postDetail";
 import CreatePostDialog from "@/components/CreatePostDialog";
+import SignUpModal from "@/features/auth/components/SignUpModal";
 
 export default function Repost({ count, post, isEmbedView = false }) {
   const dispatch = useDispatch();
@@ -47,13 +46,7 @@ export default function Repost({ count, post, isEmbedView = false }) {
         isEmbedView={isEmbedView}
       />
 
-      <LoginDialog
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-        icon={Repeat}
-        title="DialogMessage:dialogMessages.Repost.title"
-        description="DialogMessage:dialogMessages.Repost.description"
-      />
+      <SignUpModal open={isDialogOpen} onOpenChange={setIsDialogOpen} />
 
       <CreatePostDialog
         open={!!quoteDialogData}

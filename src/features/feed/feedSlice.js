@@ -46,9 +46,7 @@ export const feedSlice = createSlice({
       const index = state.posts.findIndex(
         (post) => post.id === action.payload.id,
       );
-      if (index !== -1) {
-        state.posts[index] = action.payload;
-      }
+      state.posts[index] = action.payload;
     },
     updatePostQuotes: (state, action) => {
       const { original_post_id } = action.payload;

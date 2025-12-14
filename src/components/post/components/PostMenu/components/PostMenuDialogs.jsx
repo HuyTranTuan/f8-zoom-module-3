@@ -1,8 +1,9 @@
 import { MoreHorizontal } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import LoginDialog from "@/components/LoginDialog";
+
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import ReportDialog from "@/components/ReportDialog";
+import SignUpModal from "@/features/auth/components/SignUpModal";
 
 function PostMenuDialogs({
   postUsername,
@@ -23,27 +24,21 @@ function PostMenuDialogs({
   setReportDialogOpen,
   onReportSubmit,
 }) {
-  const { t } = useTranslation("PostCard");
+  const { t } = useTranslation();
 
   return (
     <>
       {/* Login Dialog */}
-      <LoginDialog
-        open={loginDialogOpen}
-        onOpenChange={setLoginDialogOpen}
-        icon={MoreHorizontal}
-        title="DialogMessage:dialogMessages.More.title"
-        description="DialogMessage:dialogMessages.More.description"
-      />
+      <SignUpModal open={loginDialogOpen} onOpenChange={setLoginDialogOpen} />
 
       {/* Block Confirmation Dialog */}
       <ConfirmationDialog
         open={blockDialogOpen}
         onOpenChange={setBlockDialogOpen}
-        title={t("confirm.blockTitle", { username: postUsername })}
-        description={t("confirm.blockDescription")}
-        confirmText={t("confirm.blockConfirm")}
-        cancelText={t("confirm.cancel")}
+        title={t("confirm_block_title")}
+        description={t("confirm_block_description")}
+        confirmText={t("block")}
+        cancelText={t("cancel")}
         onConfirm={onBlockConfirm}
         variant="destructive"
         isLoading={isLoading}
@@ -53,10 +48,10 @@ function PostMenuDialogs({
       <ConfirmationDialog
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
-        title={t("confirm.deleteTitle")}
-        description={t("confirm.deleteDescription")}
-        confirmText={t("confirm.deleteConfirm")}
-        cancelText={t("confirm.cancel")}
+        title={t("confirm_delete_title")}
+        description={t("confirm_delete_description")}
+        confirmText={t("delete")}
+        cancelText={t("cancel")}
         onConfirm={onDeleteConfirm}
         variant="destructive"
         isLoading={isLoading}

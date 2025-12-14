@@ -15,9 +15,10 @@ import { updatePost } from "@/features/feed";
 import { createReplySchema } from "@/utils/validators";
 import CreatePostDialog from "@/components/CreatePostDialog";
 import { Button } from "@/components/ui/button";
+import AvatarRounded from "@/components/post/components/AvatarRounded";
 
 function ReplyForm({ post, onClose, onReplySuccess }) {
-  const { t } = useTranslation("PostCard");
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [isExpandedOpen, setIsExpandedOpen] = useState(false);
@@ -57,11 +58,11 @@ function ReplyForm({ post, onClose, onReplySuccess }) {
       if (onReplySuccess && replyResponse) {
         onReplySuccess(replyResponse);
       }
-      toast(t("reply.success"));
+      toast(t("reply_successed"));
       onClose();
       resetField("content");
     } catch (error) {
-      const errorMessage = error.response?.data?.message || t("reply.error");
+      const errorMessage = error.response?.data?.message || t("reply_failed");
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -80,21 +81,13 @@ function ReplyForm({ post, onClose, onReplySuccess }) {
       <div className="pt-3 mt-2" onClick={(e) => e.stopPropagation()}>
         <div className="flex gap-3">
           {/* Avatar của user hiện tại */}
-          <Avatar className="h-10 w-10">
-            <AvatarImage
-              src={currentUser?.avatar}
-              alt={currentUser?.username || "User"}
-            />
-            <AvatarFallback className="bg-gray-200 text-muted-foreground font-semibold">
-              {currentUser?.username?.[0]?.toUpperCase() || "U"}
-            </AvatarFallback>
-          </Avatar>
+          <AvatarRounded currentUser={currentUser} />
 
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="flex-1">
             <div className="flex gap-2 items-end">
               <Textarea
-                placeholder={t("reply.placeholder", { name: post?.user?.name })}
+                placeholder={t("write_sth", { name: post?.user?.name })}
                 className="min-h-[15px] h-10 resize-none bg-transparent border-none! w-full flex-1 focus:ring-0! focus:ring-offset-0!"
                 {...register("content")}
               />
@@ -109,7 +102,7 @@ function ReplyForm({ post, onClose, onReplySuccess }) {
                   {loading ? (
                     <>
                       <Spinner className="mr-2" />
-                      {t("reply.loading")}
+                      {t("reply_loading")}
                     </>
                   ) : (
                     <ArrowUp className="w-4 h-4" />

@@ -19,7 +19,7 @@ import PostMenuDialogs from "./components/PostMenuDialogs";
 import CreatePostDialog from "@/components/CreatePostDialog";
 
 function PostMenuComponent({ post }) {
-  const { t } = useTranslation("PostCard");
+  const { t } = useTranslation();
 
   const {
     // State
@@ -63,17 +63,17 @@ function PostMenuComponent({ post }) {
     <>
       <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
         <DropdownMenuTrigger asChild>
-          <button className="rounded-xl p-2 hover:bg-secondary transition-colors outline-none ring-0 focus:ring-0">
+          <button className="rounded-xl px-2.5! py-0! hover:bg-secondary transition-colors outline-none ring-0 focus:ring-0">
             <MoreHorizontal className="w-5 h-5 cursor-pointer" />
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="!rounded-xl min-w-[200px] bg-content-background py-2">
+        <DropdownMenuContent className="rounded-xl! min-w-[200px] bg-card p-3!">
           {/* Copy Link - Available for everyone */}
           <DropdownMenuItem
-            className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
+            className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3! py-2.5!"
             onClick={handleCopyLink}
           >
-            <span>{t("menu.copyLink")}</span>
+            <span>{t("copy_link")}</span>
             <FontAwesomeIcon icon={faLink} className="text-base" />
           </DropdownMenuItem>
 

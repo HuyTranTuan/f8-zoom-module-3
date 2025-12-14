@@ -10,7 +10,7 @@ import Button from "@/components/Button";
 import { authServices } from "@/services";
 
 const VerifyEmail = () => {
-  const { t } = useTranslation("VerifyEmail");
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
@@ -23,7 +23,7 @@ const VerifyEmail = () => {
   useEffect(() => {
     if (!token) {
       setStatus("error");
-      setMessage(t("error.invalidToken"));
+      setMessage(t("invalid_token"));
       setLoading(false);
       return;
     }
@@ -38,30 +38,29 @@ const VerifyEmail = () => {
         }
 
         setStatus("success");
-        setMessage(t("success.message"));
-        toast(t("success.title"));
+        setMessage(t("verify_successed"));
+        toast(t("verify_successed"));
         setTimeout(() => {
           window.close();
         }, 4000);
       } catch (error) {
         const statusCode = error.response?.status;
         if (statusCode === 400 || statusCode === 404 || statusCode === 422) {
-          const hasAuth = localStorage.getItem("refreshToken");
+          const hasAuth = localStorage.getItem("refresh_token");
           if (hasAuth) {
             setStatus("not-verified");
-            setMessage(t("notVerified.message"));
-            toast.message?.(t("notVerified.message")) ||
-              toast(t("notVerified.message"));
+            setMessage(t("not_verified"));
+            toast.message?.(t("not_verified")) || toast(t("not_verified"));
           } else {
             setStatus("not-verified-no-auth");
-            setMessage(t("notVerified.needLoginMessage"));
-            toast.message?.(t("notVerified.needLoginMessage")) ||
-              toast(t("notVerified.needLoginMessage"));
+            setMessage(t("need_login_to_verify"));
+            toast.message?.(t("need_login_to_verify")) ||
+              toast(t("need_login_to_verify"));
           }
         } else {
           setStatus("error");
-          setMessage(t("error.verifyFailed"));
-          toast.error(error.response?.data?.message || t("error.verifyFailed"));
+          setMessage(t("verify_failed"));
+          toast.error(error.response?.data?.message || t("verify_failed"));
         }
       } finally {
         setLoading(false);
@@ -73,11 +72,10 @@ const VerifyEmail = () => {
     setIsResending(true);
     try {
       await authServices.resendVerificationEmail();
-      toast.success(t("notVerified.emailSent"));
-      setMessage(t("notVerified.checkInbox"));
+      toast.success(t("verifying_email_sent"));
+      setMessage(t("check_email"));
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || t("notVerified.resendFailed");
+      const errorMessage = error.response?.data?.message || t("verify_failed");
       toast.error(errorMessage);
     } finally {
       setIsResending(false);
@@ -95,9 +93,8 @@ const VerifyEmail = () => {
 
       {status === "not-verified" && (
         <div className="flex flex-col items-center">
-          <div className="text-6xl mb-4">📧</div>
           <h1 className="text-2xl font-bold text-foreground mb-2">
-            {t("notVerified.title")}
+            {t("verify_email_title")}
           </h1>
           <p className="text-muted-foreground mb-6 text-center">{message}</p>
           <Button
@@ -108,10 +105,10 @@ const VerifyEmail = () => {
             {isResending ? (
               <>
                 <Spinner className="mr-2" />
-                {t("notVerified.sending")}
+                {t("sending")}
               </>
             ) : (
-              t("notVerified.resendButton")
+              t("resend_verify")
             )}
           </Button>
         </div>
@@ -121,12 +118,10 @@ const VerifyEmail = () => {
         <div className="flex flex-col items-center">
           <div className="text-6xl mb-4">✓</div>
           <h1 className="text-2xl font-bold text-foreground mb-2">
-            {t("success.title")}
+            {t("verify_successed")}
           </h1>
           <p className="text-muted-foreground mb-4">{message}</p>
-          <p className="text-sm text-muted-foreground">
-            {t("success.pleaseLogin")}
-          </p>
+          <p className="text-sm text-muted-foreground">{t("back_to_login")}</p>
         </div>
       )}
 
@@ -134,7 +129,7 @@ const VerifyEmail = () => {
         <div className="flex flex-col items-center">
           <div className="text-6xl mb-4 text-red-500">✕</div>
           <h1 className="text-2xl font-bold text-foreground mb-2">
-            {t("error.title")}
+            {t("verify_failed")}
           </h1>
           <p className="text-muted-foreground mb-6">{message}</p>
           <Button
@@ -145,10 +140,10 @@ const VerifyEmail = () => {
             {isResending ? (
               <>
                 <Spinner className="mr-2" />
-                {t("notVerified.sending")}
+                {t("sending")}
               </>
             ) : (
-              t("notVerified.resendButton")
+              t("resend_verify")
             )}
           </Button>
         </div>

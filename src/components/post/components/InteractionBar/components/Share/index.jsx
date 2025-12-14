@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Send, Link, Code } from "lucide-react";
 
-import LoginDialog from "@/components/LoginDialog";
 import { selectIsAuthenticated } from "@/features/auth";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import {
@@ -15,13 +14,14 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import EmbedModal from "@/components/post/EmbedModal";
+import SignUpModal from "@/features/auth/components/SignUpModal";
 
 export default function Share({ post, count, isEmbedView = false }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [embedDialogOpen, setEmbedDialogOpen] = useState(false);
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const { t } = useTranslation("PostCard");
+  const { t } = useTranslation();
 
   const handleOpenChange = (open) => {
     if (isEmbedView) return;
@@ -40,7 +40,7 @@ export default function Share({ post, count, isEmbedView = false }) {
     const baseUrl = window.location.origin + window.location.pathname;
     const postUrl = `${baseUrl}#/post/${post.id}`;
     navigator.clipboard.writeText(postUrl);
-    toast.success(t("share.linkCopied"));
+    toast.success(t("copied_link"));
   };
 
   const handleEmbedClick = () => {
@@ -67,33 +67,27 @@ export default function Share({ post, count, isEmbedView = false }) {
 
         <DropdownMenuContent
           align="start"
-          className="min-w-[180px] rounded-xl bg-content-background py-2"
+          className="min-w-[180px] rounded-xl bg-background! p-3! border! border-(--systemtext)!"
         >
           <DropdownMenuItem
-            className="flex items-center justify-between cursor-pointer px-3 py-2.5 rounded-lg hover:bg-secondary transition-colors duration-150"
+            className="flex items-center justify-between cursor-pointer px-3! py-2.5! rounded-md hover:bg-secondary transition-colors duration-150"
             onClick={handleCopyLink}
           >
-            <span className="font-medium">{t("share.copyLink")}</span>
+            <span className="font-medium">{t("copy_link")}</span>
             <Link className="w-5 h-5" />
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            className="flex items-center justify-between cursor-pointer px-3 py-2.5 rounded-lg hover:bg-secondary transition-colors duration-150"
+            className="flex items-center justify-between cursor-pointer px-3! py-2.5! rounded-md hover:bg-secondary transition-colors duration-150"
             onClick={handleEmbedClick}
           >
-            <span className="font-medium">{t("share.embed")}</span>
+            <span className="font-medium">{t("embed")}</span>
             <Code className="w-5 h-5" />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <LoginDialog
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-        icon={Send}
-        title="DialogMessage:dialogMessages.Share.title"
-        description="DialogMessage:dialogMessages.Share.description"
-      />
+      <SignUpModal open={isDialogOpen} onOpenChange={setIsDialogOpen} />
 
       <EmbedModal
         open={embedDialogOpen}

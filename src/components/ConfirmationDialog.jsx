@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Button from "@/components/Button";
+import { Button } from "@/components/ui/button";
 
 function ConfirmationDialog({
   open,
@@ -25,9 +25,9 @@ function ConfirmationDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-dialog-background !rounded-2xl">
+      <DialogContent className="sm:max-w-md bg-background! rounded-2xl! p-4!">
         <DialogHeader className="text-center">
-          <DialogTitle className="text-center text-xl font-bold">
+          <DialogTitle className="text-center text-xl! font-bold!">
             {title}
           </DialogTitle>
           <DialogDescription className="text-center text-sm text-muted-foreground mt-2">
@@ -38,9 +38,9 @@ function ConfirmationDialog({
           <Button
             onClick={handleConfirm}
             disabled={isLoading}
-            className={`w-full rounded-xl cursor-pointer ${
+            className={`w-full rounded-lg cursor-pointer ${
               variant === "destructive"
-                ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+                ? "bg-destructive hover:bg-destructive/70! text-destructive-foreground"
                 : ""
             }`}
           >
@@ -50,7 +50,7 @@ function ConfirmationDialog({
             variant="ghost"
             onClick={() => onOpenChange(false)}
             disabled={isLoading}
-            className="w-full rounded-xl cursor-pointer"
+            className="w-full rounded-lg cursor-pointer bg-foreground! text-background hover:text-(--systemtext)"
           >
             {cancelText}
           </Button>

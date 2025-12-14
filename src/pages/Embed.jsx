@@ -13,7 +13,7 @@ import {
 const Embed = () => {
   const { postId } = useParams();
   const dispatch = useDispatch();
-  const { t } = useTranslation("Embed");
+  const { t } = useTranslation();
 
   const { post, loading, error } = useSelector((state) => state.postDetail);
 
@@ -31,7 +31,7 @@ const Embed = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-[200px] text-muted-foreground">
-        {t("postNotFound")}
+        {t("not_found_post")}
       </div>
     );
   }
@@ -44,18 +44,6 @@ const Embed = () => {
       ) : post ? (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <PostCard post={post} isDetailView />
-
-          {/* View on Threads link */}
-          <div className="px-4 py-3 border-t border-gray-200">
-            <Link
-              to={`/post/${post.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-blue-500 hover:text-blue-600 hover:underline font-medium"
-            >
-              {t("viewOnThreads")}
-            </Link>
-          </div>
         </div>
       ) : null}
     </div>

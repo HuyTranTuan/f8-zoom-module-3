@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { ChevronDown } from "lucide-react";
 
-import ContentContainer from "@/components/ContentContainer";
 import PostCard from "@/components/post/PostCard";
 import PostCardSkeleton from "@/components/post/components/PostCardSkeleton";
 import {
@@ -24,8 +23,8 @@ import {
 
 const PostDetail = () => {
   const { id } = useParams();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { t } = useTranslation("PostDetail");
   const [sortBy, setSortBy] = useState("newest"); // 'newest' or 'most_liked'
 
   const { post, replies, repliesPagination, loading, repliesLoading } =
@@ -66,29 +65,31 @@ const PostDetail = () => {
   };
 
   const getSortLabel = () => {
-    return sortBy === "newest" ? t("filter.newest") : t("filter.mostLiked");
+    return sortBy === "newest" ? t("newest") : t("most_liked");
   };
 
   return (
-    <div className="h-full">
-      <ContentContainer>
+    <div
+      className="w-full! md:w-[calc(100%-80px)]! flex justify-center px-6! md:px-0!"
+      id="PostDetail"
+    >
+      <div className="w-full! md:min-w-[380px] md:max-w-[700px]! h-100vh! rounded-t-2xl border! border-(--systemtext)! p-5! mt-4!">
         {/* Main Post */}
         {loading ? (
           <PostCardSkeleton />
         ) : post ? (
-          <div className="pt-2">
-            <PostCard
-              post={post}
-              isDetailView
-              onReplySuccess={handleReplySuccess}
-            />
-          </div>
+          <PostCard
+            post={post}
+            isDetailView
+            onReplySuccess={handleReplySuccess}
+            isFirst={true}
+          />
         ) : null}
 
         {/* Filter Bar - Divider between Post and Replies */}
         {!loading && post && (
-          <div className="flex items-center justify-between px-4 py-3 border-b !border-card-border bg-content-background">
-            <span className="font-semibold text-foreground">
+          <div className="flex items-center justify-between px-4! py-3! border-b! border-card-borde! bg-content-background!">
+            <span className="font-semibold! text-foreground">
               {t("replies")}
             </span>
             <DropdownMenu>
@@ -100,19 +101,19 @@ const PostDetail = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="!rounded-xl bg-content-background"
+                className="rounded-sm! bg-content-background! p-3!"
               >
                 <DropdownMenuItem
-                  className={`cursor-pointer ${sortBy === "newest" ? "font-semibold" : ""}`}
+                  className={`cursor-pointer px-3! py-2! ${sortBy === "newest" ? "font-semibold!" : ""}`}
                   onClick={() => handleSortChange("newest")}
                 >
-                  {t("filter.newest")}
+                  {t("newest")}
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className={`cursor-pointer ${sortBy === "most_liked" ? "font-semibold" : ""}`}
+                  className={`cursor-pointer px-3! py-2! ${sortBy === "most_liked" ? "font-semibold" : ""}`}
                   onClick={() => handleSortChange("most_liked")}
                 >
-                  {t("filter.mostLiked")}
+                  {t("most_liked")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -120,16 +121,14 @@ const PostDetail = () => {
         )}
 
         {/* Replies Section */}
-        <div className="mt-2">
+        <div className="mt-3! w-full! bg-background!">
           <InfiniteScrollLoader
             onLoadMore={handleLoadMoreReplies}
             hasMore={hasMoreReplies}
             loading={repliesLoading && replies.length > 0}
             LoadingComponent={PostCardSkeleton}
             loadingCount={2}
-            endMessage={
-              replies.length > 0 ? t("noMoreReplies", "No more replies") : ""
-            }
+            endMessage={replies.length > 0 ? t("no_more_reply") : ""}
             triggerMargin="100px"
           >
             {repliesLoading && replies.length === 0
@@ -141,7 +140,7 @@ const PostDetail = () => {
                 ))}
           </InfiniteScrollLoader>
         </div>
-      </ContentContainer>
+      </div>
     </div>
   );
 };

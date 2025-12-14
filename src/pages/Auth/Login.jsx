@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import { useCurrentUser } from "@/features/auth/hooks";
@@ -14,15 +14,20 @@ function Login() {
 
   useEffect(() => {
     if (currentUser) {
-      const continuePath = params.get("continue") || "/";
-      navigate(continuePath);
+      if (currentUser.verified) {
+        const continuePath = params.get("continue") || "/";
+        navigate(continuePath);
+      } else {
+        const token = localStorage.getItem("access_token");
+        <Navigate to={`/auth/verify-email?token=${token}`} />;
+      }
     }
   }, [currentUser, navigate, params]);
 
   return (
     <div className="max-w-[370px] min-w-[300px] p-6! mx-auto! flex flex-col gap-2 absolute top-full left-[50%] -translate-x-[50%] translate-y-[65%]">
       <div className="flex flex-col gap-2">
-        <h1 className="text-center text-base sm:text-lg sm:my-4 text-foreground font-bold! text-[16px]">
+        <h1 className="text-center text-base sm:text-lg! sm:my-4 text-foreground font-bold! text-[16px]">
           {t("login_threads")}
         </h1>
 

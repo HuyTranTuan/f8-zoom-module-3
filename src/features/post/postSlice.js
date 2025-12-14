@@ -104,15 +104,12 @@ export const postSlice = createSlice({
     restoreLikedPostsFromFeed: (state, action) => {
       const posts = action.payload;
       posts.forEach((post) => {
-        // Nếu post có is_liked = true, thêm vào likedPosts
         if (post.is_liked && !state.likedPosts.includes(post.id)) {
           state.likedPosts.push(post.id);
         }
-        // Luôn khởi tạo likes count từ API khi load feed (để đảm bảo có giá trị ban đầu)
-        // Nhưng không override nếu đã có giá trị và lớn hơn 0 (tránh override khi user đã like)
+
         if (post.likes_count !== undefined) {
           const currentCount = state.likesCount[post.id];
-          // Chỉ update nếu chưa có hoặc giá trị từ API lớn hơn (để sync với server)
           if (currentCount === undefined || currentCount === 0) {
             state.likesCount[post.id] = post.likes_count;
           }
@@ -129,13 +126,12 @@ export const postSlice = createSlice({
       }
     },
 
-    //Restore liked posts từ localStorage khi app khởi động
     restoreLikedPostsFromStorage: (state) => {
       try {
         const savedLikedPosts = localStorage.getItem("liked_posts");
         if (savedLikedPosts) {
           const likedPostsArray = JSON.parse(savedLikedPosts);
-          // Merge với likedPosts hiện tại (không duplicate)
+
           likedPostsArray.forEach((postId) => {
             if (!state.likedPosts.includes(postId)) {
               state.likedPosts.push(postId);

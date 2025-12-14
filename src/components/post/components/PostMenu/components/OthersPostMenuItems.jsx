@@ -22,7 +22,7 @@ function OthersPostMenuItems({
   onBlock,
   onReport,
 }) {
-  const { t } = useTranslation("PostCard");
+  const { t } = useTranslation();
 
   return (
     <>
@@ -30,41 +30,41 @@ function OthersPostMenuItems({
 
       {/* Save / Unsave */}
       <DropdownMenuItem
-        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3! py-2.5!"
         onClick={onSave}
         disabled={isLoading}
       >
-        <span>{isSaved ? t("menu.unsave") : t("menu.save")}</span>
+        <span>{isSaved ? t("unsave") : t("save")}</span>
         {isSaved ? <BookmarkIcon /> : <BookmarkIcon />}
       </DropdownMenuItem>
 
       {/* Not interested */}
       <DropdownMenuItem
-        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3! py-2.5!"
         onClick={onNotInterested}
         disabled={isLoading}
       >
-        <span>{t("menu.notInterested")}</span>
+        <span>{t("not_interested")}</span>
         <EyeOffIcon />
       </DropdownMenuItem>
 
       {/* Mute */}
       <DropdownMenuItem
-        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3! py-2.5!"
         onClick={onMute}
         disabled={isLoading}
       >
-        <span>{t("menu.mute", { username: postUsername })}</span>
+        <span>{t("mute", { username: postUsername })}</span>
         <VolumeOffIcon />
       </DropdownMenuItem>
 
       {/* Restrict */}
       <DropdownMenuItem
-        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5"
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3! py-2.5!"
         onClick={onRestrict}
         disabled={isLoading}
       >
-        <span>{t("menu.restrict", { username: postUsername })}</span>
+        <span>{t("restrict", { username: postUsername })}</span>
         <UserRoundXIcon />
       </DropdownMenuItem>
 
@@ -72,21 +72,21 @@ function OthersPostMenuItems({
 
       {/* Block - Destructive */}
       <DropdownMenuItem
-        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5 text-destructive"
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3! py-2.5! text-destructive"
         onClick={onBlock}
         disabled={isLoading}
       >
-        <span>{t("menu.block", { username: postUsername })}</span>
+        <span>{t("block", { username: postUsername })}</span>
         <BanIcon />
       </DropdownMenuItem>
 
       {/* Report - Destructive */}
       <DropdownMenuItem
-        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3 py-2.5 text-destructive"
+        className="flex items-center justify-between hover:bg-secondary gap-2 cursor-pointer px-3! py-2.5! text-destructive"
         onClick={onReport}
         disabled={isLoading}
       >
-        <span>{t("menu.report")}</span>
+        <span>{t("report_submit")}</span>
         <FlagIcon />
       </DropdownMenuItem>
     </>

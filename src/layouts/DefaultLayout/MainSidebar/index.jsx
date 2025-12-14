@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { MenuIcon } from "@/components/ui/icons/lucide-menu";
 import { PlusIcon } from "@/components/ui/icons/lucide-plus";
@@ -23,11 +24,23 @@ import {
 } from "@/components/ui/dropdown-menu";
 import MainSidebarLink from "@/layouts/DefaultLayout/MainSidebar/MainSidebarLink";
 import Button from "@/components/Button";
-import MainBottomLink from "./MainBottomLink";
+import { selectIsAuthenticated, toggleSignUpModal } from "@/features/auth";
+import CreatePostDialog from "@/components/CreatePostDialog";
 
 function MainSidebar({ home, search, activites, account }) {
+  const dispatch = useDispatch();
   const { i18n } = useTranslation();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const [screenWidth, setCreenWidth] = useState(window.screen.width);
+  const [isOpenCreatePostDialog, setIsOpenCreatePostDialog] = useState(false);
+
+  const handleClickTogglgSignupModal = () => {
+    if (!isAuthenticated) {
+      dispatch(toggleSignUpModal());
+    } else {
+      setIsOpenCreatePostDialog(true);
+    }
+  };
 
   const handleLanguageChange = (lang) => {
     i18n.changeLanguage(lang);
@@ -52,7 +65,10 @@ function MainSidebar({ home, search, activites, account }) {
             <SidebarMenu className="">
               <MainSidebarLink navigate={home} />
               <MainSidebarLink navigate={search} />
-              <Button className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6 rounded-xl bg-sidebar-accent group">
+              <Button
+                className="flex justify-center items-center p-1.5 w-15 h-15 [&>svg]:size-6 rounded-xl bg-sidebar-accent group"
+                onClick={handleClickTogglgSignupModal}
+              >
                 <PlusIcon
                   className={
                     "text-(--systemtext) group-hover:text-sidebar-accent-foreground"
@@ -96,6 +112,10 @@ function MainSidebar({ home, search, activites, account }) {
           </SidebarGroupLabel>
         </SidebarGroup>
       </SidebarContent>
+      <CreatePostDialog
+        open={isOpenCreatePostDialog}
+        onOpenChange={setIsOpenCreatePostDialog}
+      />
     </Sidebar>
   );
 }

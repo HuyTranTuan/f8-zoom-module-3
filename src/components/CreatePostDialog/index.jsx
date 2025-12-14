@@ -15,7 +15,6 @@ import { addPostToFeed, updatePost } from "@/features/feed";
 import PostForm from "./components/PostForm";
 import ThreadHint from "./components/ThreadHint";
 import DialogFooter from "./components/DialogFooter";
-import CreatePost from "@/features/post/components/CreatePost";
 import { interactionsServices, postServices } from "@/services";
 
 const FORM_ID = "create-post-form";
@@ -29,7 +28,7 @@ const CreatePostDialog = ({
   editPost,
   onEditSuccess,
 }) => {
-  const { t } = useTranslation("Common");
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const currentUser = useSelector(selectUser);
   const [loading, setLoading] = useState(false);
@@ -123,7 +122,7 @@ const CreatePostDialog = ({
       if (mode === "edit" && editPost) {
         const response = await postServices.updatePost(editPost.id, postData);
         dispatch(updatePost(response));
-        toast.success(t("createPost.editSuccess"));
+        toast.success(t("edit_successed"));
         handleClose();
         if (onEditSuccess && response) {
           onEditSuccess(response);
@@ -138,7 +137,7 @@ const CreatePostDialog = ({
         );
         dispatch(addPostToFeed(response));
         dispatch(updatePost({ original_post_id: quotedPost.id }));
-        toast.success(t("createPost.success"));
+        toast.success(t("post_successed"));
         handleClose();
         return;
       }
@@ -154,7 +153,8 @@ const CreatePostDialog = ({
             replies_count: (quotedPost.replies_count || 0) + 1,
           }),
         );
-        toast.success(t("createPost.replySuccess"));
+        dispatch(upda);
+        toast.success(t("reply_successed"));
         handleClose();
         if (onReplySuccess && response) {
           onReplySuccess(response);
@@ -162,13 +162,12 @@ const CreatePostDialog = ({
         return;
       }
 
-      const response = await CreatePost(postData);
+      const response = await postServices.createPost(postData);
       dispatch(addPostToFeed(response));
-      toast.success(t("createPost.success"));
+      toast.success(t("post_successed"));
       handleClose();
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || t("createPost.error");
+      const errorMessage = error.response?.data?.message || t("post_failed");
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -178,20 +177,20 @@ const CreatePostDialog = ({
   const getDialogTitle = () => {
     switch (mode) {
       case "edit":
-        return t("createPost.editTitle");
+        return t("edit_post_title");
       case "reply":
-        return t("createPost.replyTitle");
+        return t("reply_post_title");
       default:
-        return t("createPost.title");
+        return t("create_post_title");
     }
   };
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[620px] p-0 bg-content-background text-foreground border-card-border! overflow-hidden">
+      <DialogContent className="sm:max-w-[620px] p-5! rounded-3xl! bg-card text-foreground overflow-hidden">
         {/* Header */}
-        <DialogHeader className="border-b border-card-border! p-4">
-          <DialogTitle className="text-center font-bold text-[15px]">
+        <DialogHeader className="p-4!">
+          <DialogTitle className="text-center font-bold! text-[20px]!">
             {getDialogTitle()}
           </DialogTitle>
         </DialogHeader>
@@ -210,6 +209,8 @@ const CreatePostDialog = ({
               formId={FORM_ID}
               quotedPost={quotedPost}
               mode={mode}
+              isFormValid={isFormValid}
+              loading={loading}
             />
             {mode !== "edit" && <ThreadHint currentUser={currentUser} />}
           </div>
@@ -219,8 +220,8 @@ const CreatePostDialog = ({
         <DialogFooter
           isFormValid={isFormValid}
           loading={loading}
-          formId={FORM_ID}
           mode={mode}
+          formId={FORM_ID}
         />
       </DialogContent>
     </Dialog>

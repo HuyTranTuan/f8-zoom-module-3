@@ -46,8 +46,9 @@ export const resetPasswordSchema = yup.object({
 });
 
 export const createReplySchema = (t) =>
-  object().shape({
-    content: string()
+  yup.object().shape({
+    content: yup
+      .string()
       .required(t("PostCard:validation.contentRequired"))
       .min(1, t("PostCard:validation.contentMin"))
       .max(500, t("PostCard:validation.contentMax")),

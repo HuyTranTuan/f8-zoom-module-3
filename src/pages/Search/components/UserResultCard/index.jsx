@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Button from "@/components/Button";
 import { BadgeCheck } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+
+import { Button } from "@/components/ui/button";
 import { selectIsAuthenticated } from "@/features/auth";
 import { followUser, unfollowUser } from "@/features/search/searchSlice";
-import LoginDialog from "@/components/LoginDialog";
+import SignUpModal from "@/features/auth/components/SignUpModal";
+import AvatarRounded from "@/components/post/components/AvatarRounded";
 
 function UserResultCard({ user }) {
-  const { t } = useTranslation("search");
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,17 +38,14 @@ function UserResultCard({ user }) {
 
   return (
     <>
-      <div className="flex items-start gap-3 p-4 hover:bg-secondary/30 transition-colors cursor-pointer">
+      <div className="flex items-start gap-3! p-4! hover:bg-secondary/30 transition-colors cursor-pointer">
         {/* Avatar */}
-        <Avatar className="h-10 w-10 shrink-0">
-          <AvatarImage src={user.avatar_url} alt={user.username} />
-          <AvatarFallback>{user.username?.[0]?.toUpperCase()}</AvatarFallback>
-        </Avatar>
+        <AvatarRounded currentUser={user} />
 
         {/* User Info */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1">
-            <span className="font-semibold text-sm truncate">
+          <div className="flex items-center gap-1!">
+            <span className="font-semibold! text-sm truncate">
               {user.username}
             </span>
             {user.verified && (
@@ -64,7 +62,7 @@ function UserResultCard({ user }) {
               {user.bio}
             </p>
           )}
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-1!">
             {t("followers", { count: user.followers_count || 0 })}
           </p>
         </div>
@@ -75,18 +73,13 @@ function UserResultCard({ user }) {
           size="sm"
           onClick={handleFollowClick}
           disabled={isLoading}
-          className="shrink-0 rounded-xl px-5"
+          className="shrink-0 rounded-lg! px-5!"
         >
           {user.is_following ? t("following") : t("follow")}
         </Button>
       </div>
 
-      <LoginDialog
-        open={loginDialogOpen}
-        onOpenChange={setLoginDialogOpen}
-        title={t("loginRequired.title")}
-        description={t("loginRequired.description")}
-      />
+      <SignUpModal open={loginDialogOpen} onOpenChange={setLoginDialogOpen} />
     </>
   );
 }

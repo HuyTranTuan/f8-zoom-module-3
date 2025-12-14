@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { cn } from "@/lib/utils";
-import LoginDialog from "@/components/LoginDialog";
+import { updatePost } from "@/features/feed";
 import { selectIsAuthenticated } from "@/features/auth";
 import { interactionsServices } from "@/services";
 import { updatePostDetailLike, updateReplyLike } from "@/features/postDetail";
 import AnimatedCounter from "@/components/AnimatedCounter";
-import { updatePost } from "@/features/feed";
+import SignUpModal from "@/features/auth/components/SignUpModal";
 
 export default function Like({ count, post, isEmbedView = false }) {
   const dispatch = useDispatch();
@@ -58,13 +58,7 @@ export default function Like({ count, post, isEmbedView = false }) {
         <AnimatedCounter value={count} className="text-sm" />
       </button>
 
-      <LoginDialog
-        open={isOpen}
-        onOpenChange={setIsOpen}
-        icon={Heart}
-        title="DialogMessage:dialogMessages.Like.title"
-        description="DialogMessage:dialogMessages.Like.description"
-      />
+      <SignUpModal open={isOpen} onOpenChange={setIsOpen} />
     </>
   );
 }

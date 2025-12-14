@@ -1,4 +1,4 @@
-import { Repeat, Quote, Repeat1 } from "lucide-react";
+import { Repeat, Quote } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
@@ -22,7 +22,7 @@ export function RepostDropdown({
   isEmbedView = false,
 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { t } = useTranslation("PostCard");
+  const { t } = useTranslation();
 
   const handleOpenChange = (open) => {
     if (isEmbedView) return;
@@ -62,10 +62,10 @@ export function RepostDropdown({
 
       <DropdownMenuContent
         align="start"
-        className="min-w-[180px] rounded-xl bg-content-background py-2"
+        className="min-w-[180px] rounded-xl bg-background! p-3! border! border-(--systemtext)!"
       >
         <DropdownMenuItem
-          className="flex items-center justify-between cursor-pointer px-3 py-2.5 rounded-lg hover:bg-secondary transition-colors duration-150"
+          className="flex items-center justify-between cursor-pointer px-3! py-2.5! rounded-md hover:bg-secondary transition-colors duration-150"
           onClick={onRepost}
         >
           <span className="font-medium">{t("repost")}</span>
@@ -75,7 +75,7 @@ export function RepostDropdown({
         <DropdownMenuSeparator className="my-1" />
 
         <DropdownMenuItem
-          className="flex items-center justify-between cursor-pointer px-3 py-2.5 rounded-lg hover:bg-secondary transition-colors duration-150"
+          className="flex items-center justify-between cursor-pointer px-3! py-2.5! rounded-md hover:bg-secondary transition-colors duration-150"
           onClick={onQuote}
         >
           <span className="font-medium">{t("quote")}</span>

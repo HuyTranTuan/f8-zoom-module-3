@@ -2,7 +2,6 @@ import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-import ContentContainer from "@/components/ContentContainer";
 import SearchInput from "./components/SearchInput";
 import SearchTabs from "./components/SearchTabs";
 import UserResultCard from "./components/UserResultCard";
@@ -17,7 +16,7 @@ import {
 } from "@/features/search/searchSlice";
 
 function Search() {
-  const { t } = useTranslation("search");
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { query, searchMode, topics, users, loading } = useSelector(
     (state) => state.search,
@@ -83,8 +82,8 @@ function Search() {
   const renderTopics = () => {
     if (topics.length === 0 && query && !loading) {
       return (
-        <p className="text-center text-muted-foreground py-8">
-          {t("noResults")}
+        <p className="text-center! text-muted-foreground! py-8!">
+          {t("no_result")}
         </p>
       );
     }
@@ -97,8 +96,8 @@ function Search() {
   const renderUsers = () => {
     if (users.length === 0 && !loading) {
       return (
-        <p className="text-center text-muted-foreground py-8">
-          {t("noResults")}
+        <p className="text-center! text-muted-foreground! py-8!">
+          {t("no_result")}
         </p>
       );
     }
@@ -123,7 +122,7 @@ function Search() {
         if (!hasTopics && !hasUsers && query) {
           return (
             <p className="text-center text-muted-foreground py-8">
-              {t("noResults")}
+              {t("no_result")}
             </p>
           );
         }
@@ -132,8 +131,8 @@ function Search() {
           <>
             {hasTopics && (
               <div>
-                <h3 className="px-4 py-2 text-sm font-semibold text-muted-foreground">
-                  {t("tabs.topics")}
+                <h3 className="px-4! py-2! text-sm! font-semibold! text-muted-foreground!">
+                  {t("topics")}
                 </h3>
                 {topics.slice(0, 3).map((topic) => (
                   <TopicResultCard key={topic.id} topic={topic} />
@@ -142,8 +141,8 @@ function Search() {
             )}
             {hasUsers && (
               <div>
-                <h3 className="px-4 py-2 text-sm font-semibold text-muted-foreground">
-                  {t("tabs.users")}
+                <h3 className="px-4! py-2! text-sm! font-semibold! text-muted-foreground!">
+                  {t("users")}
                 </h3>
                 {users.map((user) => (
                   <UserResultCard key={user.id} user={user} />
@@ -157,19 +156,26 @@ function Search() {
   };
 
   return (
-    <ContentContainer>
-      <div className="p-4">
-        <SearchInput
-          value={query}
-          onChange={(val) => dispatch(setSearchQuery(val))}
-          onSearch={handleSearch}
-        />
+    <div
+      id="Search"
+      className="w-full! md:w-[calc(100%-80px)]! flex justify-center px-6! md:px-0!"
+    >
+      <div className="w-full! md:min-w-[380px] md:max-w-[700px]! h-[calc(100%-60px)]">
+        <div className="p-4!">
+          <SearchInput
+            value={query}
+            onChange={(val) => dispatch(setSearchQuery(val))}
+            onSearch={handleSearch}
+          />
+        </div>
+
+        <SearchTabs activeMode={searchMode} onChange={handleModeChange} />
+
+        <div className="flex flex-col gap-1 divide-y! divide-border!">
+          {renderResults()}
+        </div>
       </div>
-
-      <SearchTabs activeMode={searchMode} onChange={handleModeChange} />
-
-      <div className="divide-y divide-border">{renderResults()}</div>
-    </ContentContainer>
+    </div>
   );
 }
 
