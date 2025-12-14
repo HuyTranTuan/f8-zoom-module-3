@@ -19,7 +19,7 @@ function Login() {
         navigate(continuePath);
       } else {
         const token = localStorage.getItem("access_token");
-        <Navigate to={`/auth/verify-email?token=${token}`} />;
+        <Navigate to={`/verify-email?token=${token}`} />;
       }
     }
   }, [currentUser, navigate, params]);

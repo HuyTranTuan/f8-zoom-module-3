@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import { loginSchema } from "@/utils/validators";
-import Button from "@/components/Button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import {
@@ -21,6 +21,7 @@ function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [params] = useSearchParams();
 
   const isLoading = useSelector(selectLoginLoading);
 
@@ -59,8 +60,7 @@ function LoginForm() {
           `${t("login_success")}: ${t("greeting", { username: response.user.username })}`,
         );
       } else {
-        dispatch(loginFailure(response));
-        navigate(`/auth/verify-email?token=${response.access_token}`);
+        navigate(`/verify-email?token=${response.access_token}`);
         toast.info(`${t("login_success")}`);
       }
     } catch (error) {

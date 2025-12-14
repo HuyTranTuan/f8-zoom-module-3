@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { setUser } from "@/features/auth";
 import { Spinner } from "@/components/ui/spinner";
-import Button from "@/components/Button";
+import { Button } from "@/components/ui/button";
 import { authServices } from "@/services";
 
 const VerifyEmail = () => {
@@ -83,17 +83,17 @@ const VerifyEmail = () => {
   };
 
   return (
-    <>
+    <div className="max-w-[370px] min-w-[300px] p-6! flex flex-col gap-2! absolute! top-full! left-[50%]! -translate-x-[50%] translate-y-full">
       {(status === "verifying" || loading) && (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col gap-2.5! items-center">
           <Spinner className="w-12 h-12" />
           <p className="mt-4 text-lg text-foreground">{t("verifying")}</p>
         </div>
       )}
 
       {status === "not-verified" && (
-        <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold text-foreground mb-2">
+        <div className="flex flex-col items-center gap-2.5!">
+          <h1 className="text-2xl! font-bold! text-foreground mb-2!">
             {t("verify_email_title")}
           </h1>
           <p className="text-muted-foreground mb-6 text-center">{message}</p>
@@ -115,23 +115,22 @@ const VerifyEmail = () => {
       )}
 
       {status === "success" && (
-        <div className="flex flex-col items-center">
-          <div className="text-6xl mb-4">✓</div>
-          <h1 className="text-2xl font-bold text-foreground mb-2">
+        <div className="flex flex-col gap-2.5! items-center">
+          <h1 className="text-2xl! font-bold! text-foreground mb-2!">
             {t("verify_successed")}
           </h1>
           <p className="text-muted-foreground mb-4">{message}</p>
           <p className="text-sm text-muted-foreground">{t("back_to_login")}</p>
+          <Link to="/auth/login" state={{ verified: true }} />
         </div>
       )}
 
       {status === "error" && (
-        <div className="flex flex-col items-center">
-          <div className="text-6xl mb-4 text-red-500">✕</div>
-          <h1 className="text-2xl font-bold text-foreground mb-2">
+        <div className="flex flex-col! gap-2.5! items-center">
+          <h1 className="text-2xl! font-bold! text-foreground mb-2!">
             {t("verify_failed")}
           </h1>
-          <p className="text-muted-foreground mb-6">{message}</p>
+          <p className="text-muted-foreground mb-6!">{message}</p>
           <Button
             onClick={handleResendEmail}
             disabled={isResending}
@@ -139,7 +138,7 @@ const VerifyEmail = () => {
           >
             {isResending ? (
               <>
-                <Spinner className="mr-2" />
+                <Spinner className="mr-2!" />
                 {t("sending")}
               </>
             ) : (
@@ -148,7 +147,7 @@ const VerifyEmail = () => {
           </Button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

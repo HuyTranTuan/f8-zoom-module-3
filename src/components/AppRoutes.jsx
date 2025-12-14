@@ -61,6 +61,10 @@ function AppRoutes() {
             <Route path="saved" element={<Saved />} />
             <Route path="liked" element={<Liked />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
+        </Route>
+        <Route path="/verify-email" element={<AuthLayout />}>
+          <Route index element={<VerifyEmail />} />
         </Route>
 
         {/* Auth Layout */}
@@ -68,8 +72,8 @@ function AppRoutes() {
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
-          <Route path="verify-email" element={<VerifyEmail />} />
           <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
 
         {/* Embed Route - for iframe embedding */}

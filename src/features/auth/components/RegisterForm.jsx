@@ -22,7 +22,7 @@ import {
 import { registerSchema } from "@/utils/validators";
 import { authServices } from "@/services";
 import { Input } from "@/components/ui/input";
-import Button from "@/components/Button";
+import { Button } from "@/components/ui/button";
 import { PasswordInput } from "@/components/ui/password-input";
 
 const RegisterForm = () => {
